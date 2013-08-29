@@ -84,6 +84,7 @@ search_engine.query('test query', 1,
 API Documentation
 -----------------
 [Doofinder Search v4 documentation](http://www.doofinder.com)
+
 [Doofinder Management v1 documentation](http://www.doofinder.com)
 
 
