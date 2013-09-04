@@ -92,7 +92,7 @@ class SearchEngine(ManagementApiClient):
 
         return result['response']['results']
 
-    def get_item(self, id, item_type=None):
+    def get_item(self, item_type, id):
         """
         get details of a specific item
         Args:
@@ -183,7 +183,7 @@ class SearchEngine(ManagementApiClient):
         
         return result['response']
 
-    def get_processing_logs(self):
+    def logs(self):
         """
         Obtain logs of the latest feed processing tasks done
 
