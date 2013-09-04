@@ -65,3 +65,25 @@ class ManagementApiClient(object):
                 }
         except ValueError as ve:
             raise WrongResponse(ve)
+
+
+    @classmethod
+    def get_api_root(cls):
+        """
+        Obtain an object representing the management API root for this user.
+
+        The API root contains entry points for managing
+
+        Returns:
+            dict
+            Example:
+                {<hashid>: {
+                    'name': 'ktuin.com',
+                    'items': {'product': <product crud entry point>},
+                    'tasks': {
+                        'process': <process task entry point>,
+                        'crawl': <crawl task entry point>
+                    }
+                ....}
+        """
+        return cls.management_api_call()['response']

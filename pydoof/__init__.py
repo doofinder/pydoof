@@ -42,18 +42,17 @@ class SearchEngine(ManagementApiClient):
             A list of search engines.
         """
         search_engines = []
-        response = SearchEngine.management_api_call()['response']
 
-        for hashid, props in response.iteritems():
+        for hashid, props in SearchEngine.get_api_root().iteritems():
             search_engines.append(SearchEngine(hashid, name=props['name'],
                                                datatypes=props['items'].keys()))
-        return search_engines        
+        return search_engines
 
-
+    
     def __init__(self, hashid, name=None, datatypes=None):
         self.hashid = hashid 
         self.name = name
-        self.datatypes = datatypes        
+        self._datatypes = datatypes        
 
 
     def get_datatypes(self):
@@ -65,9 +64,11 @@ class SearchEngine(ManagementApiClient):
             example:
             ['product', 'page']
         """
-#        if not self.datatypes and self.token:
-#            self.datatypes = _obtain_datatypes(self.hashid, self.token)
-        return self.datatypes
+        
+        if not self._datatypes and API_KEY:
+            self._datatypes = [props['items'].keys() for hashid, props
+                              in SearchEngine.get_api_root().iteritems()][0]
+        return self._datatypes
         
     def get_items(self, item_type=None, page=1):
         """
