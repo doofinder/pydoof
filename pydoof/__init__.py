@@ -87,7 +87,7 @@ class SearchEngine(ManagementApiClient):
         datatype = item_type if item_type else self.datatypes[0]
         
         result = SearchEngine.management_api_call(
-            entry_point='%s/%s' % (self.hashid, datatype),
+            entry_point='%s/items/%s' % (self.hashid, datatype),
             params={'page': page})
 
         return result['response']['results']
@@ -106,7 +106,7 @@ class SearchEngine(ManagementApiClient):
         datatype = item_type if item_type else self.datatypes[0]
 
         return SearchEngine.management_api_call(
-            entry_point='%s/%s/%s' % (self.hashid, datatype, id))['response']
+            entry_point='%s/items/%s/%s' % (self.hashid, datatype, id))['response']
 
     def add_item(self, item_description=None, item_type=None):
         """
@@ -124,7 +124,7 @@ class SearchEngine(ManagementApiClient):
         datatype = item_type if item_type else self.datatypes[0]
 
         result = SearchEngine.management_api_call(
-            'post', entry_point='%s/%s' % (self.hashid, datatype),
+            'post', entry_point='%s/items/%s' % (self.hashid, datatype),
             data=item_description)
 
         return (self._obtain_id(result['response']['url']), datatype)
@@ -142,14 +142,14 @@ class SearchEngine(ManagementApiClient):
         """
         datatype = item_type if item_type else self.datatypes[0]
         result = SearchEngine.management_api_call(
-            'delete', entry_point='%s/%s/%s' % (self.hashid, datatype, id))
+            'delete', entry_point='%s/items/%s/%s' % (self.hashid, datatype, id))
 
         if result['status_code'] == requests.codes.NO_CONTENT:
             return True
         else:
             return False
 
-    def process_feeds(self):
+    def process(self):
         """
         Ask the server to process the search engine's feeds
 
@@ -160,7 +160,7 @@ class SearchEngine(ManagementApiClient):
                              <task_id> is the id of the currently running process
         """
         result = SearchEngine.management_api_call(
-            'post', entry_point='%s/process_tasks' % self.hashid)
+            'post', entry_point='%s/tasks/process' % self.hashid)
 
         if result['status_code'] == requests.codes.CREATED:
             return (True, self._obtain_id(result['response']['link']))
@@ -179,7 +179,7 @@ class SearchEngine(ManagementApiClient):
             - {'state': 'FAILURE', 'message': 'no data in the feed'}            
         """
         result = SearchEngine.management_api_call(
-            entry_point='%s/process_tasks/%s' % (self.hashid, task_id))
+            entry_point='%s/tasks/process/%s' % (self.hashid, task_id))
         
         return result['response']
 
@@ -196,7 +196,7 @@ class SearchEngine(ManagementApiClient):
                     }, {...}]
         """
         result = SearchEngine.management_api_call(
-            entry_point='%s/process_tasks' % self.hashid)
+            entry_point='%s/tasks/process' % self.hashid)
 
         return result['response']
         
@@ -212,6 +212,6 @@ class SearchEngine(ManagementApiClient):
         Returns:
             the item or task identificator
         """
-        url_re = re.compile('/(?P<hashid>\w{32})/(\w+)/(?P<id>[\w]+)/?$')
+        url_re = re.compile('/(?P<hashid>\w{32})/(items/\w+)|(tasks)/(?P<id>[\w-]+)/?$')
 
         return url_re.search(url).groupdict()['id']
