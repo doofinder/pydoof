@@ -167,7 +167,7 @@ class SearchEngine(ManagementApiClient):
         if result['status_code'] == request.codes.OK:
             return (False, self._obtain_id(result['response']['link']))
 
-    def get_processing_info(self, task_id):
+    def info(self, task_id):
         """
         Obtain info about how a process is going
 
@@ -179,7 +179,7 @@ class SearchEngine(ManagementApiClient):
             - {'state': 'FAILURE', 'message': 'no data in the feed'}            
         """
         result = SearchEngine.management_api_call(
-            entry_point='%s/tasks/process/%s' % (self.hashid, task_id))
+            entry_point='%s/tasks/%s' % (self.hashid, task_id))
         
         return result['response']
 
