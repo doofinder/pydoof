@@ -20,7 +20,7 @@ pydoof.API_KEY = 's34v2sdfs4werdfsfwclsss-eu1'
 
 for se in pydoof.SearchEngine.all():
     print se.name
-    task_id = se.process()  # Parse and index the data feed of the Search Engine
+    accepted, task_id = se.process()  # Parse and index the data feed of the Search Engine
     se.info(task_id)  # Get info of the task
     se.logs()  # Get the last logs of the Search Engine tasks
 ```
