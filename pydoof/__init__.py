@@ -103,12 +103,10 @@ class SearchEngine(ManagementApiClient):
         Returns:
             dict representing the item.
         """
-        datatype = item_type if item_type else self.datatypes[0]
-
         return SearchEngine.management_api_call(
             entry_point='%s/items/%s/%s' % (self.hashid, datatype, id))['response']
 
-    def add_item(self, item_description=None, item_type=None):
+    def add_item(self, item_type, item_description):
         """
         Add an item to the search engine
 
@@ -121,13 +119,11 @@ class SearchEngine(ManagementApiClient):
         Returns:
             the (id, datatype) typle of the created item , on success
         """
-        datatype = item_type if item_type else self.datatypes[0]
-
         result = SearchEngine.management_api_call(
-            'post', entry_point='%s/items/%s' % (self.hashid, datatype),
+            'post', entry_point='%s/items/%s' % (self.hashid, item_type),
             data=item_description)
 
-        return (self._obtain_id(result['response']['url']), datatype)
+        return (self._obtain_id(result['response']['url']), item_type)
 
     def delete_item(self, id, item_type=None):
         """
@@ -212,6 +208,6 @@ class SearchEngine(ManagementApiClient):
         Returns:
             the item or task identificator
         """
-        url_re = re.compile('/(?P<hashid>\w{32})/(items/\w+)|(tasks)/(?P<id>[\w-]+)/?$')
+        url_re = re.compile('/(?P<hashid>\w{32})/(items/\w+|tasks)/(?P<id>[\w-]+)/?$')
 
         return url_re.search(url).groupdict()['id']

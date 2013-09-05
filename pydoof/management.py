@@ -4,7 +4,7 @@ import requests
 
 import pydoof
 
-from pydoof.errors import NotAllowed, BadRequest
+from pydoof.errors import NotAllowed, BadRequest, WrongResponse
 
 
 class ManagementApiClient(object):
@@ -33,7 +33,7 @@ class ManagementApiClient(object):
 
         Raises:
             NotAllowed: if auth is failed.
-            WrongRequest: if it can't understand the response
+            BadRequest: if it can't understand the response
         """
 
         assert(method in ['get', 'post', 'put', 'delete'])
@@ -55,6 +55,8 @@ class ManagementApiClient(object):
             raise NotAllowed("The user hasn't provided valid authorization")
         if r.status_code == requests.codes.NOT_FOUND:
             raise BadRequest("%s Not Found" % full_url)
+        if r.status_code == requests.codes.CONFLICT:
+            raise BadRequest("Request conflict")
         if r.status_code > 400 and r.status_code < 500:
             raise BadRequest('The client made a bad request')
             
