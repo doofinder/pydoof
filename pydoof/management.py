@@ -42,7 +42,7 @@ class ManagementApiClient(object):
         base_url = pydoof.MANAGEMENT_DOMAIN.replace('%cluster_region%', cluster_region)
         # sanitize entry point
         entry_point = re.sub('^/*(.*?)/*$', r'\1', entry_point) 
-        headers = {'Authorization': 'Token %s' % token}
+        headers = {'Authorization': 'Token %s' % token, 'Content-Type': 'application/json'}
         do_request = getattr(requests, method)
         full_url = 'http://%s/v%s/%s' % (base_url, pydoof.MANAGEMENT_VERSION,
                                          entry_point)

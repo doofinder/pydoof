@@ -1,5 +1,7 @@
-import requests
 import re
+import json
+
+import requests
 
 from pydoof.management import ManagementApiClient
 
@@ -92,7 +94,7 @@ class SearchEngine(ManagementApiClient):
 
         return result['response']['results']
 
-    def get_item(self, item_type, id):
+    def get_item(self, item_type, item_id):
         """
         get details of a specific item
         Args:
@@ -104,7 +106,8 @@ class SearchEngine(ManagementApiClient):
             dict representing the item.
         """
         return SearchEngine.management_api_call(
-            entry_point='%s/items/%s/%s' % (self.hashid, datatype, id))['response']
+            entry_point='%s/items/%s/%s' % (self.hashid, item_type,
+                                            item_id))['response']
 
     def add_item(self, item_type, item_description):
         """
@@ -117,13 +120,34 @@ class SearchEngine(ManagementApiClient):
                        will be used
 
         Returns:
-            the (id, datatype) typle of the created item , on success
+            the the id of the created_item, on success
         """
         result = SearchEngine.management_api_call(
             'post', entry_point='%s/items/%s' % (self.hashid, item_type),
-            data=item_description)
+            data=json.dumps(item_description))
 
-        return (self._obtain_id(result['response']['url']), item_type)
+        return self._obtain_id(result['response']['url'])
+
+    def update_item(self, item_type, item_id, item_description):
+        """
+        Update an item of the search engine
+
+        Args:
+            item_type: type of the item.
+            item_id: id of the item to be updated
+            item_description: updated data.
+                NOTES:
+                  - partial updates not implemented yet
+                  - description's id will always be set to item_id,
+                  no matter what is posted in description content    
+
+        Returns:
+            True on success
+        """
+        result = SearchEngine.management_api_call(
+            'put', data=json.dumps(item_description), 
+            entry_point='%s/items/%s/%s' % (self.hashid, item_type, item_id))
+        
 
     def delete_item(self, item_type, item_id):
         """
