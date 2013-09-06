@@ -125,7 +125,7 @@ class SearchEngine(ManagementApiClient):
 
         return (self._obtain_id(result['response']['url']), item_type)
 
-    def delete_item(self, id, item_type=None):
+    def delete_item(self, item_type, item_id):
         """
         delete an item
 
@@ -136,9 +136,9 @@ class SearchEngine(ManagementApiClient):
         Returns:
             true on success
         """
-        datatype = item_type if item_type else self.datatypes[0]
         result = SearchEngine.management_api_call(
-            'delete', entry_point='%s/items/%s/%s' % (self.hashid, datatype, id))
+            'delete', entry_point='%s/items/%s/%s' % (self.hashid, item_type,
+                                                      item_id))
 
         if result['status_code'] == requests.codes.NO_CONTENT:
             return True
