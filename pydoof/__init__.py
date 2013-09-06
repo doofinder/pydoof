@@ -72,13 +72,12 @@ class SearchEngine(ManagementApiClient):
                               in SearchEngine.get_api_root().iteritems()][0]
         return self._datatypes
         
-    def get_items(self, item_type=None, page=1):
+    def items(self, item_type, page=1):
         """
         get paginated indexed items
         
         Args:
-            item_type: the type of items . if none, use the first datatype
-                        of the search engine
+            item_type: the type of items . 
             page: the page number.
 
         Returns:
@@ -86,10 +85,8 @@ class SearchEngine(ManagementApiClient):
             example:
             [{'title': 'red shoes', 'price': 33.2}, {'title': 'blue shirt', 'price': 23.2}]
         """
-        datatype = item_type if item_type else self.datatypes[0]
-        
         result = SearchEngine.management_api_call(
-            entry_point='%s/items/%s' % (self.hashid, datatype),
+            entry_point='%s/items/%s' % (self.hashid, item_type),
             params={'page': page})
 
         return result['response']['results']
