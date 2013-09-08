@@ -4,6 +4,7 @@ import json
 import requests
 
 from pydoof.management import ManagementApiClient
+from pydoof.search import SearchApiClient
 
 API_KEY = None
 """
@@ -12,6 +13,9 @@ The API key to use when authenticating API requests.
 The region must be included: token-region
 Example: b42e3ea7c94c93555aa3dcdf2926ead136819518-eu1
 """
+
+CLUSTER_REGION = 'eu1'
+""" The amazon region doofinder's cluster is in """
 
 MANAGEMENT_DOMAIN = '%cluster_region%-api.doofinder.com'
 """ The management API endpoint to send requests to."""
@@ -25,14 +29,17 @@ MANAGEMENT_VERSION = '1'
 SEARCH_VERSION = '4'
 """The version of server search API"""
 
+HTTPS = False
+"""Whether or not search request should made throug https"""
 
 
-class SearchEngine(ManagementApiClient):
+class SearchEngine(SearchApiClient, ManagementApiClient):
     """
     SearchEngine's basic api management object
 
     - CRUD operations to search engine's indexed items
     - processing of the search engine's feeds
+    - make search requests
     """
 
     @classmethod
@@ -45,17 +52,17 @@ class SearchEngine(ManagementApiClient):
         """
         search_engines = []
 
-        for hashid, props in SearchEngine.get_api_root().iteritems():
+        for hashid, props in self.get_api_root().iteritems():
             search_engines.append(SearchEngine(hashid, name=props['name'],
                                                datatypes=props['items'].keys()))
         return search_engines
 
     
-    def __init__(self, hashid, name=None, datatypes=None):
+    def __init__(self, hashid, name=None, datatypes=None, **kwargs):
         self.hashid = hashid 
         self.name = name
-        self._datatypes = datatypes        
-
+        self._datatypes = datatypes
+        super(SearchEngine, self).__init__(**kwargs)
 
     def get_datatypes(self):
         """
@@ -69,7 +76,7 @@ class SearchEngine(ManagementApiClient):
         
         if not self._datatypes and API_KEY:
             self._datatypes = [props['items'].keys() for hashid, props
-                              in SearchEngine.get_api_root().iteritems()][0]
+                              in self.get_api_root().iteritems()][0]
         return self._datatypes
         
     def items(self, item_type, page=1):
@@ -85,7 +92,7 @@ class SearchEngine(ManagementApiClient):
             example:
             [{'title': 'red shoes', 'price': 33.2}, {'title': 'blue shirt', 'price': 23.2}]
         """
-        result = SearchEngine.management_api_call(
+        result = self.management_api_call(
             entry_point='%s/items/%s' % (self.hashid, item_type),
             params={'page': page})
 
@@ -102,7 +109,7 @@ class SearchEngine(ManagementApiClient):
         Returns:
             dict representing the item.
         """
-        return SearchEngine.management_api_call(
+        return self.management_api_call(
             entry_point='%s/items/%s/%s' % (self.hashid, item_type,
                                             item_id))['response']
 
@@ -119,7 +126,7 @@ class SearchEngine(ManagementApiClient):
         Returns:
             the the id of the created_item, on success
         """
-        result = SearchEngine.management_api_call(
+        result = self.management_api_call(
             'post', entry_point='%s/items/%s' % (self.hashid, item_type),
             data=json.dumps(item_description))
 
@@ -141,7 +148,7 @@ class SearchEngine(ManagementApiClient):
         Returns:
             True on success
         """
-        result = SearchEngine.management_api_call(
+        result = self.management_api_call(
             'put', data=json.dumps(item_description), 
             entry_point='%s/items/%s/%s' % (self.hashid, item_type, item_id))
         
@@ -157,7 +164,7 @@ class SearchEngine(ManagementApiClient):
         Returns:
             true on success
         """
-        result = SearchEngine.management_api_call(
+        result = self.management_api_call(
             'delete', entry_point='%s/items/%s/%s' % (self.hashid, item_type,
                                                       item_id))
 
@@ -176,7 +183,7 @@ class SearchEngine(ManagementApiClient):
             (False, task_id) There is another feed processing going on.
                              <task_id> is the id of the currently running process
         """
-        result = SearchEngine.management_api_call(
+        result = self.management_api_call(
             'post', entry_point='%s/tasks/process' % self.hashid)
 
         if result['status_code'] == requests.codes.CREATED:
@@ -195,7 +202,7 @@ class SearchEngine(ManagementApiClient):
             - {'state': 'SUCCESS', 'message': '1221 items processed'}
             - {'state': 'FAILURE', 'message': 'no data in the feed'}            
         """
-        result = SearchEngine.management_api_call(
+        result = self.management_api_call(
             entry_point='%s/tasks/%s' % (self.hashid, task_id))
         
         return result['response']
@@ -212,7 +219,7 @@ class SearchEngine(ManagementApiClient):
                      'log_type': 'log.parser'
                     }, {...}]
         """
-        result = SearchEngine.management_api_call(
+        result = self.management_api_call(
             entry_point='%s/tasks/process' % self.hashid)
 
         return result['response']

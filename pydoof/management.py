@@ -8,16 +8,12 @@ from pydoof.errors import NotAllowed, BadRequest, WrongResponse
 
 
 class ManagementApiClient(object):
-    """
-    Basic doofinder's api handling methods.
+    """Basic doofinder's api handling methods."""
 
-    - holder of api entrypoints
-    - communication with server
-    - holder of auth token
-    """
+    def __init__(self, **kwargs):
+        super(ManagementApiClient, self).__init__(**kwargs)
 
-    @classmethod
-    def management_api_call(cls, method='get', entry_point='', params=None,
+    def management_api_call(self, method='get', entry_point='', params=None,
                             data=None):
         """
         Make the request and normalize response
@@ -37,15 +33,12 @@ class ManagementApiClient(object):
         """
 
         assert(method in ['get', 'post', 'put', 'delete'])
-        # ensamble settings
-        token, cluster_region = pydoof.API_KEY.split('-')
-        base_url = pydoof.MANAGEMENT_DOMAIN.replace('%cluster_region%', cluster_region)
-        # sanitize entry point
-        entry_point = re.sub('^/*(.*?)/*$', r'\1', entry_point) 
-        headers = {'Authorization': 'Token %s' % token, 'Content-Type': 'application/json'}
+        entry_point = re.sub('^/*(.*?)/*$', r'\1', entry_point) # sanitize
+        headers = {'Authorization': 'Token %s' % self.token,
+                   'Content-Type': 'application/json'}
         do_request = getattr(requests, method)
-        full_url = 'http://%s/v%s/%s' % (base_url, pydoof.MANAGEMENT_VERSION,
-                                         entry_point)
+        full_url = '%s/%s' % (self.base_management_url, entry_point)
+        
         r = do_request(full_url, headers=headers, params=params, data=data)
 
         if r.status_code == requests.codes.FORBIDDEN:
@@ -69,8 +62,7 @@ class ManagementApiClient(object):
             raise WrongResponse(ve)
 
 
-    @classmethod
-    def get_api_root(cls):
+    def get_api_root(self):
         """
         Obtain an object representing the management API root for this user.
 
@@ -88,4 +80,27 @@ class ManagementApiClient(object):
                     }
                 ....}
         """
-        return cls.management_api_call()['response']
+        return self.management_api_call()['response']
+
+    @property
+    def base_management_url(self):
+        if not getattr(self, '_base_management_url', None):
+            management_version = pydoof.MANAGEMENT_VERSION
+            management_domain = pydoof.MANAGEMENT_DOMAIN.replace(
+                '%cluster_region%', self.cluster_region)
+            management_domain = re.sub('/*$', '', management_domain) # sanitize
+            self._base_management_url = 'http://%s/v%s' % (management_domain,
+                                                           management_version)
+        return self._base_management_url
+
+    @property
+    def cluster_region(self):
+        if not getattr(self, '_cluster_region', None):
+            self._token, self._cluster_region = pydoof.API_KEY.split('-')
+        return self._cluster_region
+
+    @property
+    def token(self):
+        if not getattr(self, '_token', None):
+            self._token, self._cluster_region = pydoof.API_KEY.split('-')
+        return self._token
