@@ -52,8 +52,8 @@ class SearchApiClient(object):
             return result
                 
 
-    def make_search_api_call(hashid, query_term, page=1, filters=None,
-                             query_name=None):
+    def search_api_call(self, hashid, query_term, page=1, filters=None,
+                        query_name=None):
         """
         make the request and return dict representing response
 
@@ -69,8 +69,10 @@ class SearchApiClient(object):
         Returns:
             A dict representing the response
         """
+        params = {'hashid': hashid, 'query': query_term, 'page': page}
         
-        pass
+        result = requests.get(self.base_search_url, params=SearchApiClient.build_params_tuple(params))
+        return result
 
     def build_filters_querystring(filters):
         """
@@ -101,9 +103,6 @@ class SearchApiClient(object):
 
         return result
 
-                
-        
-
     @property
     def base_search_url(self):
         if not getattr(self, '_base_search_url', None):
@@ -123,10 +122,11 @@ class SearchApiClient(object):
 
         base_domain = re.sub('/?$', '', base_domain) # sanitize
 
-        if pydoof.HTTPS:
-            return 'https://%s' % base_domain
-        else:
-            return 'http://%s' % base_domain
+        protocol = 'https' if pydoof.HTTPS else 'http'
+
+        return '%s://%s/%s/search' % (protocol, base_domain,
+                                      pydoof.SEARCH_VERSION)
+
             
 
         
