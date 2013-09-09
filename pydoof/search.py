@@ -69,12 +69,14 @@ class SearchApiClient(object):
         Returns:
             A dict representing the response
         """
-        params = {'hashid': hashid, 'query': query_term, 'page': page}
-        
-        result = requests.get(self.base_search_url, params=SearchApiClient.build_params_tuple(params))
+        params = SearchApiClient.build_params_tuple(
+            {'hashid': hashid, 'query': query_term, 'page': page,
+             'filter': self.build_ES_filters(filters)})
+        result = requests.get(self.base_search_url, params=params)
         return result
 
-    def build_filters_querystring(filters):
+    @classmethod
+    def build_ES_filters(cls, filters):
         """
         Translate SearchEngine friendly filter format
         {'color': ['blue', 'red'], 'price': {'from':33}}
@@ -88,6 +90,8 @@ class SearchApiClient(object):
         Returns:
             querystring  with the elastic search filters format
         """
+        if not filters:
+            return None
         terms = {}
         numeric_range = {}
         result = {}
