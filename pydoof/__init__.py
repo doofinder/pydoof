@@ -253,7 +253,7 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
                                         filters=filters, query_name=query_name,
                                         **kwargs)
 
-        return response['response']
+        return QueryResponse(response['response'])
         
         
 
@@ -304,4 +304,14 @@ class Item(dict):
                 value = map(lambda x: Item(x) if type(x) == dict else x, value)
             self[key] = value
             
+
+class QueryResponse(Item):
+    """
+    Wrapper for the json response from a query
+
+    It's just an Item with an extra method
+    """
+    def get_items(self):
+        """return elements from the 'results' list as items"""
+        return getattr(self, 'results', [])
 
