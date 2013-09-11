@@ -223,6 +223,36 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
             entry_point='%s/tasks/process' % self.hashid)
 
         return result['response']
+
+    def query(self, query_term, page=1, filters=None, query_name=None, **kwargs):
+        """
+        Search the elasticsearch index
+
+        Args:
+            query_term:  the actual query
+            page: page number
+            filters: filter definition.
+                Example:
+                    {'brand': ['nike', 'addidas'],
+                    'price': {'from': 2.34, 'to': 12}}
+            query_name: instructs doofinder to use only that query type
+            options: dict with additional requests parameters
+            any other keyword param is added as request parameter
+
+        Returns:
+            A dict representing the response
+
+        Raises:
+            NotAllowed: if auth is failed.
+            BadRequest: if the request is not proper
+            WrongREsponse: if server error       
+        """
+        response = self.search_api_call(self.hashid, query_term, page=page,
+                                        filters=filters, query_name=query_name,
+                                        **kwargs)
+
+        return response['response']
+        
         
 
 

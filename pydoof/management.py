@@ -4,7 +4,7 @@ import requests
 
 import pydoof
 
-from pydoof.errors import NotAllowed, BadRequest, WrongResponse
+from pydoof.errors import handle_errors
 
 
 class ManagementApiClient(object):
@@ -29,7 +29,8 @@ class ManagementApiClient(object):
 
         Raises:
             NotAllowed: if auth is failed.
-            BadRequest: if it can't understand the response
+            BadRequest: if the request is not proper
+            WrongREsponse: if server error
         """
 
         assert(method in ['get', 'post', 'put', 'delete'])
@@ -41,25 +42,14 @@ class ManagementApiClient(object):
         
         r = do_request(full_url, headers=headers, params=params, data=data)
 
-        if r.status_code == requests.codes.FORBIDDEN:
-            raise NotAllowed("The user does not have permissions to "
-                             "perform this operation")
-        if r.status_code == requests.codes.UNAUTHORIZED:
-            raise NotAllowed("The user hasn't provided valid authorization")
-        if r.status_code == requests.codes.NOT_FOUND:
-            raise BadRequest("%s Not Found" % full_url)
-        if r.status_code == requests.codes.CONFLICT:
-            raise BadRequest("Request conflict")
-        if r.status_code > 400 and r.status_code < 500:
-            raise BadRequest('The client made a bad request')
+        handle_errors(r)
             
         try:
-            return {
-                'status_code': r.status_code,
-                'response': r.json() if r.text else {}
-                }
+            return {'status_code': r.status_code,
+                    'response': r.json() if r.text else {}}
         except ValueError as ve:
-            raise WrongResponse(ve)
+            return {'status_code': r.status_code,
+                    'response': r.text}
 
 
     def get_api_root(self):
@@ -84,6 +74,7 @@ class ManagementApiClient(object):
 
     @property
     def base_management_url(self):
+        """get base_management_url according to pydoof constants"""
         if not getattr(self, '_base_management_url', None):
             management_version = pydoof.MANAGEMENT_VERSION
             management_domain = pydoof.MANAGEMENT_DOMAIN.replace(
@@ -95,12 +86,14 @@ class ManagementApiClient(object):
 
     @property
     def cluster_region(self):
+        """get amazon cluster region by looking into API_KEY"""
         if not getattr(self, '_cluster_region', None):
             self._token, self._cluster_region = pydoof.API_KEY.split('-')
         return self._cluster_region
 
     @property
     def token(self):
+        """get auth token by looking into API_KEY"""
         if not getattr(self, '_token', None):
             self._token, self._cluster_region = pydoof.API_KEY.split('-')
         return self._token

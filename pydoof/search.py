@@ -4,7 +4,7 @@ import requests
 
 import pydoof
 
-from pydoof.errors import BadRequest, WrongResponse
+from pydoof.errors import handle_errors
 
 class SearchApiClient(object):
     """Basic doofinder's api search methods"""
@@ -53,7 +53,7 @@ class SearchApiClient(object):
                 
 
     def search_api_call(self, hashid, query_term, page=1, filters=None,
-                        query_name=None):
+                        query_name=None, **kwargs):
         """
         make the request and return dict representing response
 
@@ -68,12 +68,33 @@ class SearchApiClient(object):
 
         Returns:
             A dict representing the response
+
+        Raises:
+            NotAllowed: if auth is failed.
+            BadRequest: if the request is not proper
+            WrongREsponse: if server error        
         """
-        params = SearchApiClient.build_params_tuple(
-            {'hashid': hashid, 'query': query_term, 'page': page,
-             'filter': self.build_ES_filters(filters)})
-        result = requests.get(self.base_search_url, params=params)
+        params = {}
+        options = kwargs.pop('options', {})
+        params.update(options)
+        params = kwargs
+        params.update({'hashid': hashid, 'query': query_term, 'page': page, 
+                       'filter': self.build_ES_filters(filters),
+                       'query_name': query_name})
+        
+
+        params = SearchApiClient.build_params_tuple(params)
+        response = requests.get(self.base_search_url, params=params)
+        handle_errors(response)
+        try:
+            result =  {'status_code': response.status_code,
+            'response': response.json() if response.text else {}}
+        except ValueError:
+            result =  {'status_code': response.status_code,
+            'response': response.text}
+
         return result
+
 
     @classmethod
     def build_ES_filters(cls, filters):
@@ -98,8 +119,9 @@ class SearchApiClient(object):
         for key, definition in filters.iteritems():
             if type(definition) == list: # terms
                 terms[key] = definition
-            if type(definition) == dict:
+            if type(definition) == dict: # numeric_range
                 numeric_range[key] = definition
+                definition['include_upper'] = True # just in case
         if terms:
             result['terms'] = terms
         if numeric_range:
@@ -109,6 +131,7 @@ class SearchApiClient(object):
 
     @property
     def base_search_url(self):
+        """get base url for searching"""
         if not getattr(self, '_base_search_url', None):
             self._base_search_url = self.build_base_search_url()
         return self._base_search_url
