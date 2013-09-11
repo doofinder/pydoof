@@ -88,7 +88,7 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
             page: the page number.
 
         Returns:
-            array of dict representing items.
+            array of Item objects
             example:
             [{'title': 'red shoes', 'price': 33.2}, {'title': 'blue shirt', 'price': 23.2}]
         """
@@ -96,7 +96,7 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
             entry_point='%s/items/%s' % (self.hashid, item_type),
             params={'page': page})
 
-        return result['response']['results']
+        return map(lambda x: Item(x), result['response']['results'])
 
     def get_item(self, item_type, item_id):
         """
@@ -109,16 +109,18 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
         Returns:
             dict representing the item.
         """
-        return self.management_api_call(
+        raw_result = self.management_api_call(
             entry_point='%s/items/%s/%s' % (self.hashid, item_type,
                                             item_id))['response']
+        return Item(raw_result)
 
     def add_item(self, item_type, item_description):
         """
         Add an item to the search engine
 
         Args:
-            item_description: dict representing the item to be added
+            item_description: dict or pydoof.Item representing the item to be
+                              added
                 NOTE: if item's id field not present, one will be created
             item_type: type of the item. If not provided, first one available
                        will be used
@@ -139,7 +141,7 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
         Args:
             item_type: type of the item.
             item_id: id of the item to be updated
-            item_description: updated data.
+            item_description: updated data. dict or Item()
                 NOTES:
                   - partial updates not implemented yet
                   - description's id will always be set to item_id,
@@ -269,3 +271,37 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
         url_re = re.compile('/(?P<hashid>\w{32})/(items/\w+|tasks)/(?P<id>[\w-]+)/?$')
 
         return url_re.search(url).groupdict()['id']
+
+
+class Item(dict):
+    """
+    Simple wrapper to add __getattr__ methods to a dict
+
+    >>> it = Item()
+    >>> it
+    {}
+    >>> it['a'] = 'va'
+    >>> it.b = 'vb'
+    >>> it
+    {'a': 'va', 'b': 'vb'}
+    """
+    def __init__(self, initial_object=None):
+        """prepopulate with initial_object"""
+        if type(initial_object) == dict:
+            self._hidrate(initial_object)
+            
+    def __getattr__(self, name):
+        return self.__getitem__(name)
+
+    def __setattr__(self, name, value):
+        self.__setitem__(name, value)
+
+    def _hidrate(self, obj):
+        for key, value in obj.iteritems():
+            if type(value) == dict:
+                value = Item(value)
+            if type(value) == list:
+                value = map(lambda x: Item(x) if type(x) == dict else x, value)
+            self[key] = value
+            
+
