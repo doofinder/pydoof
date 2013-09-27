@@ -180,29 +180,49 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
         Ask the server to process the search engine's feeds
 
         Returns:
-            (True, task_id) The feed process has been started.
-                            <task_id> is the id of the started process
-            (False, task_id) There is another feed processing going on.
-                             <task_id> is the id of the currently running process
+            (True, task_id) The task has been accepted for processing.
+                            <task_id> is the id of the accepted task
+            (False, None) There is another feed processing going on.
         """
         result = self.management_api_call(
             'post', entry_point='%s/tasks/process' % self.hashid)
 
         if result['status_code'] == requests.codes.CREATED:
             return (True, self._obtain_id(result['response']['link']))
-        if result['status_code'] == request.codes.OK:
-            return (False, self._obtain_id(result['response']['link']))
+        if result['status_code'] == requests.codes.OK:
+            return (False, None)
 
-    def info(self, task_id):
+    def process_info(self):
         """
-        Obtain info about how a process is going
+        Obtain info of the last processing task sent to the server
 
         Returns:
             a dict with the keys 'state' and 'message'
             examples:
             - {'state': 'PROCESSING', 'message': 'Your task is being processed'}
-            - {'state': 'SUCCESS', 'message': '1221 items processed'}
-            - {'state': 'FAILURE', 'message': 'no data in the feed'}            
+            - {'state': 'SUCCESS', 'message': 'The task has successfuly finished'}
+            - {'state': 'FAILURE', 'message': 'no data in the feed'}
+        """
+        result = self.management_api_call(
+            'get', entry_point='%s/tasks/process' % self.hashid)
+        result['response'].pop('task_name', None)
+        
+        return result['response']
+
+
+    def task_info(self, task_id):
+        """
+        Obtain info about how a task is going or its result
+
+        Returns:
+            a dict with the keys 'state', 'message' and 'task_name'
+            examples:
+            - {'state': 'PROCESSING', 'message': 'Your task is being processed',
+               'task_name': 'process'}
+            - {'state': 'SUCCESS', 'message': 'The task has successfuly finished',
+               'task_name': 'process'}
+            - {'state': 'FAILURE', 'message': 'no data in the feed',
+               'task_name': 'process'}            
         """
         result = self.management_api_call(
             entry_point='%s/tasks/%s' % (self.hashid, task_id))
@@ -222,7 +242,7 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
                     }, {...}]
         """
         result = self.management_api_call(
-            entry_point='%s/tasks/process' % self.hashid)
+            entry_point='%s/logs' % self.hashid)
 
         return result['response']
 

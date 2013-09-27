@@ -20,9 +20,10 @@ pydoof.API_KEY = 's34v2sdfs4werdfsfwclsss-eu1'
 
 for se in pydoof.SearchEngine.all():
     print se.name
-    accepted, task_id = se.process()  # Parse and index the data feed of the Search Engine
-    se.info(task_id)  # Get info of the task
-    se.logs()  # Get the last logs of the Search Engine tasks
+    accepted, task_id = se.process() # Parse and index the data feed of the Search Engine
+    se.process_info()  # Get info of the current/most-recent 'process' task
+    se.task_info(task_id) # get info of any task
+    se.logs()  # Get the last logs of the Search Engine 
 ```
 
 You can also make changes to a specific Search Engine:
@@ -69,7 +70,7 @@ query_response.query_name  # The query_name used by the search algorithm
 
 for item in query_response.get_items():
     print item.id
-    print item.description
+    print item.body
 
 # Making queries with filters and a specific query_name
 search_engine.query('test query', 1, 
@@ -86,8 +87,8 @@ search_engine.query('test query', rpp=12, lang='pt')
 
 API Documentation
 -----------------
-[Doofinder Search v4 documentation](http://www.doofinder.com)
+[Doofinder Search v4 documentation](http://www.doofinder.com/developer/search-api)
 
-[Doofinder Management v1 documentation](http://www.doofinder.com)
+[Doofinder Management v1 documentation](http://www.doofinder.com/developer/management-api)
 
 
