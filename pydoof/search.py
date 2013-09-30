@@ -140,7 +140,7 @@ class SearchApiClient(object):
     def build_base_search_url(self):
         """ Builds base url according to user-defined constants in pydoof"""
         if pydoof.API_KEY:
-            cluster_region = pydoof.API_KEY.split('-')[1]
+            cluster_region = pydoof.API_KEY.split('-')[0]
         elif pydoof.CLUSTER_REGION:
             cluster_region = pydoof.CLUSTER_REGION
 
@@ -149,7 +149,7 @@ class SearchApiClient(object):
 
         base_domain = re.sub('/?$', '', base_domain) # sanitize
 
-        protocol = 'https' if pydoof.HTTPS else 'http'
+        protocol = 'https' if pydoof.SEARCH_HTTPS else 'http'
 
         return '%s://%s/%s/search' % (protocol, base_domain,
                                       pydoof.SEARCH_VERSION)

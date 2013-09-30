@@ -80,7 +80,7 @@ class ManagementApiClient(object):
             management_domain = pydoof.MANAGEMENT_DOMAIN.replace(
                 '%cluster_region%', self.cluster_region)
             management_domain = re.sub('/*$', '', management_domain) # sanitize
-            self._base_management_url = 'http://%s/v%s' % (management_domain,
+            self._base_management_url = 'https://%s/v%s' % (management_domain,
                                                            management_version)
         return self._base_management_url
 
@@ -88,12 +88,12 @@ class ManagementApiClient(object):
     def cluster_region(self):
         """get amazon cluster region by looking into API_KEY"""
         if not getattr(self, '_cluster_region', None):
-            self._token, self._cluster_region = pydoof.API_KEY.split('-')
+            self._cluster_region, self._token = pydoof.API_KEY.split('-')
         return self._cluster_region
 
     @property
     def token(self):
         """get auth token by looking into API_KEY"""
         if not getattr(self, '_token', None):
-            self._token, self._cluster_region = pydoof.API_KEY.split('-')
+            self._cluster_region, self._token = pydoof.API_KEY.split('-')
         return self._token

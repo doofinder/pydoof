@@ -11,7 +11,7 @@ API_KEY = None
 The API key to use when authenticating API requests.
 
 The region must be included: token-region
-Example: b42e3ea7c94c93555aa3dcdf2926ead136819518-eu1
+Example: eu1-b42e3ea7c94c93555aa3dcdf2926ead136819518
 """
 
 CLUSTER_REGION = 'eu1'
@@ -29,8 +29,8 @@ MANAGEMENT_VERSION = '1'
 SEARCH_VERSION = '4'
 """The version of server search API"""
 
-HTTPS = False
-"""Whether or not search request should made throug https"""
+SEARCH_HTTPS = False
+"""Whether or not search request should be made throug https"""
 
 
 class SearchEngine(SearchApiClient, ManagementApiClient):

@@ -16,7 +16,7 @@ Usage
 
 ```python
 import pydoof
-pydoof.API_KEY = 's34v2sdfs4werdfsfwclsss-eu1'
+pydoof.API_KEY = 'eu1-s34v2sdfs4werdfsfwclsss'
 
 for se in pydoof.SearchEngine.all():
     print se.name
@@ -38,7 +38,7 @@ search_engine.get_datatypes()
 item = search_engine.get_item('product', item_id)
 
 # Add an item
-search_engine.add_item('product', item)
+added_item_id = search_engine.add_item('product', item)
 
 # Delete an item
 search_engine.delete_item('product', item_id)
