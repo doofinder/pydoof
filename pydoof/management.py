@@ -6,14 +6,50 @@ import pydoof
 
 from pydoof.errors import handle_errors
 
+class MetaManagementApiClient(type):
+    """
+    Metaclass to add class properties accesor.
+
+    The class is an std object for the metaclass
+    """
+    
+    @property
+    def base_management_url(cls):
+        """get base_management_url according to pydoof constants"""        
+        if not getattr(cls, '_base_management_url', None):
+            management_version = pydoof.MANAGEMENT_VERSION
+            management_domain = pydoof.MANAGEMENT_DOMAIN.replace(
+                '%cluster_region%', cls.cluster_region)
+            management_domain = re.sub('/*$', '', management_domain) # sanitize
+            cls._base_management_url = 'https://%s/v%s' % (management_domain,
+                                                           management_version)
+        return cls._base_management_url
+
+    @property
+    def cluster_region(cls):
+        """get amazon cluster region by looking into API_KEY"""
+        if not getattr(cls, '_cluster_region', None):
+            cls._cluster_region, cls._token = pydoof.API_KEY.split('-')
+        return cls._cluster_region
+
+    @property
+    def token(cls):
+        """get auth token by looking into API_KEY"""
+        if not getattr(cls, '_token', None):
+            cls._cluster_region, cls._token = pydoof.API_KEY.split('-')
+        return cls._token    
+
 
 class ManagementApiClient(object):
     """Basic doofinder's api handling methods."""
 
+    __metaclass__ = MetaManagementApiClient
+
     def __init__(self, **kwargs):
         super(ManagementApiClient, self).__init__(**kwargs)
 
-    def management_api_call(self, method='get', entry_point='', params=None,
+    @classmethod
+    def management_api_call(cls, method='get', entry_point='', params=None,
                             data=None):
         """
         Make the request and normalize response
@@ -35,11 +71,10 @@ class ManagementApiClient(object):
 
         assert(method in ['get', 'post', 'put', 'delete'])
         entry_point = re.sub('^/*(.*?)/*$', r'\1', entry_point) # sanitize
-        headers = {'Authorization': 'Token %s' % self.token,
+        headers = {'Authorization': 'Token %s' % cls.token,
                    'Content-Type': 'application/json'}
         do_request = getattr(requests, method)
-        full_url = '%s/%s' % (self.base_management_url, entry_point)
-        
+        full_url = '%s/%s' % (cls.base_management_url, entry_point)
         r = do_request(full_url, headers=headers, params=params, data=data)
 
         handle_errors(r)
@@ -51,8 +86,8 @@ class ManagementApiClient(object):
             return {'status_code': r.status_code,
                     'response': r.text}
 
-
-    def get_api_root(self):
+    @classmethod
+    def get_api_root(cls):
         """
         Obtain an object representing the management API root for this user.
 
@@ -70,30 +105,8 @@ class ManagementApiClient(object):
                     }
                 ....}
         """
-        return self.management_api_call()['response']
+        return cls.management_api_call()['response']
 
-    @property
-    def base_management_url(self):
-        """get base_management_url according to pydoof constants"""
-        if not getattr(self, '_base_management_url', None):
-            management_version = pydoof.MANAGEMENT_VERSION
-            management_domain = pydoof.MANAGEMENT_DOMAIN.replace(
-                '%cluster_region%', self.cluster_region)
-            management_domain = re.sub('/*$', '', management_domain) # sanitize
-            self._base_management_url = 'https://%s/v%s' % (management_domain,
-                                                           management_version)
-        return self._base_management_url
 
-    @property
-    def cluster_region(self):
-        """get amazon cluster region by looking into API_KEY"""
-        if not getattr(self, '_cluster_region', None):
-            self._cluster_region, self._token = pydoof.API_KEY.split('-')
-        return self._cluster_region
 
-    @property
-    def token(self):
-        """get auth token by looking into API_KEY"""
-        if not getattr(self, '_token', None):
-            self._cluster_region, self._token = pydoof.API_KEY.split('-')
-        return self._token
+

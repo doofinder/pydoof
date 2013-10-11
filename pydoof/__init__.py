@@ -52,7 +52,7 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
         """
         search_engines = []
 
-        for hashid, props in self.get_api_root().iteritems():
+        for hashid, props in cls.get_api_root().iteritems():
             search_engines.append(SearchEngine(hashid, name=props['name'],
                                                datatypes=props['items'].keys()))
         return search_engines
@@ -76,7 +76,7 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
         
         if not self._datatypes and API_KEY:
             self._datatypes = [props['items'].keys() for hashid, props
-                              in self.get_api_root().iteritems()][0]
+                              in cls.get_api_root().iteritems()][0]
         return self._datatypes
         
     def items(self, item_type, page=1):
@@ -92,7 +92,7 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
             example:
             [{'title': 'red shoes', 'price': 33.2}, {'title': 'blue shirt', 'price': 23.2}]
         """
-        result = self.management_api_call(
+        result = self.__class__.management_api_call(
             entry_point='%s/items/%s' % (self.hashid, item_type),
             params={'page': page})
 
@@ -109,7 +109,7 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
         Returns:
             dict representing the item.
         """
-        raw_result = self.management_api_call(
+        raw_result = self.__class__.management_api_call(
             entry_point='%s/items/%s/%s' % (self.hashid, item_type,
                                             item_id))['response']
         return Item(raw_result)
@@ -128,7 +128,7 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
         Returns:
             the the id of the created_item, on success
         """
-        result = self.management_api_call(
+        result = self.__class__.management_api_call(
             'post', entry_point='%s/items/%s' % (self.hashid, item_type),
             data=json.dumps(item_description))
 
@@ -150,7 +150,7 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
         Returns:
             True on success
         """
-        result = self.management_api_call(
+        result = self.__class__.management_api_call(
             'put', data=json.dumps(item_description), 
             entry_point='%s/items/%s/%s' % (self.hashid, item_type, item_id))
         
@@ -166,7 +166,7 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
         Returns:
             true on success
         """
-        result = self.management_api_call(
+        result = self.__class__.management_api_call(
             'delete', entry_point='%s/items/%s/%s' % (self.hashid, item_type,
                                                       item_id))
 
@@ -184,7 +184,7 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
                             <task_id> is the id of the accepted task
             (False, None) There is another feed processing going on.
         """
-        result = self.management_api_call(
+        result = self.__class__.management_api_call(
             'post', entry_point='%s/tasks/process' % self.hashid)
 
         if result['status_code'] == requests.codes.CREATED:
@@ -203,7 +203,7 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
             - {'state': 'SUCCESS', 'message': 'The task has successfuly finished'}
             - {'state': 'FAILURE', 'message': 'no data in the feed'}
         """
-        result = self.management_api_call(
+        result = self.__class__.management_api_call(
             'get', entry_point='%s/tasks/process' % self.hashid)
         result['response'].pop('task_name', None)
         
@@ -224,7 +224,7 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
             - {'state': 'FAILURE', 'message': 'no data in the feed',
                'task_name': 'process'}            
         """
-        result = self.management_api_call(
+        result = self.__class__.management_api_call(
             entry_point='%s/tasks/%s' % (self.hashid, task_id))
         
         return result['response']
@@ -241,7 +241,7 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
                      'log_type': 'log.parser'
                     }, {...}]
         """
-        result = self.management_api_call(
+        result = self.__class__.management_api_call(
             entry_point='%s/logs' % self.hashid)
 
         return result['response']
