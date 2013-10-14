@@ -75,8 +75,8 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
         """
         
         if not self._datatypes and API_KEY:
-            self._datatypes = [props['items'].keys() for hashid, props
-                              in cls.get_api_root().iteritems()][0]
+            self._datatypes =  [props['items'].keys() for hashid, props
+                                in self.__class__.get_api_root().iteritems()][0]
         return self._datatypes
         
     def items(self, item_type, page=1):
