@@ -45,7 +45,11 @@ You can also make changes to a specific Search Engine: ::
     # Delete an item
     search_engine.delete_item('product', item_id)
 
-    # Update an item
+    # Delete ALL items belonging to a certain type
+    search_engine.delete_type('product')
+
+    # Update or create an item
+    # If item_id does not exist, the item is created
     search_engine.update_item('product', item_id, item)
 
     # Iterate over all items

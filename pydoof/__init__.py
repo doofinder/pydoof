@@ -175,6 +175,26 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
         else:
             return False
 
+    def delete_type(self, item_type):
+        """
+        delete a whole type of items. HANDLE WITH CARE
+
+        Args:
+            item_type: the datatype to delete. all items belonging
+                       to that datatype will be removed. This arg is mandatory
+
+        Returns:
+            true on success
+        """
+        result = self.__class__.management_api_call(
+            'delete', entry_point='%s/items/%s' % (self.hashid, item_type))
+
+        if result['status_code'] == requests.codes.NO_CONTENT:
+            return True
+        else:
+            return False
+
+
     def process(self):
         """
         Ask the server to process the search engine's feeds
