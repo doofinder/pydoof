@@ -65,6 +65,8 @@ class SearchApiClient(object):
                     {'brand': ['nike', 'addidas'],
                     'price': {'from': 2.34, 'to': 12}}
             query_name: instructs doofinder to use only that query type
+            any other keyword argument is passed as request parameter
+            if keyword argument is array, is passed as repeated parameters
 
         Returns:
             A dict representing the response

@@ -87,6 +87,10 @@ search_engine.query('test query', 1,
 
 # Any keyword argument is passed as req parameter
 search_engine.query('test query', rpp=12, lang='pt')
+
+# You can use lists as keyword arguments, too.
+# The will be translated to repeated req parameters
+search_engine.query('test query', type=['product', 'article'])
 ```
 
 API Documentation
