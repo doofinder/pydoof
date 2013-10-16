@@ -89,6 +89,10 @@ You can also make changes to a specific Search Engine: ::
     # Any keyword argument is passed as req parameter 
     search_engine.query('test query', rpp=12, lang='pt')
 
+    # You can use arrays as keyword arguments, too.
+    # The will be translated to repeated req parameters
+    search_engine.query('test query', type=['product', 'article']
+
 
 API Documentation
 -----------------
