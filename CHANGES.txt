@@ -2,3 +2,4 @@ v1.0, 2013-09-25 -- Initial release.
 v1.0.1, 2013-10-11 -- Removed SearchEngine.all() bug. 
 v1.0.2, 2013-10-12 -- Removed SearchEngine.get_datatypes() bug. 
 v1.0.3, 2013-10-15 -- Added delete_type method. 
+v1.0.4, 2013-10-18 -- RESTfull get_datatypes 

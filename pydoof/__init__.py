@@ -53,15 +53,13 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
         search_engines = []
 
         for hashid, props in cls.get_api_root().iteritems():
-            search_engines.append(SearchEngine(hashid, name=props['name'],
-                                               datatypes=props['items'].keys()))
+            search_engines.append(SearchEngine(hashid, name=props['name']))
         return search_engines
 
     
-    def __init__(self, hashid, name=None, datatypes=None, **kwargs):
+    def __init__(self, hashid, name=None, **kwargs):
         self.hashid = hashid 
         self.name = name
-        self._datatypes = datatypes
         super(SearchEngine, self).__init__(**kwargs)
 
     def get_datatypes(self):
@@ -74,10 +72,12 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
             ['product', 'page']
         """
         
-        if not self._datatypes and API_KEY:
-            self._datatypes =  [props['items'].keys() for hashid, props
-                                in self.__class__.get_api_root().iteritems()][0]
-        return self._datatypes
+        if not API_KEY:
+            return []
+        for hashid, props in self.__class__.get_api_root().iteritems():
+            if hashid == self.hashid:
+                return props['items'].keys()
+        return []
         
     def items(self, item_type, page=1):
         """
