@@ -87,7 +87,7 @@ You can also make changes to a specific Search Engine: ::
     )
 
     # Any keyword argument is passed as req parameter 
-    search_engine.query('test query', rpp=12, lang='pt')
+    search_engine.query('test query', rpp=12, lang='pt', transfomer='dflayer')
 
     # You can use lists as keyword arguments, too.
     # The will be translated to repeated req parameters
