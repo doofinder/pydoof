@@ -81,7 +81,7 @@ class SearchApiClient(object):
         params.update(options)
         params = kwargs
         params.update({'hashid': hashid, 'query': query_term, 'page': page, 
-                       'filter': self.build_ES_filters(filters),
+                       'filter': filters,
                        'query_name': query_name})
         
 
