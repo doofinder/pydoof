@@ -98,39 +98,6 @@ class SearchApiClient(object):
         return result
 
 
-    @classmethod
-    def build_ES_filters(cls, filters):
-        """
-        Translate SearchEngine friendly filter format
-        {'color': ['blue', 'red'], 'price': {'from':33}}
-        to a dict representing elasticsearch friendly format
-        {'terms': {'color': ['blue', 'red']},
-        'numeric_range': {'price': {'from': 33}}
-
-        Args:
-            filters: dict with filters definition as in make_search_api
-
-        Returns:
-            querystring  with the elastic search filters format
-        """
-        if not filters:
-            return None
-        terms = {}
-        numeric_range = {}
-        result = {}
-        for key, definition in filters.iteritems():
-            if type(definition) == list: # terms
-                terms[key] = definition
-            if type(definition) == dict: # numeric_range
-                numeric_range[key] = definition
-                definition['include_upper'] = True # just in case
-        if terms:
-            result['terms'] = terms
-        if numeric_range:
-            result['numeric_range'] = numeric_range
-
-        return result
-
     @property
     def base_search_url(self):
         """get base url for searching"""
