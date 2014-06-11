@@ -26,22 +26,22 @@ class SearchApiClient(object):
             a list of param-value tuples the requests lib can understand
             Example: [('terms[color][]', 'blue'), ('terms[color][]', 'red')]
         """
- 
+
         if len(params) == 0:
             return []
- 
+
         result = []
- 
+
         # is a dictionary?
         if type (params) is dict:
             for key in params.keys():
                 newkey = key
                 if topkey != '':
                     newkey = '%s[%s]' % (topkey, key)
- 
+
                 if type(params[key]) is dict:
                     result.extend(cls.build_params_tuple(params[key], newkey))
- 
+
                 elif type(params[key]) is list:
                     for val in params[key]:
                         result.append(('%s[]' % newkey, val))
@@ -50,10 +50,29 @@ class SearchApiClient(object):
                 else:
                     result.append((newkey, params[key]))
             return result
-                
+
+    @classmethod
+    def build_sorts_tuple(cls, params):
+        """
+        builds requests-understeandable sort params tuple
+
+        Args:
+            params: a list representing the sort parameters
+                Example: [('brand': 'asc'), ('price': 'desc')]
+
+        Returns:
+            a list of sort-value tuples the requests lib can understand
+            Example: [('sort[0][update_timestamp]','desc'), ('sort[1][name_sort]','asc')]
+        """
+        result = []
+        for i, elem in enumerate(params):
+            result.append(('sort[%s][%s]'%(i, elem[0]), elem[1]))
+
+        return result
+
 
     def search_api_call(self, hashid, query_term, page=1, filters=None,
-                        query_name=None, **kwargs):
+                        query_name=None, sort=None, **kwargs):
         """
         make the request and return dict representing response
 
@@ -65,6 +84,10 @@ class SearchApiClient(object):
                     {'brand': ['nike', 'addidas'],
                     'price': {'from': 2.34, 'to': 12}}
             query_name: instructs doofinder to use only that query type
+            sort: sort.
+                Example:
+                    [('brand': 'asc'),
+                     ('price': 'desc')]
             any other keyword argument is passed as request parameter
             if keyword argument is array, is passed as repeated parameters
 
@@ -74,18 +97,20 @@ class SearchApiClient(object):
         Raises:
             NotAllowed: if auth is failed.
             BadRequest: if the request is not proper
-            WrongREsponse: if server error        
+            WrongREsponse: if server error
         """
         params = {}
         options = kwargs.pop('options', {})
         params.update(options)
         params = kwargs
-        params.update({'hashid': hashid, 'query': query_term, 'page': page, 
+        params.update({'hashid': hashid, 'query': query_term, 'page': page,
                        'filter': filters,
                        'query_name': query_name})
-        
 
         params = SearchApiClient.build_params_tuple(params)
+
+        if sort:
+            params += SearchApiClient.build_sorts_tuple(sort)
         response = requests.get(self.base_search_url, params=params)
         handle_errors(response)
         try:
@@ -122,7 +147,3 @@ class SearchApiClient(object):
 
         return '%s://%s/%s/search' % (protocol, base_domain,
                                       pydoof.SEARCH_VERSION)
-
-            
-
-        
