@@ -41,10 +41,14 @@ class SearchApiClient(object):
  
                 if type(params[key]) is dict:
                     result.extend(cls.build_params_tuple(params[key], newkey))
- 
                 elif type(params[key]) is list:
-                    for val in params[key]:
-                        result.append(('%s[]' % newkey, val))
+                    for index, val in enumerate(params[key]):
+                        if type(val) in (dict, list):
+                            result.extend(cls.build_params_tuple(
+                                val, '%s[%s]' % (newkey, index)))
+                        else:
+                            result.append(('%s[%s]' % (newkey, index), val))
+
                 elif type(params[key]) is bool:
                     result.append((newkey, str(params[key]).lower()))
                 else:
