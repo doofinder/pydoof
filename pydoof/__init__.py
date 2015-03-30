@@ -17,10 +17,10 @@ Example: eu1-b42e3ea7c94c93555aa3dcdf2926ead136819518
 CLUSTER_REGION = 'eu1'
 """ The amazon region doofinder's cluster is in """
 
-MANAGEMENT_DOMAIN = '%cluster_region%-api.doofinder.com'
+MANAGEMENT_DOMAIN = '%s-api.doofinder.com'
 """ The management API endpoint to send requests to."""
 
-SEARCH_DOMAIN = '%cluster_region%-search.doofinder.com'
+SEARCH_DOMAIN = '%s-search.doofinder.com'
 """The search API endpoint to send search requests to"""
 
 MANAGEMENT_VERSION = '1'
