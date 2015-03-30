@@ -137,8 +137,7 @@ class SearchApiClient(object):
         elif pydoof.CLUSTER_REGION:
             cluster_region = pydoof.CLUSTER_REGION
 
-        base_domain = pydoof.SEARCH_DOMAIN.replace('%cluster_region%',
-                                                   cluster_region)
+        base_domain = pydoof.SEARCH_DOMAIN % cluster_region
 
         base_domain = re.sub('/?$', '', base_domain) # sanitize
 
