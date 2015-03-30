@@ -54,7 +54,26 @@ class SearchApiClient(object):
                 else:
                     result.append((newkey, params[key]))
             return result
+    
+    @classmethod         
+    def populate_headers(cls):
+        """ Generates headers dict for search API
+        request.
+
+        Returns:
+            a dictionary with necessary headers to make
+            search requests.
+        """
+
+        headers = {}
+        if pydoof.API_KEY:
+            try:
+                headers["API Token"] = (pydoof.API_KEY.split("-"))[1]
+
+            except:
+                pass
                 
+        return headers
 
     def search_api_call(self, hashid, query_term, page=1, filters=None,
                         query_name=None, **kwargs):
@@ -88,9 +107,10 @@ class SearchApiClient(object):
                        'filter': filters,
                        'query_name': query_name})
         
-
         params = SearchApiClient.build_params_tuple(params)
-        response = requests.get(self.base_search_url, params=params)
+        headers = SearchApiClient.populate_headers()
+        
+        response = requests.get(self.base_search_url, params=params, headers=headers)
         handle_errors(response)
         try:
             result =  {'status_code': response.status_code,
@@ -117,8 +137,7 @@ class SearchApiClient(object):
         elif pydoof.CLUSTER_REGION:
             cluster_region = pydoof.CLUSTER_REGION
 
-        base_domain = pydoof.SEARCH_DOMAIN.replace('%cluster_region%',
-                                                   cluster_region)
+        base_domain = pydoof.SEARCH_DOMAIN % cluster_region
 
         base_domain = re.sub('/?$', '', base_domain) # sanitize
 

@@ -63,7 +63,7 @@ search_engine.items('product', 2)
 
 ```python
 import pydoof
-pydoof.SEARCH_DOMAIN = 'eu1-search.doofinder.com'
+pydoof.API_KEY = 'eu1-s34v2sdfs4werdfsfwclsss'
 
 search_engine = pydoof.SearchEngine('abc32sfasdf3vadsfsafass343')
 
