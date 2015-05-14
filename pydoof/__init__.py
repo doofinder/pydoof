@@ -134,6 +134,28 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
 
         return self._obtain_id(result['response']['url'])
 
+    def add_items(self, item_type, items_description):
+        """
+        Add an item to the search engine
+
+        Args:
+            items_description (list) list of dict or pydoof.Item representing 
+                               the items to be added
+                NOTE: if item's id field not present, for any item one will be 
+                      created for it 
+            item_type (string): type of the items. If not provided, first one 
+                                available  will be used
+
+        Returns:
+            an list with the ids of the created items , on success
+        """
+        result = self.__class__.management_api_call(
+            'post', entry_point='%s/items/%s' % (self.hashid, item_type),
+            data=json.dumps(items_description))
+
+        return [ self._obtain_id(item['url']) for item in result['response'] ]
+
+
     def update_item(self, item_type, item_id, item_description):
         """
         Update an item of the search engine
@@ -153,6 +175,27 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
         result = self.__class__.management_api_call(
             'put', data=json.dumps(item_description), 
             entry_point='%s/items/%s/%s' % (self.hashid, item_type, item_id))
+
+    def update_items(self, item_type, items_description):
+        """
+        Update several items of the search engine
+
+        Args:
+            item_type: type of the items.
+            items_description: updated data. dict or Item()
+                NOTES:
+                  - partial updates not implemented
+                  - all items have to have id otherwise there'll be an error
+
+        Returns:
+            True on success
+        """
+        result = self.__class__.management_api_call(
+            'put', data=json.dumps(items_description), 
+            entry_point='%s/items/%s' % (self.hashid, item_type))
+
+        if result['status_code'] == 200:
+            return True
         
 
     def delete_item(self, item_type, item_id):

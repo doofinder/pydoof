@@ -42,6 +42,10 @@ You can also make changes to a specific Search Engine: ::
     # Add an item
     added_item_id = search_engine.add_item('product', item)
 
+    # Add multiple items
+
+    [added_id1, added_id2, added_id3] = search_engine.add_items('product', [item1, item2, item3])
+
     # Delete an item
     search_engine.delete_item('product', item_id)
 
@@ -51,6 +55,10 @@ You can also make changes to a specific Search Engine: ::
     # Update or create an item
     # If item_id does not exist, the item is created
     search_engine.update_item('product', item_id, item)
+
+    # Update or create multiple items
+    # all items need to have "id" property (item1['id'])
+    search_engine.update_items('product', [item1, item2, item3])
 
     # Iterate over all items
     for item in search_engine.items('product'):

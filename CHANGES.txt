@@ -6,3 +6,4 @@ v1.0.4, 2013-10-18 -- RESTfull get_datatypes
 v1.0.5, 2014-05-19 -- Search filter params sent in the new format
 v1.0.6, 2014-06-11 -- added QuotaExceeded exception and fixed nested lists bug
 v2.0.0, 2015-03-20 -- added API Key authentication for search API.
+v2.1.0  2015-05-14 -- added bulk insert and update operations
