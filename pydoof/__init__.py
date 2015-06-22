@@ -71,13 +71,56 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
             example:
             ['product', 'page']
         """
+        return self.get_types()
         
-        if not API_KEY:
-            return []
-        for hashid, props in self.__class__.get_api_root().iteritems():
-            if hashid == self.hashid:
-                return props['items'].keys()
-        return []
+
+    def get_types(self):
+        """
+        Get a list of searchengine's types
+
+        Returns:
+            list of types
+            example:
+            ['product', 'page']
+        """
+        result = self.__class__.management_api_call(
+            entry_point='%s/types' % self.hashid)
+        return result['response']
+
+    def add_type(self, dtype):
+        """
+        Add a type to the searchengine
+        
+        Args:
+            dtype (string): name of the type
+
+        Returns:
+            list of types with the added one
+        """
+        result = self.__class__.management_api_call(
+            'post', entry_point='%s/types' % self.hashid,
+            data=json.dumps({'name': dtype}))
+
+        return result['response']
+
+    def delete_type(self, dtype):
+        """
+        delete a type and all its items. HANDLE WITH CARE
+
+        Args:
+            dtype: the type to delete. all items belonging
+                   to that type will be removed. This arg is mandatory
+
+        Returns:
+            true on success
+        """
+        result = self.__class__.management_api_call(
+            'delete', entry_point='%s/types/%s' % (self.hashid, dtype))
+
+        if result['status_code'] == requests.codes.NO_CONTENT:
+            return True
+        else:
+            return False
         
     def items(self, item_type, page=1):
         """
@@ -218,24 +261,6 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
         else:
             return False
 
-    def delete_type(self, item_type):
-        """
-        delete a whole type of items. HANDLE WITH CARE
-
-        Args:
-            item_type: the datatype to delete. all items belonging
-                       to that datatype will be removed. This arg is mandatory
-
-        Returns:
-            true on success
-        """
-        result = self.__class__.management_api_call(
-            'delete', entry_point='%s/items/%s' % (self.hashid, item_type))
-
-        if result['status_code'] == requests.codes.NO_CONTENT:
-            return True
-        else:
-            return False
 
 
     def process(self):

@@ -31,26 +31,30 @@ You can also make changes to a specific Search Engine:
 # Select the SearchEngine with the hashid identificator
 search_engine = pydoof.SearchEngine('abc32sfasdf3vadsfsafass343')
 
-# Get a list of the datatypes of the SearchEngine
-search_engine.get_datatypes()
+# Get a list of the types of the SearchEngine
+search_engine.get_datatypes() (deprecated. use search_engine.get_types() instead)
+search_engine.get_types()
 
-# Get an item of the 'product' datatype
+# Add a type of data to the SearchEngine
+search_engine.add_type('product')
+
+# Delete a type of data (and all its items) from the SearchEngine
+search_engine.delete_type('product')
+
+# Get an item of the 'product' type
 item = search_engine.get_item('product', item_id)
 
-# Add an item
-added_item_id = search_engine.add_item('product', item)
+# Add an item to the 'product' type
+added_item_id = search_engine.add_item('product', item) 
 
-# Add multiple items
+# Add multiple items to the 'product' type
 
 [added_id1, added_id2, added_id3] = search_engine.add_items('product', [item1, item2, item3])
 
-# Delete an item
+# Delete an item from the 'product' type
 search_engine.delete_item('product', item_id)
 
-# Delete ALL items belonging to a certain type
-search_engine.delete_type('product')
-
-# Update or create an item
+# Update or create an item to the 'product' type
 # If item_id does not exist, the item is created
 search_engine.update_item('product', item_id, item)
 
@@ -58,7 +62,7 @@ search_engine.update_item('product', item_id, item)
 # all items need to have "id" property (item1['id'])
 search_engine.update_items('product', [item1, item2, item3])
 
-# Iterate over all items
+# Iterate over all items of the 'product' type
 for item in search_engine.items('product'):
     print item.id
     print item.description
