@@ -51,8 +51,9 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
             A list of search engines.
         """
         search_engines = []
-
-        for hashid, props in cls.get_api_root().iteritems():
+        api_root = cls.get_api_root()
+        api_root.pop('searchengines')
+        for hashid, props in api_root.iteritems():
             search_engines.append(SearchEngine(hashid, name=props['name']))
         return search_engines
 
