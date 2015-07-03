@@ -33,8 +33,7 @@ You can also make changes to a specific Search Engine: ::
     # Select the SearchEngine with the hashid identificator
     search_engine = pydoof.SearchEngine('abc32sfasdf3vadsfsafass343')
 
-    # Get a list of the types of the SearchEngine
-    search_engine.get_datatypes() (deprecated. use search_engine.get_types() instead)
+    # Get a list of the data types of the SearchEngine
     search_engine.get_types()
 
     # Add a type of data to the SearchEngine
