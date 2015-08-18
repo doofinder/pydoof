@@ -91,7 +91,7 @@ for item in query_response.get_items():
 search_engine.query('test query', 1, 
       {
         'brand': ['nike', 'asics'],
-        'price': {'from': 2.45, 'to': 100}
+        'price': {'gte': 2.45, 'lt': 100}
       },
       'match_and'  # the query_name
 )
