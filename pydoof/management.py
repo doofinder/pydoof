@@ -22,6 +22,7 @@ class MetaManagementApiClient(type):
             management_domain = re.sub('/*$', '', management_domain) # sanitize
             cls._base_management_url = 'https://%s/v%s' % (management_domain,
                                                            management_version)
+        #return 'http://localhost:8000/api/v1'
         return cls._base_management_url
 
     @property
