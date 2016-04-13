@@ -67,9 +67,6 @@ You can also make changes to a specific Search Engine: ::
         print item.id
         print item.description
 
-    # Get the 2nd page of items (from numbers 11 to 20)
-    search_engine.items('product', 2)
-
 
 **Search API** ::
 
