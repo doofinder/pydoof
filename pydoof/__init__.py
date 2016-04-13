@@ -57,9 +57,9 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
             search_engines.append(SearchEngine(hashid, name=props['name']))
         return search_engines
 
-    
+
     def __init__(self, hashid, name=None, **kwargs):
-        self.hashid = hashid 
+        self.hashid = hashid
         self.name = name
         super(SearchEngine, self).__init__(**kwargs)
 
@@ -73,7 +73,7 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
             ['product', 'page']
         """
         return self.get_types()
-        
+
 
     def get_types(self):
         """
@@ -91,7 +91,7 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
     def add_type(self, dtype):
         """
         Add a type to the searchengine
-        
+
         Args:
             dtype (string): name of the type
 
@@ -122,25 +122,18 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
             return True
         else:
             return False
-        
-    def items(self, item_type, page=1):
+
+    def items(self, item_type):
         """
-        get paginated indexed items
-        
+        get indexed items iterator
+
         Args:
-            item_type: the type of items . 
-            page: the page number.
+            item_type (string): the type of items .
 
         Returns:
-            array of Item objects
-            example:
-            [{'title': 'red shoes', 'price': 33.2}, {'title': 'blue shirt', 'price': 23.2}]
+            Items iterator
         """
-        result = self.__class__.management_api_call(
-            entry_point='%s/items/%s' % (self.hashid, item_type),
-            params={'page': page})
-
-        return map(lambda x: Item(x), result['response']['results'])
+        return ScrolledItemsIterator(self, item_type)
 
     def get_item(self, item_type, item_id):
         """
@@ -183,11 +176,11 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
         Add an item to the search engine
 
         Args:
-            items_description (list) list of dict or pydoof.Item representing 
+            items_description (list) list of dict or pydoof.Item representing
                                the items to be added
-                NOTE: if item's id field not present, for any item one will be 
-                      created for it 
-            item_type (string): type of the items. If not provided, first one 
+                NOTE: if item's id field not present, for any item one will be
+                      created for it
+            item_type (string): type of the items. If not provided, first one
                                 available  will be used
 
         Returns:
@@ -211,13 +204,13 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
                 NOTES:
                   - partial updates not implemented yet
                   - description's id will always be set to item_id,
-                  no matter what is posted in description content    
+                  no matter what is posted in description content
 
         Returns:
             True on success
         """
         result = self.__class__.management_api_call(
-            'put', data=json.dumps(item_description), 
+            'put', data=json.dumps(item_description),
             entry_point='%s/items/%s/%s' % (self.hashid, item_type, item_id))
 
     def update_items(self, item_type, items_description):
@@ -235,12 +228,12 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
             True on success
         """
         result = self.__class__.management_api_call(
-            'put', data=json.dumps(items_description), 
+            'put', data=json.dumps(items_description),
             entry_point='%s/items/%s' % (self.hashid, item_type))
 
         if result['status_code'] == 200:
             return True
-        
+
 
     def delete_item(self, item_type, item_id):
         """
@@ -262,6 +255,28 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
         else:
             return False
 
+    def _get_scrolled_items_page(self, item_type, scroll_id = None):
+        """
+        Function to obtain internally a scrolled results page,
+
+        Args:
+            item_type (string): The type of items to scroll
+        Kwargs:
+            scroll_id (string): Id of the scroll. If provided, fetch the next page
+                                of results. If not, obtain a new scroll
+        Returns:
+            Dict with scroll_id, paginated results and total of results
+        """
+        params = {'scroll_id': scroll_id} if scroll_id else {}
+
+        result = self.__class__.management_api_call(
+            'get', entry_point='{0}/items/{1}'.format(self.hashid, item_type),
+            params = params
+        )
+
+        return {'scroll_id': result['response']['scroll_id'],
+                'results': result['response']['results'],
+                'total': result['response']['count']}
 
 
     def process(self):
@@ -295,7 +310,7 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
         result = self.__class__.management_api_call(
             'get', entry_point='%s/tasks/process' % self.hashid)
         result['response'].pop('task_name', None)
-        
+
         return result['response']
 
 
@@ -311,11 +326,11 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
             - {'state': 'SUCCESS', 'message': 'The task has successfuly finished',
                'task_name': 'process'}
             - {'state': 'FAILURE', 'message': 'no data in the feed',
-               'task_name': 'process'}            
+               'task_name': 'process'}
         """
         result = self.__class__.management_api_call(
             entry_point='%s/tasks/%s' % (self.hashid, task_id))
-        
+
         return result['response']
 
     def logs(self):
@@ -324,8 +339,8 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
 
         Returns:
             (list) list of dicts representing the logs
-            example:[{'date': '2013-07-24T12:37:58.990', 
-                     'level': 'ERROR', 
+            example:[{'date': '2013-07-24T12:37:58.990',
+                     'level': 'ERROR',
                      'msg': 'Wrong or not existent ...',
                      'log_type': 'log.parser'
                     }, {...}]
@@ -356,15 +371,15 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
         Raises:
             NotAllowed: if auth is failed.
             BadRequest: if the request is not proper
-            WrongREsponse: if server error       
+            WrongREsponse: if server error
         """
         response = self.search_api_call(self.hashid, query_term, page=page,
                                         filters=filters, query_name=query_name,
                                         **kwargs)
 
         return QueryResponse(response['response'])
-        
-        
+
+
 
 
     def _obtain_id(self, url):
@@ -398,7 +413,7 @@ class Item(dict):
         """prepopulate with initial_object"""
         if type(initial_object) == dict:
             self._hidrate(initial_object)
-            
+
     def __getattr__(self, name):
         return self.__getitem__(name)
 
@@ -412,7 +427,7 @@ class Item(dict):
             if type(value) == list:
                 value = map(lambda x: Item(x) if type(x) == dict else x, value)
             self[key] = value
-            
+
 
 class QueryResponse(Item):
     """
@@ -424,3 +439,40 @@ class QueryResponse(Item):
         """return elements from the 'results' list as items"""
         return getattr(self, 'results', [])
 
+
+class ScrolledItemsIterator(object):
+    """ Class to scroll results. i.e. paginate only forward"""
+
+    def __init__(self, search_engine, item_type):
+        """
+        Args:
+            search_engine (SearchEngine): search_engine api management object
+            item_type (string): the type of items to scroll
+        """
+        self.search_engine = search_engine
+        self.item_type = item_type
+        self._scroll_id = None
+        self._position = 0
+        self._total = None
+        self._results_page = []
+
+    def _fetch_results(self):
+        """Get the next batch of results making an API request"""
+        api_results = self.search_engine._get_scrolled_items_page(self.item_type,
+                                                                  scroll_id=self._scroll_id)
+        self._total = api_results['total']
+        self._scroll_id = api_results['scroll_id']
+        self._results_page = api_results['results']
+        return len(self._results_page)
+
+    def __len__(self):
+        if self._total is None:
+            self._scroll_id = None
+            self._fetch_results()
+        return self._total
+
+    def __iter__(self):
+        while len(self._results_page):
+            for r in self._results_page:
+                yield r
+            self._fetch_results()
