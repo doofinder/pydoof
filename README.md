@@ -66,8 +66,6 @@ for item in search_engine.items('product'):
     print item.id
     print item.description
 
-# Get the 2nd page of items (from numbers 11 to 20)
-search_engine.items('product', 2)
 ```
 
 **Search API**

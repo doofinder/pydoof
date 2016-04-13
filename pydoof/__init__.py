@@ -455,6 +455,8 @@ class ScrolledItemsIterator(object):
         self._position = 0
         self._total = None
         self._results_page = []
+        # get first batch of results
+        self._fetch_results()
 
     def _fetch_results(self):
         """Get the next batch of results making an API request"""
@@ -466,13 +468,10 @@ class ScrolledItemsIterator(object):
         return len(self._results_page)
 
     def __len__(self):
-        if self._total is None:
-            self._scroll_id = None
-            self._fetch_results()
         return self._total
 
     def __iter__(self):
         while len(self._results_page):
             for r in self._results_page:
-                yield r
+                yield Item(r)
             self._fetch_results()
