@@ -74,6 +74,8 @@ for item in search_engine.items('product'):
 import pydoof
 pydoof.API_KEY = 'eu1-s34v2sdfs4werdfsfwclsss'
 
+pydoof.SEARCH_VERSION = 5 # use v5 search server (default is 4)
+
 search_engine = pydoof.SearchEngine('abc32sfasdf3vadsfsafass343')
 
 query_response = search_engine.query('test query', 1)

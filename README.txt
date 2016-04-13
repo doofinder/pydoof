@@ -67,14 +67,13 @@ You can also make changes to a specific Search Engine: ::
         print item.id
         print item.description
 
-    # Get the 2nd page of items (from numbers 11 to 20)
-    search_engine.items('product', 2)
-
 
 **Search API** ::
 
     import pydoof
     pydoof.API_KEY = 'eu1-s34v2sdfs4werdfsfwclsss'
+
+    pydoof.SEARCH_VERSION = 5 # use v5 search. (default is 4)
 
     search_engine = pydoof.SearchEngine('abc32sfasdf3vadsfsafass343')
 
