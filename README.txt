@@ -4,7 +4,7 @@ pydoof
 Doofiner Python Client (work in progress)
 
 This library is a python wrapper for `Doofinder Management API 1`
-and the `Doofinder Search API 4`
+and the `Doofinder Search API 4 and 5`
 
 Installation
 ------------
@@ -25,7 +25,7 @@ Usage
       accepted, task_id = se.process() # Parse and index the data feed of the Search Engine
       se.process_info()  # Get info of the current/most-recent 'process' task
       se.task_info(task_id) # get info of any task
-      se.logs()  # Get the last logs of the Search Engine 
+      se.logs()  # Get the last logs of the Search Engine
 
 
 You can also make changes to a specific Search Engine: ::
@@ -71,23 +71,26 @@ You can also make changes to a specific Search Engine: ::
 **Search API** ::
 
     import pydoof
-    pydoof.API_KEY = 'eu1-s34v2sdfs4werdfsfwclsss'
+    pydoof.API_KEY = 'eu1-s34v2sdfs4werdfsfwclsss' # mandatory for v5
 
-    pydoof.SEARCH_VERSION = 5 # use v5 search. (default is 4)
+    pydoof.SEARCH_VERSION = 5 # use v5 search. (default is 5)
 
     search_engine = pydoof.SearchEngine('abc32sfasdf3vadsfsafass343')
 
+    options = search_engine.get_options() # obtaining options from server. (only v5)
+
     query_response = search_engine.query('test query', 1)
     query_response.total  # The total number of results
-    query_response.max_score  # The maximum score obtained 
+    query_response.max_score  # The maximum score obtained
     query_response.query_name  # The query_name used by the search algorithm
+    query_response.facets # aggregated data information
 
     for item in query_response.get_items():
         print item.id
         print item.body
 
     # Making queries with filters and a specific query_name
-    search_engine.query('test query', 1, 
+    search_engine.query('test query', 1,
         {
             'brand': ['nike', 'asics'],
             'price': {'gte': 2.45, 'lt': 100}
@@ -95,12 +98,12 @@ You can also make changes to a specific Search Engine: ::
         'match_and'  # the query_name
     )
 
-    # Any keyword argument is passed as req parameter 
+    # Any keyword argument is passed as req parameter
     search_engine.query('test query', rpp=12, lang='pt', transfomer='dflayer')
 
     # Use of the sort parameter
     query_response = search_engine.query(
-        query_term='test query', 
+        query_term='test query',
         sort= [{'namet':'asc'}, {'update_timestamp': 'desc'}])
 
     # You can use lists as keyword arguments, too.
@@ -111,7 +114,7 @@ You can also make changes to a specific Search Engine: ::
 API Documentation
 -----------------
 
-  * `Doofinder Search v4 documentation`_
+  * `Doofinder Search v5 documentation`_
 
   * `Doofinder Management v1 documentation`_
 

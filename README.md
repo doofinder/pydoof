@@ -85,6 +85,7 @@ query_response = search_engine.query('test query', 1)
 query_response.total  # The total number of results
 query_response.max_score  # The maximum score obtained 
 query_response.query_name  # The query_name used by the search algorithm
+query_response.facets # aggregated data information
 
 for item in query_response.get_items():
     print item.id
@@ -116,7 +117,7 @@ Please note **https is mandatory for versions >= 5**
 
 API Documentation
 -----------------
-[Doofinder Search v4 documentation](http://www.doofinder.com/developer/search-api)
+[Doofinder Search v5 documentation](http://www.doofinder.com/developer/search-api)
 
 [Doofinder Management v1 documentation](http://www.doofinder.com/developer/management-api)
 
