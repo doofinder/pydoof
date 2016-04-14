@@ -16,6 +16,10 @@ class QuotaExhausted(Exception):
     """ raised when query_limit_reached for this SE"""
     pass
 
+class Unauthorized(Exception):
+    """ raised when trying unauthenticated requests in v>5"""
+    pass
+
 def handle_errors(r):
     if r.status_code == requests.codes.forbidden:
         raise NotAllowed("The user does not have permissions to "

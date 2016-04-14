@@ -26,10 +26,10 @@ SEARCH_DOMAIN = '%s-search.doofinder.com'
 MANAGEMENT_VERSION = '1'
 """The version of server management API"""
 
-SEARCH_VERSION = '4'
+SEARCH_VERSION = '5'
 """The version of server search API"""
 
-SEARCH_HTTPS = False
+SEARCH_HTTPS = True
 """Whether or not search request should be made throug https"""
 
 
@@ -373,14 +373,22 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
             BadRequest: if the request is not proper
             WrongREsponse: if server error
         """
-        response = self.search_api_call(self.hashid, query_term, page=page,
-                                        filters=filters, query_name=query_name,
-                                        **kwargs)
+        params = {'hashid': self.hashid, 'query': query_term, 'page': page,
+                  filter: filters}
+        params.update(kwargs)
+        response = self.api_call('search', params)
 
         return QueryResponse(response['response'])
 
+    def get_options(self):
+        """
+        Obtain some search engine's options defined at doofinder's control panel.
+        Mainly facets
 
-
+        Returns:
+            A dict with the different options
+        """
+        return self.api_call('options/{0}'.format(self.hashid))['response']
 
     def _obtain_id(self, url):
         """

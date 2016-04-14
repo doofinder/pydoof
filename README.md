@@ -4,7 +4,7 @@ pydoof
 Doofiner Python Client (work in progress)
 
 This library is a python wrapper for `Doofinder Management API 1`
-and the `Doofinder Search API 4`
+and the `Doofinder Search API 4 and 5`
 
 Installation
 ------------
@@ -72,11 +72,14 @@ for item in search_engine.items('product'):
 
 ```python
 import pydoof
-pydoof.API_KEY = 'eu1-s34v2sdfs4werdfsfwclsss'
+pydoof.API_KEY = 'eu1-s34v2sdfs4werdfsfwclsss' # mandatory for v5
 
-pydoof.SEARCH_VERSION = 5 # use v5 search server (default is 4)
+pydoof.SEARCH_VERSION = 5 # use v5 search server (default is 5)
+
 
 search_engine = pydoof.SearchEngine('abc32sfasdf3vadsfsafass343')
+
+options = search_engine.get_options() # obtaining options from server. (only v5)
 
 query_response = search_engine.query('test query', 1)
 query_response.total  # The total number of results
@@ -108,6 +111,8 @@ query_response = search_engine.query(
 # The will be translated to repeated req parameters
 search_engine.query('test query', type=['product', 'article'])
 ```
+
+Please note **https is mandatory for versions >= 5**
 
 API Documentation
 -----------------

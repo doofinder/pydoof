@@ -4,7 +4,7 @@ import requests
 
 import pydoof
 
-from pydoof.errors import handle_errors
+from pydoof.errors import handle_errors, Unauthorized
 
 class SearchApiClient(object):
     """Basic doofinder's api search methods"""
@@ -26,19 +26,19 @@ class SearchApiClient(object):
             a list of param-value tuples the requests lib can understand
             Example: [('terms[color][]', 'blue'), ('terms[color][]', 'red')]
         """
- 
-        if len(params) == 0:
+
+        if params is None or len(params) == 0:
             return []
- 
+
         result = []
- 
+
         # is a dictionary?
         if type (params) is dict:
             for key in params.keys():
                 newkey = key
                 if topkey != '':
                     newkey = '%s[%s]' % (topkey, key)
- 
+
                 if type(params[key]) is dict:
                     result.extend(cls.build_params_tuple(params[key], newkey))
                 elif type(params[key]) is list:
@@ -54,8 +54,8 @@ class SearchApiClient(object):
                 else:
                     result.append((newkey, params[key]))
             return result
-    
-    @classmethod         
+
+    @classmethod
     def populate_headers(cls):
         """ Generates headers dict for search API
         request.
@@ -66,30 +66,24 @@ class SearchApiClient(object):
         """
 
         headers = {}
-        if pydoof.API_KEY:
-            try:
-                headers["API Token"] = (pydoof.API_KEY.split("-"))[1]
+        auth_header_name = 'API Token' if pydoof.SEARCH_VERSION == '4' \
+                           else 'authorization'
+        try:
+            headers[auth_header_name] = pydoof.API_KEY.split("-")[1]
+        except:
+            if pydoof.SEARCH_VERSION != '4':
+                raise Unauthorized("Your API_KEY is not correctly set up")
+            pass
 
-            except:
-                pass
-                
         return headers
 
-    def search_api_call(self, hashid, query_term, page=1, filters=None,
-                        query_name=None, **kwargs):
+    def api_call(self, entry_point, params=None):
         """
         make the request and return dict representing response
 
         Args:
-            query_term:  the actual query
-            page: page number
-            filters: filter definition.
-                Example:
-                    {'brand': ['nike', 'addidas'],
-                    'price': {'from': 2.34, 'to': 12}}
-            query_name: instructs doofinder to use only that query type
-            any other keyword argument is passed as request parameter
-            if keyword argument is array, is passed as repeated parameters
+            entry_point:  entry point 'search' or 'options'
+            params: any other requests parameters
 
         Returns:
             A dict representing the response
@@ -97,21 +91,16 @@ class SearchApiClient(object):
         Raises:
             NotAllowed: if auth is failed.
             BadRequest: if the request is not proper
-            WrongREsponse: if server error        
+            WrongREsponse: if server error
         """
-        params = {}
-        options = kwargs.pop('options', {})
-        params.update(options)
-        params = kwargs
-        params.update({'hashid': hashid, 'query': query_term, 'page': page, 
-                       'filter': filters,
-                       'query_name': query_name})
-        
         params = SearchApiClient.build_params_tuple(params)
         headers = SearchApiClient.populate_headers()
-        
-        response = requests.get(self.base_search_url, params=params, headers=headers)
+
+        response = requests.get('{0}/{1}'.format(self.base_url, entry_point),
+                                params=params, headers=headers)
+
         handle_errors(response)
+
         try:
             result =  {'status_code': response.status_code,
             'response': response.json() if response.text else {}}
@@ -123,14 +112,15 @@ class SearchApiClient(object):
 
 
     @property
-    def base_search_url(self):
+    def base_url(self):
         """get base url for searching"""
-        if not getattr(self, '_base_search_url', None):
-            self._base_search_url = self.build_base_search_url()
-        return self._base_search_url
+        if not getattr(self, '_base_url', None):
+            self._base_url = self.build_base_url()
+
+        return self._base_url
 
 
-    def build_base_search_url(self):
+    def build_base_url(self):
         """ Builds base url according to user-defined constants in pydoof"""
         if pydoof.API_KEY:
             cluster_region = pydoof.API_KEY.split('-')[0]
@@ -141,11 +131,9 @@ class SearchApiClient(object):
 
         base_domain = re.sub('/?$', '', base_domain) # sanitize
 
-        protocol = 'https' if pydoof.SEARCH_HTTPS else 'http'
+        if pydoof.SEARCH_HTTPS or pydoof.SEARCH_VERSION != '4':
+            protocol = 'https'
+        else:
+            protocol = 'http'
 
-        return '%s://%s/%s/search' % (protocol, base_domain,
-                                      pydoof.SEARCH_VERSION)
-
-            
-
-        
+        return '%s://%s/%s' % (protocol, base_domain, pydoof.SEARCH_VERSION)
