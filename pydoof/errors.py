@@ -12,6 +12,10 @@ class BadRequest(Exception):
     """ raised when the client makes a bad request"""
     pass
 
+class NotFound(Exception):
+    """ raised when the resource is not found"""
+    pass
+
 class QuotaExhausted(Exception):
     """ raised when query_limit_reached for this SE"""
     pass
@@ -28,7 +32,7 @@ def handle_errors(r):
         raise NotAllowed("The user hasn't provided valid authorization: %s" %
                          r.text)
     if r.status_code == requests.codes.not_found:
-        raise BadRequest("Not Found: %s" % r.text)
+        raise NotFound("Not Found: %s" % r.text)
     if r.status_code == requests.codes.conflict: # when trying to post with a
         raise BadRequest("Request conflict: %s" % r.text) # used doc_id
     if r.status_code > 500:

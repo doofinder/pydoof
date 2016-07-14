@@ -4,6 +4,7 @@ import json
 import requests
 
 from pydoof.management import ManagementApiClient
+from pydoof.errors import NotFound
 from pydoof.search import SearchApiClient
 
 API_KEY = None
@@ -501,9 +502,8 @@ class AggregatesIterator(object):
 
     def __init__(self, search_engine, from_date=None, to_date=None):
         self.search_engine = search_engine
-        self._position = 0
         self._total = None
-        self._page = 0
+        self._last_page = 0
         self._results_page = []
         self._params = {}
         if from_date:
@@ -513,26 +513,39 @@ class AggregatesIterator(object):
         # get first batch
         self._fetch_results()
 
+    @property
+    def total(self):
+        if not self._total:
+            self._total = self._fetch_total()
+        return self._total
+
+    def _fetch_total(self):
+        result = self.search_engine.__class__.manamgent_api_call(
+            'get', entry_point-'{0}/stats'.format(self.search_engine.hashid),
+            params = self._params
+        )
+        return result['response']['count']
 
     def _fetch_results(self):
         """Get next batch of aggregates"""
-        self._params.update({'page': self._page + 1})
-        result = self.search_engine.__class__.management_api_call(
-            'get', entry_point='{0}/stats'.format(self.search_engine.hashid),
-            params=self._params
-        )
-        self._page += 1
-        self._total = result['response']['count']
-        self._results_page = result['response']['aggregates']
+        params = {'page': self._last_page + 1}
+        params.update(self._params)
+        try:
+            result = self.search_engine.__class__.management_api_call(
+                'get', entry_point='{0}/stats'.format(self.search_engine.hashid),
+                params=params
+            )
+            self._results_page = result['response']['aggregates']
+            self._last_page += 1
+        except NotFound:
+            self._results_page = []
+
 
     def __len__(self):
-        return self._total
+        return self.total
 
     def __iter__(self):
-        counter = 0
-        while counter < self._total:
+        while len(self._results_page):
             for ag in self._results_page:
-                counter += 1
                 yield ag
-            if self._total > counter:
-                self._fetch_results()
+            self._fetch_results()
