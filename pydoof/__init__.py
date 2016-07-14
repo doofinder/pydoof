@@ -255,6 +255,19 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
         else:
             return False
 
+    def stats(self, from_date=None, to_date=None):
+        """
+        Obtain aggregated stats info for a period of time.
+
+        Kwargs:
+            from_date (date): datetime starting date of the period.
+            to_date (date): ending date of the period.
+
+        Returns:
+            list of dicts with daily aggregates.
+        """
+        return AggregatesIterator(self, from_date, to_date)
+
     def _get_scrolled_items_page(self, item_type, scroll_id = None):
         """
         Function to obtain internally a scrolled results page,
@@ -483,3 +496,43 @@ class ScrolledItemsIterator(object):
             for r in self._results_page:
                 yield Item(r)
             self._fetch_results()
+
+class AggregatesIterator(object):
+
+    def __init__(self, search_engine, from_date=None, to_date=None):
+        self.search_engine = search_engine
+        self._position = 0
+        self._total = None
+        self._page = 0
+        self._results_page = []
+        self._params = {}
+        if from_date:
+            self._params['from'] = from_date.strftime('%Y%m%d')
+        if to_date:
+            self._params['to'] = to_date.strftime('%Y%m%d')
+        # get first batch
+        self._fetch_results()
+
+
+    def _fetch_results(self):
+        """Get next batch of aggregates"""
+        self._params.update({'page': self._page + 1})
+        result = self.search_engine.__class__.management_api_call(
+            'get', entry_point='{0}/stats'.format(self.search_engine.hashid),
+            params=self._params
+        )
+        self._page += 1
+        self._total = result['response']['count']
+        self._results_page = result['response']['aggregates']
+
+    def __len__(self):
+        return self._total
+
+    def __iter__(self):
+        counter = 0
+        while counter < self._total:
+            for ag in self._results_page:
+                counter += 1
+                yield ag
+            if self._total > counter:
+                self._fetch_results()
