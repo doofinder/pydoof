@@ -4,7 +4,7 @@ import json
 import requests
 
 from pydoof.management import ManagementApiClient
-from pydoof.errors import NotFound
+from pydoof.errors import NotFound, BadRequest
 from pydoof.search import SearchApiClient
 
 API_KEY = None
@@ -261,13 +261,32 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
         Obtain daily aggregated stats data for a period of time.
 
         Kwargs:
-            from_date (date): datetime starting date of the period.
+            from_date (date): starting date of the period.
             to_date (date): ending date of the period.
 
         Returns:
             list of dicts with daily aggregates.
         """
         return AggregatesIterator(self, from_date, to_date)
+
+    def top_terms(self, term, from_date=None, to_date=None):
+        """
+        Obtain frequency sorted list of terms used during a certain period.
+
+        Args:
+            term (string): type of term 'clicked', 'searches', 'opportunities'
+                           - 'clicked': clicked items
+                           - 'searches': complete searches
+                           - 'opportunities': searches without results
+
+        Kwargs:
+            from_date (date): Starting date of the period. Default: 15 days ago
+            to_date (date): Ending date of the period. Default: today
+        """
+        if term not in ('clicked', 'searches', 'opportunities'):
+            raise BadRequest("The term '{0}' is not allowed".format(term))
+
+        return TopTermsIterator(self, term, from_date, to_date)
 
 
     def process(self):
@@ -515,6 +534,39 @@ class AggregatesIterator(APIResultsIterator):
                 params=params
             )
             self._results_page = result['response']['aggregates']
+            self._total = result['response']['count']
+            self._last_page += 1
+        except NotFound:
+            self._results_page = []
+
+class TopTermsIterator(AggregatesIterator):
+    """ Class to iterate 'forward only' through top terms data"""
+
+    def __init__(self, search_engine, term, from_date, to_date):
+        """
+        Args:
+            search_engine (SearchEngine)
+            term (string): type of term 'clicked', 'searches', 'opportunities'
+
+        Kwargs:
+            from_date (date): Starting period date. Default: 15 days ago
+            to_date (date): Ending period date. Default: today
+        """
+        self.term = term
+        super(TopTermsIterator, self).__init__(search_engine, from_date, to_date)
+
+    def _fetch_results_and_total(self):
+        """ Get next batch of results and total"""
+        params = {'page': self._last_page + 1} if self._last_page > 0 else {}
+        params.update(self._params)
+        try:
+            result = self.search_engine.__class__.management_api_call(
+                'get',
+                entry_point='{0}/stats/top_{1}'.format(self.search_engine.hashid,
+                                                       self.term),
+                params=params
+            )
+            self._results_page = result['response'][self.term]
             self._total = result['response']['count']
             self._last_page += 1
         except NotFound:
