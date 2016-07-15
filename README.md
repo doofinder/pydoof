@@ -23,7 +23,7 @@ for se in pydoof.SearchEngine.all():
     accepted, task_id = se.process() # Parse and index the data feed of the Search Engine
     se.process_info()  # Get info of the current/most-recent 'process' task
     se.task_info(task_id) # get info of any task
-    se.logs()  # Get the last logs of the Search Engine 
+    se.logs()  # Get the last logs of the Search Engine
 ```
 
 You can also make changes to a specific Search Engine:
@@ -44,7 +44,7 @@ search_engine.delete_type('product')
 item = search_engine.get_item('product', item_id)
 
 # Add an item to the 'product' type
-added_item_id = search_engine.add_item('product', item) 
+added_item_id = search_engine.add_item('product', item)
 
 # Add multiple items to the 'product' type
 
@@ -66,17 +66,17 @@ for item in search_engine.items('product'):
     print item.id
     print item.description
 
-# Obtain stats aggregated data for a SearchEngine during a period of time
+# Obtain daily aggregated stats data for a SearchEngine during a period of time
 from_date = datetime.datetime(2016,11,23)
 to_date = datetime.datetime(2016,11,30)
 for aggregate in search_engine.stats(from_date, to_date):
-    print aggregate['date'] 
-    print aggregate['searches'] # num. of searches
-    print aggregate['clicks'] # num. of clicks on searched results
-    print aggregate['requests'] # total num. of requests to doofinder
-    print aggregate['api'] # num of api requests to doofinder
-    print aggregate['queries'] # num of search requests to doofinder
-    print aggregate['parser'] # num of parse requests(items parsed/100) to doofinder
+    print aggregate.date # day
+    print aggregate.searches # num. of searches
+    print aggregate.clicks # num. of clicks on searched results
+    print aggregate.requests # total num. of requests to doofinder
+    print aggregate.api # num of api requests to doofinder
+    print aggregate.queries # num of search requests to doofinder
+    print aggregate.parser # num of parse requests(items parsed/100) to doofinder
 ```
 
 **Search API**
@@ -94,7 +94,7 @@ options = search_engine.get_options() # obtaining options from server. (only v5)
 
 query_response = search_engine.query('test query', 1)
 query_response.total  # The total number of results
-query_response.max_score  # The maximum score obtained 
+query_response.max_score  # The maximum score obtained
 query_response.query_name  # The query_name used by the search algorithm
 query_response.facets # aggregated data information
 
@@ -103,7 +103,7 @@ for item in query_response.get_items():
     print item.body
 
 # Making queries with filters and a specific query_name
-search_engine.query('test query', 1, 
+search_engine.query('test query', 1,
       {
         'brand': ['nike', 'asics'],
         'price': {'gte': 2.45, 'lt': 100}
@@ -116,7 +116,7 @@ search_engine.query('test query', rpp=12, lang='pt', transformer='dflayer')
 
 # Use of the sort parameter
 query_response = search_engine.query(
-    query_term='test query', 
+    query_term='test query',
     sort= [{'namet':'asc'}, {'update_timestamp': 'desc'}])
 
 # You can use lists as keyword arguments, too.
@@ -131,5 +131,3 @@ API Documentation
 [Doofinder Search v5 documentation](http://www.doofinder.com/developer/search-api)
 
 [Doofinder Management v1 documentation](http://www.doofinder.com/developer/management-api)
-
-

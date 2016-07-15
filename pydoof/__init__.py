@@ -258,7 +258,7 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
 
     def stats(self, from_date=None, to_date=None):
         """
-        Obtain aggregated stats info for a period of time.
+        Obtain daily aggregated stats data for a period of time.
 
         Kwargs:
             from_date (date): datetime starting date of the period.
@@ -268,29 +268,6 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
             list of dicts with daily aggregates.
         """
         return AggregatesIterator(self, from_date, to_date)
-
-    def _get_scrolled_items_page(self, item_type, scroll_id = None):
-        """
-        Function to obtain internally a scrolled results page,
-
-        Args:
-            item_type (string): The type of items to scroll
-        Kwargs:
-            scroll_id (string): Id of the scroll. If provided, fetch the next page
-                                of results. If not, obtain a new scroll
-        Returns:
-            Dict with scroll_id, paginated results and total of results
-        """
-        params = {'scroll_id': scroll_id} if scroll_id else {}
-
-        result = self.__class__.management_api_call(
-            'get', entry_point='{0}/items/{1}'.format(self.hashid, item_type),
-            params = params
-        )
-
-        return {'scroll_id': result['response']['scroll_id'],
-                'results': result['response']['results'],
-                'total': result['response']['count']}
 
 
     def process(self):
@@ -461,74 +438,76 @@ class QueryResponse(Item):
         """return elements from the 'results' list as items"""
         return getattr(self, 'results', [])
 
+class APIResultsIterator(object):
+    """ Generic class to iterate through API results
 
-class ScrolledItemsIterator(object):
-    """ Class to scroll results. i.e. paginate only forward"""
-
-    def __init__(self, search_engine, item_type):
-        """
-        Args:
-            search_engine (SearchEngine): search_engine api management object
-            item_type (string): the type of items to scroll
-        """
+    _fetch_results_and_total are meant to be substituted
+    """
+    def __init__(self, search_engine):
         self.search_engine = search_engine
-        self.item_type = item_type
-        self._scroll_id = None
-        self._position = 0
         self._total = None
         self._results_page = []
-        # get first batch of results
-        self._fetch_results()
+        # get first batch and total
+        self._fetch_results_and_total()
 
-    def _fetch_results(self):
-        """Get the next batch of results making an API request"""
-        api_results = self.search_engine._get_scrolled_items_page(self.item_type,
-                                                                  scroll_id=self._scroll_id)
-        self._total = api_results['total']
-        self._scroll_id = api_results['scroll_id']
-        self._results_page = api_results['results']
-        return len(self._results_page)
+    def _fetch_results_and_total(self):
+        raise NotImplementedError
 
     def __len__(self):
         return self._total
 
     def __iter__(self):
         while len(self._results_page):
-            for r in self._results_page:
-                yield Item(r)
-            self._fetch_results()
+            for element in self._results_page:
+                yield Item(element)
+            self._fetch_results_and_total()
 
-class AggregatesIterator(object):
+
+
+class ScrolledItemsIterator(APIResultsIterator):
+    """ Class to iterate 'foward only' through items"""
+
+    def __init__(self, search_engine, item_type):
+        self.item_type = item_type
+        self._scroll_id = None
+        super(ScrolledItemsIterator2, self).__init__(search_engine)
+
+    def _fetch_results_and_total(self):
+        params = {'scroll_id': self._scroll_id} if self._scroll_id else {}
+        response = self.search_engine.__class__.management_api_call(
+            'get',
+            entry_point='{0}/items/{1}'.format(self.search_engine.hashid,
+                                               self.item_type),
+            params=params)
+        self._total = response['response']['count']
+        self._results_page = response['response']['results']
+        self._scroll_id = response['response']['scroll_id']
+
+
+class AggregatesIterator(APIResultsIterator):
+    """ Class to iterate 'forward only' through stats aggregates data"""
 
     def __init__(self, search_engine, from_date=None, to_date=None):
-        self.search_engine = search_engine
-        self._total = None
+        """
+        Args:
+            search_engine (SearchEngine)
+
+        Kwargs:
+            from_date (date): Starting date for statistics default is 15 days ago
+            to_date (date): End date for statistics default is today
+        """
         self._last_page = 0
-        self._results_page = []
         self._params = {}
         if from_date:
             self._params['from'] = from_date.strftime('%Y%m%d')
         if to_date:
             self._params['to'] = to_date.strftime('%Y%m%d')
-        # get first batch
-        self._fetch_results()
 
-    @property
-    def total(self):
-        if not self._total:
-            self._total = self._fetch_total()
-        return self._total
+        super(AggregatesIterator, self).__init__(search_engine)
 
-    def _fetch_total(self):
-        result = self.search_engine.__class__.manamgent_api_call(
-            'get', entry_point-'{0}/stats'.format(self.search_engine.hashid),
-            params = self._params
-        )
-        return result['response']['count']
-
-    def _fetch_results(self):
+    def _fetch_results_and_total(self):
         """Get next batch of aggregates"""
-        params = {'page': self._last_page + 1}
+        params = {'page': self._last_page + 1} if self._last_page > 0 else {}
         params.update(self._params)
         try:
             result = self.search_engine.__class__.management_api_call(
@@ -536,16 +515,7 @@ class AggregatesIterator(object):
                 params=params
             )
             self._results_page = result['response']['aggregates']
+            self._total = result['response']['count']
             self._last_page += 1
         except NotFound:
             self._results_page = []
-
-
-    def __len__(self):
-        return self.total
-
-    def __iter__(self):
-        while len(self._results_page):
-            for ag in self._results_page:
-                yield ag
-            self._fetch_results()
