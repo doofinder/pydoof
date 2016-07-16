@@ -67,6 +67,35 @@ You can also make changes to a specific Search Engine: ::
         print item.id
         print item.description
 
+    # Obtain daily aggregated stats data for a SearchEngine during a period of time
+    from_date = datetime.datetime(2016,11,23)
+    to_date = datetime.datetime(2016,11,30)
+    for aggregate in search_engine.stats(from_date, to_date):
+        print aggregate.date # day
+        print aggregate.searches # num. of searches
+        print aggregate.clicks # num. of clicks on searched results
+        print aggregate.requests # total num. of requests to doofinder
+        print aggregate.api # num of api requests to doofinder
+        print aggregate.queries # num of search requests to doofinder
+        print aggregate.parser # num of parse requests(items parsed/100) to doofinder
+
+    # Obtain sorted terms frequency for a SearchEngine during a period of time
+    from_date = datetime.datetime(2016,11,23)
+    to_date = datetime.datetime(2016,11,30)
+
+    for clicked_item in search_engine.top_terms('clicked', from_date, to_date):
+        print clicked_item.count # number of clicks on the item
+        print clicked_item.term # title of the clicked item. i.e. "Aiwa AI012 portable mp3 player"
+
+    for search_term in search_engine.top_terms('searches', from_date, to_date):
+        print search_term.count # pnumber of searches with that term
+        print search_term.term # search term. i.e.: "mp3 player"
+
+    for opportunity in search_engine.top_terms('opportunities', from_date, to_date):
+        # 'opportunities' are search with no results
+        print opportunity.count # pnumber of searches with that term
+        print opportunity.term # search term. i.e.: "green custom oak"
+
 
 **Search API** ::
 
