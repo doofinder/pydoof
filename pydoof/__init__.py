@@ -4,7 +4,7 @@ import json
 import requests
 
 from pydoof.management import ManagementApiClient
-from pydoof.errors import NotFound, BadRequest
+from pydoof.errors import NotFound, BadRequest, NotProcessedResponse
 from pydoof.search import SearchApiClient
 
 API_KEY = None
@@ -566,6 +566,11 @@ class TopTermsIterator(AggregatesIterator):
                                                        self.term),
                 params=params
             )
+            if result['status_code'] == 202:
+                raise NotProcessedResponse(
+                    "Your request is still being processed. "
+                    "Please try again later"
+                )
             self._results_page = result['response'][self.term]
             self._total = result['response']['count']
             self._last_page += 1

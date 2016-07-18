@@ -24,6 +24,10 @@ class Unauthorized(Exception):
     """ raised when trying unauthenticated requests in v>5"""
     pass
 
+class NotProcessedResponse(Exception):
+    """ raised when the response is not yet ready"""
+    pass
+
 def handle_errors(r):
     if r.status_code == requests.codes.forbidden:
         raise NotAllowed("The user does not have permissions to "
