@@ -170,7 +170,7 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
             'post', entry_point='%s/items/%s' % (self.hashid, item_type),
             data=json.dumps(item_description))
 
-        return self._obtain_id(result['response']['url'])
+        return self._obtain_id(result['response']['df_url'])
 
     def add_items(self, item_type, items_description):
         """
@@ -191,7 +191,7 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
             'post', entry_point='%s/items/%s' % (self.hashid, item_type),
             data=json.dumps(items_description))
 
-        return [ self._obtain_id(item['url']) for item in result['response'] ]
+        return [ self._obtain_id(item['df_url']) for item in result['response'] ]
 
 
     def update_item(self, item_type, item_id, item_description):
@@ -489,7 +489,7 @@ class ScrolledItemsIterator(APIResultsIterator):
     def __init__(self, search_engine, item_type):
         self.item_type = item_type
         self._scroll_id = None
-        super(ScrolledItemsIterator2, self).__init__(search_engine)
+        super(ScrolledItemsIterator, self).__init__(search_engine)
 
     def _fetch_results_and_total(self):
         params = {'scroll_id': self._scroll_id} if self._scroll_id else {}
