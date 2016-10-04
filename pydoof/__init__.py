@@ -33,6 +33,15 @@ SEARCH_VERSION = '5'
 SEARCH_HTTPS = True
 """Whether or not search request should be made throug https"""
 
+DEV = False
+""" Whether or not to use the development urls """
+
+DEV_SEARCH_URL = 'http://localhost:8881/{0}'.format(SEARCH_VERSION)
+""" Search url for development """
+
+DEV_MANAGEMENT_URL = 'http://localhost:8000/api/v{0}'.format(MANAGEMENT_VERSION)
+""" Search url for development """
+
 
 class SearchEngine(SearchApiClient, ManagementApiClient):
     """

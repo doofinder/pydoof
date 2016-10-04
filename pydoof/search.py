@@ -116,12 +116,14 @@ class SearchApiClient(object):
         """get base url for searching"""
         if not getattr(self, '_base_url', None):
             self._base_url = self.build_base_url()
-
         return self._base_url
 
 
     def build_base_url(self):
         """ Builds base url according to user-defined constants in pydoof"""
+        if pydoof.DEV:
+            return pydoof.DEV_SEARCH_URL
+
         if pydoof.API_KEY:
             cluster_region = pydoof.API_KEY.split('-')[0]
         elif pydoof.CLUSTER_REGION:

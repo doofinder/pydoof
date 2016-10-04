@@ -17,12 +17,14 @@ class MetaManagementApiClient(type):
     def base_management_url(cls):
         """get base_management_url according to pydoof constants"""        
         if not getattr(cls, '_base_management_url', None):
-            management_version = pydoof.MANAGEMENT_VERSION
-            management_domain = pydoof.MANAGEMENT_DOMAIN % cls.cluster_region
-            management_domain = re.sub('/*$', '', management_domain) # sanitize
-            cls._base_management_url = 'https://%s/v%s' % (management_domain,
-                                                           management_version)
-        #return 'http://localhost:8000/api/v1'
+            if pydoof.DEV:
+                cls._base_management_url = pydoof.DEV_MANAGEMENT_URL
+            else:
+                management_version = pydoof.MANAGEMENT_VERSION
+                management_domain = pydoof.MANAGEMENT_DOMAIN % cls.cluster_region
+                management_domain = re.sub('/*$', '', management_domain) # sanitize
+                cls._base_management_url = 'https://%s/v%s' % (management_domain,
+                                                               management_version)
         return cls._base_management_url
 
     @property
