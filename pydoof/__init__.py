@@ -223,6 +223,9 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
             'put', data=json.dumps(item_description),
             entry_point='%s/items/%s/%s' % (self.hashid, item_type, item_id))
 
+        if result['status_code'] == 200:
+            return True
+
     def update_items(self, item_type, items_description):
         """
         Update several items of the search engine
@@ -393,7 +396,7 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
             WrongREsponse: if server error
         """
         params = {'hashid': self.hashid, 'query': query_term, 'page': page,
-                  filter: filters}
+                  'filter': filters, 'query_name': query_name}
         params.update(kwargs)
         response = self.api_call('search', params)
 
