@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import httpretty
+import datetime
 import unittest
 import pydoof
 import json
@@ -162,6 +163,7 @@ class TestManagementClient(unittest.TestCase):
         self.hashid2 = 'fffffffffffffffffffffffffffffff2'
         self.se = pydoof.SearchEngine(self.hashid)
         self.items_url = "https://eu1-api.doofinder.com/v1/%s/items/product" % self.hashid
+        self.stats_url = "https://eu1-api.doofinder.com/v1/%s/stats" % self.hashid
 
     @httpretty.activate
     def testHeadersZone(self):
@@ -359,20 +361,78 @@ class TestManagementClient(unittest.TestCase):
         self.assertTrue(self.se.delete_item('product', 'id1'))
         self.assertEqual(httpretty.last_request().method, 'DELETE')
 
+    @httpretty.activate
+    def testStatsApi(self):
 
+        httpretty.HTTPretty.allow_net_connect = False # don't allow outside net access
 
+        full_aggs = [
+                {
+                    "date": "2016-10-20",
+                    "searches": 11,
+                    "requests": 33
+                },
+                {
+                    "date": "2016-10-21",
+                    "searches": 12,
+                    "requests": 34
+                },
+                {
+                    "date": "2016-10-22",
+                    "searches": 11,
+                    "requests": 33
+                },
+                {
+                    "date": "2016-10-23",
+                    "searches": 12,
+                    "requests": 34
+                }]
 
+        fake_response={
+            "start": "2016-10-20",
+            "end": "2016-11-23",
+            "count": 4,
+            "next": None,
+            "previous": None
+        }
 
+        # aggreates iteration.
+        # first request- two first aggregates
+        # second request - two last aggregates page = 2
+        # third request - empty page = 3
+        # we make a closure so we can count requests
+        def make_closure():
+            request_count = [0]
+            def aggregates_iteration_request_callback(request, uri, headers):
+                # always dates are present
+                self.assertEqual(request.querystring['from'][0], u'20161020')
+                self.assertEqual(request.querystring['to'][0], u'20161023')
+                request_count[0] = request_count[0] + 1
+                if request_count[0] == 1:
+                    # page = 1
+                    self.assertFalse(request.querystring.has_key('page'))
+                    fake_response['aggregates'] = full_aggs[:2]
+                if request_count[0] == 2:
+                    self.assertEqual(request.querystring['page'][0], u'2')
+                    fake_response['aggregates'] = full_aggs[2:]
+                if request_count[0] == 3:
+                    self.assertEqual(request.querystring['page'][0], u'3')
+                    fake_response['aggregates'] = []
+                return (200, headers, json.dumps(fake_response))
+            return aggregates_iteration_request_callback
 
+        from_date = datetime.datetime(2016,10,20)
+        to_date = datetime.datetime(2016,10,23)
 
+        # iterate all stats
+        httpretty.register_uri(httpretty.GET, self.stats_url, body=make_closure())
 
+        aggs = self.se.stats(from_date, to_date)
 
-
-
-
-
-
-
+        counter = 0
+        for ag in aggs:
+            self.assertEqual(ag.searches, full_aggs[counter]['searches'])
+            counter += 1
 
 
 
