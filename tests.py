@@ -362,7 +362,7 @@ class TestManagementClient(unittest.TestCase):
         self.assertEqual(httpretty.last_request().method, 'DELETE')
 
     @httpretty.activate
-    def testStatsApi(self):
+    def testStatsIteration(self):
 
         httpretty.HTTPretty.allow_net_connect = False # don't allow outside net access
 
@@ -433,6 +433,64 @@ class TestManagementClient(unittest.TestCase):
         for ag in aggs:
             self.assertEqual(ag.searches, full_aggs[counter]['searches'])
             counter += 1
+
+    @httpretty.activate
+    def testTopTermsIteration(self):
+
+        httpretty.HTTPretty.allow_net_connect = False # don't allow outside net access
+
+        fake_response = {
+            "start": "2016-10-20",
+            "end": "2016-11-03",
+            "count": 3,
+            "next": None,
+            "previous": None
+        }
+
+        full_searches = [{"term": 't1', 'count': 33},
+                         {"term": 't2', 'count': 34},
+                         {"term": 't3', 'count': 35}]
+
+
+        # top terms iteration.
+        # first request- two first searches
+        # second request - one last search page = 2
+        # third request - empty page = 3
+        # we make a closure so we can count requests
+        def make_closure():
+            request_count = [0]
+            def top_searches_iteration_request_callback(request, uri, headers):
+                # always dates are present
+                self.assertEqual(request.querystring['from'][0], u'20161020')
+                self.assertEqual(request.querystring['to'][0], u'20161023')
+                request_count[0] = request_count[0] + 1
+                if request_count[0] == 1:
+                    # page = 1
+                    self.assertFalse(request.querystring.has_key('page'))
+                    fake_response['searches'] = full_searches[:2]
+                if request_count[0] == 2:
+                    self.assertEqual(request.querystring['page'][0], u'2')
+                    fake_response['searches'] = full_searches[2:]
+                if request_count[0] == 3:
+                    self.assertEqual(request.querystring['page'][0], u'3')
+                    fake_response['searches'] = []
+                return (200, headers, json.dumps(fake_response))
+            return top_searches_iteration_request_callback
+
+
+        from_date = datetime.datetime(2016,10,20)
+        to_date = datetime.datetime(2016,10,23)
+
+        # iterate all
+        httpretty.register_uri(httpretty.GET, '%s/top_searches' % self.stats_url,
+                               body=make_closure())
+
+        counter = 0
+        for search_term in self.se.top_terms('searches', from_date, to_date):
+            self.assertEqual(search_term.term, full_searches[counter]['term'])
+            counter += 1
+
+
 
 
 
