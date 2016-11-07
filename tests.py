@@ -7,6 +7,14 @@ import pydoof
 import json
 import re
 
+
+from requests.packages import urllib3
+
+from pydoof.errors import NotProcessedResponse
+
+# to disable sni warnings
+urllib3.disable_warnings()
+
 def request_callback(request, uri, headers):
     return (200, headers,
             json.dumps({'uri': uri, 'headers': request.headers.dict,
@@ -167,6 +175,7 @@ class TestManagementClient(unittest.TestCase):
 
     @httpretty.activate
     def testHeadersZone(self):
+        """ Test right auth and content-type headers are sent. Also right zone"""
         def test_headers_zone(request, uri, headers):
             rq_headers = request.headers.dict
             # right headers
@@ -292,7 +301,7 @@ class TestManagementClient(unittest.TestCase):
 
             return scrolled_items_request_callback
 
-        # iterate all items
+        # iterate all items.
         httpretty.register_uri(httpretty.GET, self.items_url, body=make_closure())
 
         counter = 0
@@ -447,9 +456,23 @@ class TestManagementClient(unittest.TestCase):
             "previous": None
         }
 
-        full_searches = [{"term": 't1', 'count': 33},
-                         {"term": 't2', 'count': 34},
-                         {"term": 't3', 'count': 35}]
+        full_terms= {
+            'searches': [
+                {"term": 't1', 'count': 33},
+                {"term": 't2', 'count': 34},
+                {"term": 't3', 'count': 35}
+            ],
+            'opportunities': [
+                {"term": 'op1', 'count': 33},
+                {"term": 'op2', 'count': 34},
+                {"term": 'op3', 'count': 35}
+            ],
+            'clicked': [
+                {"term": 'red lightsaber', 'count': 33, 'url': 'http://example.com/1'},
+                {"term": 'protocol', 'count': 34, 'url': 'http://example.com/2'},
+                {"term": 'wwww', 'count': 35, 'url': 'http://example.com/3'}
+            ]
+        }
 
 
         # top terms iteration.
@@ -457,7 +480,7 @@ class TestManagementClient(unittest.TestCase):
         # second request - one last search page = 2
         # third request - empty page = 3
         # we make a closure so we can count requests
-        def make_closure():
+        def make_closure(term_type='searches'):
             request_count = [0]
             def top_searches_iteration_request_callback(request, uri, headers):
                 # always dates are present
@@ -467,13 +490,13 @@ class TestManagementClient(unittest.TestCase):
                 if request_count[0] == 1:
                     # page = 1
                     self.assertFalse(request.querystring.has_key('page'))
-                    fake_response['searches'] = full_searches[:2]
+                    fake_response[term_type] = full_terms[term_type][:2]
                 if request_count[0] == 2:
                     self.assertEqual(request.querystring['page'][0], u'2')
-                    fake_response['searches'] = full_searches[2:]
+                    fake_response[term_type] = full_terms[term_type][2:]
                 if request_count[0] == 3:
                     self.assertEqual(request.querystring['page'][0], u'3')
-                    fake_response['searches'] = []
+                    fake_response[term_type] = []
                 return (200, headers, json.dumps(fake_response))
             return top_searches_iteration_request_callback
 
@@ -481,14 +504,31 @@ class TestManagementClient(unittest.TestCase):
         from_date = datetime.datetime(2016,10,20)
         to_date = datetime.datetime(2016,10,23)
 
-        # iterate all
-        httpretty.register_uri(httpretty.GET, '%s/top_searches' % self.stats_url,
-                               body=make_closure())
+        for term_type in ('searches', 'opportunities', 'clicked'):
 
-        counter = 0
-        for search_term in self.se.top_terms('searches', from_date, to_date):
-            self.assertEqual(search_term.term, full_searches[counter]['term'])
-            counter += 1
+            # generation pending response
+            httpretty.register_uri(httpretty.GET, '%s/top_%s' % (self.stats_url, term_type),
+                                   status=202,
+                                   body=json.dumps(
+                                       {'url': 'xxx',
+                                        'message': 'Your stats request is being processed.'
+                                        ' Please check this url again later.'}
+                                   )
+            )
+            with self.assertRaises(NotProcessedResponse) as cm:
+                self.se.top_terms(term_type, from_date, to_date)
+
+            httpretty.reset()
+
+            # iterate all
+            httpretty.register_uri(httpretty.GET, '%s/top_%s' % (self.stats_url, term_type),
+                                   body=make_closure(term_type))
+
+            counter = 0
+            for search_term in self.se.top_terms(term_type, from_date, to_date):
+                self.assertEqual(search_term.term, full_terms[term_type][counter]['term'])
+                counter += 1
+            self.assertEqual(counter, 3)
 
 
 
