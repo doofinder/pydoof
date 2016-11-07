@@ -14,3 +14,4 @@ v2.4.0  2016-04-14 -- get_options method and some refactoring
 v2.4.2  2016-07-15 -- stats aggregated and top terms retrieval
 v2.4.3  2016-07-18 -- "not processed request" management.
 v2.4.4  2016-09-22 -- maintenance. bug fixes.
+v2.5.0  2016-11-07 -- minor bug fixes. added tests
