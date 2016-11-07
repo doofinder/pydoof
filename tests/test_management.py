@@ -24,6 +24,8 @@ class TestManagementClient(unittest.TestCase):
         self.se = pydoof.SearchEngine(self.hashid)
         self.items_url = "https://eu1-api.doofinder.com/v1/%s/items/product" % self.hashid
         self.stats_url = "https://eu1-api.doofinder.com/v1/%s/stats" % self.hashid
+        self.tasks_url = "https://eu1-api.doofinder.com/v1/%s/tasks" % self.hashid
+        self.logs_url = "https://eu1-api.doofinder.com/v1/%s/logs" % self.hashid
 
     @httpretty.activate
     def testHeadersZone(self):
@@ -381,3 +383,60 @@ class TestManagementClient(unittest.TestCase):
                 self.assertEqual(search_term.term, full_terms[term_type][counter]['term'])
                 counter += 1
             self.assertEqual(counter, 3)
+
+    @httpretty.activate
+    def testTask(self):
+        """ tests the process task"""
+
+        httpretty.HTTPretty.allow_net_connect = False # don't allow outside net access
+
+        # task not accepted response
+        httpretty.register_uri(httpretty.POST, '%s/process' % self.tasks_url, status=200, body='')
+
+        self.assertEqual(self.se.process(), (False, None))
+
+        httpretty.reset()
+        # task accepted response
+        httpretty.register_uri(httpretty.POST, '%s/process' % self.tasks_url, status=201,
+                               body=json.dumps({'link': '%s/task_id' % self.tasks_url}))
+
+        self.assertEqual(self.se.process(), (True, 'task_id'))
+
+        fake_response = {
+            "state": "SUCCESS",
+            "message": "ok",
+            "task_name": "process"
+        }
+
+        # process info
+        httpretty.register_uri(httpretty.GET, '%s/process' % self.tasks_url, status=200,
+                               body=json.dumps(fake_response))
+
+        self.assertDictEqual(self.se.process_info(),
+                             {'state': 'SUCCESS', 'message': 'ok'})
+
+    @httpretty.activate
+    def testLogs(self):
+        """ test log retrieval"""
+
+        fake_logs = [
+            {
+                "date": "2016-11-07T18:12:19.688329Z",
+                "level": "INFO",
+                "msg": "Feed product Processed Successfully. Items:24 / Size:78Kb"
+            },
+            {
+                "date": "2016-11-07T18:10:08.130279Z",
+                "level": "INFO",
+                "msg": "Feed product Processed Successfully. Items:24 / Size:78Kb"
+            },
+            {
+                "date": "2016-11-07T18:07:57.920452Z",
+                "level": "INFO",
+                "msg": "Feed product Processed Successfully. Items:24 / Size:78Kb"
+            }
+        ]
+        httpretty.register_uri(httpretty.GET, self.logs_url,
+                               body=json.dumps(fake_logs))
+
+        self.assertListEqual(fake_logs, self.se.logs())
