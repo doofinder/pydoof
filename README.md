@@ -148,3 +148,15 @@ API Documentation
 [Doofinder Search v5 documentation](http://www.doofinder.com/developer/search-api)
 
 [Doofinder Management v1 documentation](http://www.doofinder.com/developer/management-api)
+
+
+To Run Tests
+------------
+
+You need to have `nose` and `HTTPretty` installed.
+
+To run tests:
+
+````shell
+$ nosetests
+````
