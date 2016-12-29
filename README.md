@@ -83,6 +83,18 @@ for aggregate in search_engine.stats(from_date, to_date):
 from_date = datetime.datetime(2016,11,23)
 to_date = datetime.datetime(2016,11,30)
 
+# Ask doofinder to process search engine's feeds
+    sucess, task_id = search_engine.process() # task_id for checking later on task progress
+
+# Get info from last processing task
+    task_info = search_engine.process_info() # {'state': 'PROCESSING|FAILURE|SUCCESS', ...}
+
+# Get info from a certain task
+    task_info = search_engine.task_info() # {'state': 'PROCESSING|FAILURE|SUCCESS', ...}
+
+# Obtain logs for latest processing tasks
+    logs = search_engine.logs()
+
 for clicked_item in search_engine.top_terms('clicked', from_date, to_date):
     print clicked_item.count # number of clicks on the item
     print clicked_item.term # title of the clicked item. i.e. "Aiwa AI012 portable mp3 player"

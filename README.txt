@@ -96,6 +96,18 @@ You can also make changes to a specific Search Engine: ::
         print opportunity.count # pnumber of searches with that term
         print opportunity.term # search term. i.e.: "green custom oak"
 
+    # Ask doofinder to process search engine's feeds
+        sucess, task_id = search_engine.process() # task_id for checking later on task progress
+
+    # Get info from last processing task
+        task_info = search_engine.process_info() # {'state': 'PROCESSING|FAILURE|SUCCESS', ...}
+
+    # Get info from a certain task
+        task_info = search_engine.task_info() # {'state': 'PROCESSING|FAILURE|SUCCESS', ...}
+
+    # Obtain logs for latest processing tasks
+        logs = search_engine.logs()
+
 
 **Search API** ::
 
