@@ -27,7 +27,8 @@ def get_configuration(key, region=EU_REGION):
     """
     Subclassing a Configuration object is a complete disaster
     thanks to some meta programming magic, so we go the same
-    way to create a tailored config for our API
+    way to create a tailored config for our API with this
+    factory method.
     """
     # Inject our methods
     Configuration.get_jwt_auth_token = get_jwt_auth_token

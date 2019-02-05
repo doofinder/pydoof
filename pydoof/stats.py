@@ -42,18 +42,15 @@ def api_call_decorator(func):
         # Transform dfrom and dto from datetime's formats to string dates
         if "dfrom" in kwargs:
             dfrom_str = transform_date_to_string_param(kwargs["dfrom"])
-
-        kwargs.update({"dfrom": dfrom_str})
+            kwargs.update({"dfrom": dfrom_str})
 
         if "dto" in kwargs:
             dto_str = transform_date_to_string_param(kwargs["dto"])
-
-        kwargs.update({"dto": dto_str})
+            kwargs.update({"dto": dto_str})
 
         if "tz" not in kwargs:
             tz = "+00:00"
-
-        kwargs.update({"tz": tz})
+            kwargs.update({"tz": tz})
 
         print(kwargs)
 
@@ -75,10 +72,12 @@ class StatsMeta(type):
 
         for func_name, func in members:
             # Add decoration
-            if not func_name.startswith("__") and "with_http_info" not in func_name:
+            if (not func_name.startswith("__") and
+                    "with_http_info" not in func_name):
                 dct[func_name] = api_call_decorator(func)
 
-            else:
+            elif func_name != "__init__":
+                # Do not overwrite our custom __init__ method
                 dct[func_name] = func
 
         # Ready to create it
