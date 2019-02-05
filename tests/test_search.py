@@ -48,7 +48,12 @@ class TestSearchClient(unittest.TestCase):
         # american api-token
         pydoof.API_KEY = 'us1-newtoken'
         results = pydoof.SearchEngine(self.hashid).query('test', 1)
-        self.assertIn('us1-search', results['headers']['Host'])
+        if 'Host' in results['headers']:
+            self.assertIn('us1-search', results['headers']['Host'])
+
+        else:
+            self.assertIn('us1-search', results['headers']['host'])
+
         self.assertEqual(results['headers']['authorization'], u'newtoken')
 
         # if not token, not allowed
