@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
+
 import httpretty
 import datetime
 import unittest
@@ -31,7 +33,7 @@ class TestManagementClient(unittest.TestCase):
     def testHeadersZone(self):
         """ Test right auth and content-type headers are sent. Also right zone"""
         def test_headers_zone(request, uri, headers):
-            rq_headers = request.headers.dict
+            rq_headers = request.headers
             # right headers
             self.assertEqual(rq_headers['authorization'], 'Token testtoken')
             self.assertEqual(rq_headers['content-type'], 'application/json')
@@ -102,7 +104,7 @@ class TestManagementClient(unittest.TestCase):
         results = se.add_type('new_type')
 
         self.assertEqual(httpretty.last_request().method, 'POST')
-        self.assertEqual(httpretty.last_request().body, json.dumps({'name': 'new_type'}))
+        self.assertEqual(httpretty.last_request().body.decode('utf-8'), json.dumps({'name': 'new_type'}))
 
         # delete type
         httpretty.register_uri(httpretty.DELETE, "%s/removeme" % types_url,
@@ -141,7 +143,7 @@ class TestManagementClient(unittest.TestCase):
                 request_count[0] = request_count[0] + 1
                 if request_count[0] == 1:
                     # no scroll id
-                    self.assertFalse(request.querystring.has_key('scroll_id'))
+                    self.assertFalse('scroll_id' in request.querystring)
                     fake_response['results'] = total_results[:3]
                     return(200, headers, json.dumps(fake_response))
                 if request_count[0] == 2:
@@ -179,7 +181,7 @@ class TestManagementClient(unittest.TestCase):
 
         result = self.se.add_item('product', item1)
         self.assertEqual(result, u'id1')
-        self.assertEqual(httpretty.last_request().body, json.dumps(item1))
+        self.assertEqual(httpretty.last_request().body.decode('utf-8'), json.dumps(item1))
 
         # add items
         httpretty.reset()
@@ -193,7 +195,7 @@ class TestManagementClient(unittest.TestCase):
 
         result = self.se.add_items('product', [item1, item2])
         self.assertListEqual(result, [u'id1', u'id2'])
-        self.assertEqual(httpretty.last_request().body, json.dumps([item1, item2]))
+        self.assertEqual(httpretty.last_request().body.decode('utf-8'), json.dumps([item1, item2]))
 
         # add/update items
         httpretty.reset()
@@ -201,7 +203,7 @@ class TestManagementClient(unittest.TestCase):
                                body=json.dumps([item1, item2]))
 
         self.assertTrue(self.se.update_items('product', [item1, item2]))
-        self.assertEqual(httpretty.last_request().body, json.dumps([item1, item2]))
+        self.assertEqual(httpretty.last_request().body.decode('utf-8'), json.dumps([item1, item2]))
 
 
         # update item
@@ -209,7 +211,7 @@ class TestManagementClient(unittest.TestCase):
                                body=json.dumps(item1))
 
         self.assertTrue(self.se.update_item('product', 'id1', item1))
-        self.assertEqual(httpretty.last_request().body, json.dumps(item1))
+        self.assertEqual(httpretty.last_request().body.decode('utf-8'), json.dumps(item1))
 
         # get item
         httpretty.register_uri(httpretty.GET, '%s/id1' % self.items_url,
@@ -273,7 +275,7 @@ class TestManagementClient(unittest.TestCase):
                 request_count[0] = request_count[0] + 1
                 if request_count[0] == 1:
                     # page = 1
-                    self.assertFalse(request.querystring.has_key('page'))
+                    self.assertFalse('page' in request.querystring)
                     fake_response['aggregates'] = full_aggs[:2]
                 if request_count[0] == 2:
                     self.assertEqual(request.querystring['page'][0], u'2')
@@ -343,7 +345,7 @@ class TestManagementClient(unittest.TestCase):
                 request_count[0] = request_count[0] + 1
                 if request_count[0] == 1:
                     # page = 1
-                    self.assertFalse(request.querystring.has_key('page'))
+                    self.assertFalse('page' in request.querystring)
                     fake_response[term_type] = full_terms[term_type][:2]
                 if request_count[0] == 2:
                     self.assertEqual(request.querystring['page'][0], u'2')

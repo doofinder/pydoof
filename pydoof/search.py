@@ -1,3 +1,5 @@
+from builtins import str
+from builtins import object
 import re
 
 import requests
@@ -34,7 +36,7 @@ class SearchApiClient(object):
 
         # is a dictionary?
         if type (params) is dict:
-            for key in params.keys():
+            for key in list(params.keys()):
                 newkey = key
                 if topkey != '':
                     newkey = '%s[%s]' % (topkey, key)

@@ -1,3 +1,4 @@
+from builtins import object
 import re
 import json
 
@@ -63,7 +64,7 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
         search_engines = []
         api_root = cls.get_api_root()
         api_root.pop('searchengines')
-        for hashid, props in api_root.iteritems():
+        for hashid, props in api_root.items():
             search_engines.append(SearchEngine(hashid, name=props['name']))
         return search_engines
 
@@ -451,11 +452,11 @@ class Item(dict):
         self.__setitem__(name, value)
 
     def _hidrate(self, obj):
-        for key, value in obj.iteritems():
+        for key, value in obj.items():
             if type(value) == dict:
                 value = Item(value)
             if type(value) == list:
-                value = map(lambda x: Item(x) if type(x) == dict else x, value)
+                value = [Item(x) if type(x) == dict else x for x in value]
             self[key] = value
 
 

@@ -17,7 +17,7 @@ urllib3.disable_warnings()
 
 def request_callback(request, uri, headers):
     return (200, headers,
-            json.dumps({'uri': uri, 'headers': request.headers.dict,
+            json.dumps({'uri': uri, 'headers': dict(request.headers),
                         'parameters': request.querystring, 'path': request.path}))
 
 
@@ -41,13 +41,13 @@ class TestSearchClient(unittest.TestCase):
         # right authtoken
         self.assertEqual(results['headers']['authorization'], u'testtoken')
         # right zone
-        self.assertIn('eu1-search', results['headers']['host'])
+        self.assertIn('eu1-search', results['headers']['Host'])
         # right path
         self.assertIn('/5/search', results['path'])
         # american api-token
         pydoof.API_KEY = 'us1-newtoken'
         results = pydoof.SearchEngine(self.hashid).query('test', 1)
-        self.assertIn('us1-search', results['headers']['host'])
+        self.assertIn('us1-search', results['headers']['Host'])
         self.assertEqual(results['headers']['authorization'], u'newtoken')
 
         # if not token, not allowed

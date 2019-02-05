@@ -1,3 +1,4 @@
+from builtins import object
 import re
 
 import requests
@@ -5,6 +6,7 @@ import requests
 import pydoof
 
 from pydoof.errors import handle_errors
+from future.utils import with_metaclass
 
 class MetaManagementApiClient(type):
     """
@@ -12,10 +14,10 @@ class MetaManagementApiClient(type):
 
     The class is an std object for the metaclass
     """
-    
+
     @property
     def base_management_url(cls):
-        """get base_management_url according to pydoof constants"""        
+        """get base_management_url according to pydoof constants"""
         if not getattr(cls, '_base_management_url', None):
             if pydoof.DEV:
                 cls._base_management_url = pydoof.DEV_MANAGEMENT_URL
@@ -39,13 +41,11 @@ class MetaManagementApiClient(type):
         """get auth token by looking into API_KEY"""
         if not getattr(cls, '_token', None):
             cls._cluster_region, cls._token = pydoof.API_KEY.split('-')
-        return cls._token    
+        return cls._token
 
 
-class ManagementApiClient(object):
+class ManagementApiClient(with_metaclass(MetaManagementApiClient, object)):
     """Basic doofinder's api handling methods."""
-
-    __metaclass__ = MetaManagementApiClient
 
     def __init__(self, **kwargs):
         super(ManagementApiClient, self).__init__(**kwargs)
@@ -55,7 +55,7 @@ class ManagementApiClient(object):
                             data=None):
         """
         Make the request and normalize response
-        
+
         Args:
             method: The method to use. 'get', 'post', 'delete', 'put'
             entry_point: The entrypoint
@@ -80,7 +80,7 @@ class ManagementApiClient(object):
         r = do_request(full_url, headers=headers, params=params, data=data)
 
         handle_errors(r)
-            
+
         try:
             return {'status_code': r.status_code,
                     'response': r.json() if r.text else {}}
