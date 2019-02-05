@@ -12,7 +12,7 @@ setup(name='PyDoof', version='2.6.0', author='JoeZ99',
       requires=['requests(>=1.2.3)', 'future(>=0.17.1)'],
       install_requires=['requests>=1.2.3'],
       test_suite='nose.collector',
-      tests_require=['nose', 'HTTPretty>=0.0.14'],
+      tests_require=['nose', 'HTTPretty>=0.0.14', 'future(>=0.17.1)'],
       provides=['PyDoof'],
       long_description=long_description,
       classifiers=[
