@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import httpretty
-import datetime
 import unittest
 import pydoof
 import json
@@ -9,8 +8,6 @@ import re
 
 
 from requests.packages import urllib3
-
-from pydoof.errors import NotProcessedResponse
 
 # to disable sni warnings
 urllib3.disable_warnings()
@@ -41,7 +38,11 @@ class TestSearchClient(unittest.TestCase):
         # right authtoken
         self.assertEqual(results['headers']['authorization'], u'testtoken')
         # right zone
-        self.assertIn('eu1-search', results['headers']['Host'])
+        if 'Host' in results['headers']:
+            self.assertIn('eu1-search', results['headers']['Host'])
+
+        else:
+            self.assertIn('eu1-search', results['headers']['host'])
         # right path
         self.assertIn('/5/search', results['path'])
         # american api-token
