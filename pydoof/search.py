@@ -1,3 +1,4 @@
+from __future__ import unicode_literals, absolute_import
 from builtins import str
 from builtins import object
 import re
@@ -5,15 +6,14 @@ import re
 import requests
 
 import pydoof
-
 from pydoof.errors import handle_errors, Unauthorized
+
 
 class SearchApiClient(object):
     """Basic doofinder's api search methods"""
 
     def __init__(self, **kwargs):
         super(SearchApiClient, self).__init__(**kwargs)
-
 
     @classmethod
     def build_params_tuple(cls, params, topkey=''):
@@ -35,7 +35,7 @@ class SearchApiClient(object):
         result = []
 
         # is a dictionary?
-        if type (params) is dict:
+        if type(params) is dict:
             for key in list(params.keys()):
                 newkey = key
                 if topkey != '':
@@ -72,6 +72,7 @@ class SearchApiClient(object):
                            else 'authorization'
         try:
             headers[auth_header_name] = pydoof.API_KEY.split("-")[1]
+
         except:
             if pydoof.SEARCH_VERSION != '4':
                 raise Unauthorized("Your API_KEY is not correctly set up")
@@ -104,14 +105,13 @@ class SearchApiClient(object):
         handle_errors(response)
 
         try:
-            result =  {'status_code': response.status_code,
+            result = {'status_code': response.status_code,
             'response': response.json() if response.text else {}}
         except ValueError:
-            result =  {'status_code': response.status_code,
+            result = {'status_code': response.status_code,
             'response': response.text}
 
         return result
-
 
     @property
     def base_url(self):
@@ -119,7 +119,6 @@ class SearchApiClient(object):
         if not getattr(self, '_base_url', None):
             self._base_url = self.build_base_url()
         return self._base_url
-
 
     def build_base_url(self):
         """ Builds base url according to user-defined constants in pydoof"""
@@ -133,7 +132,7 @@ class SearchApiClient(object):
 
         base_domain = pydoof.SEARCH_DOMAIN % cluster_region
 
-        base_domain = re.sub('/?$', '', base_domain) # sanitize
+        base_domain = re.sub('/?$', '', base_domain)  # sanitize
 
         if pydoof.SEARCH_HTTPS or pydoof.SEARCH_VERSION != '4':
             protocol = 'https'

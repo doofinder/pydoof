@@ -1,21 +1,20 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import unicode_literals
-
-import httpretty
+from __future__ import unicode_literals, absolute_import
 import datetime
-import unittest
-import pydoof
 import json
 import re
+import unittest
 
-
+import httpretty
 from requests.packages import urllib3
 
+import pydoof
 from pydoof.errors import NotProcessedResponse
 
 # to disable sni warnings
 urllib3.disable_warnings()
+
 
 class TestManagementClient(unittest.TestCase):
 

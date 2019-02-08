@@ -1,3 +1,4 @@
+from __future__ import unicode_literals, absolute_import
 from builtins import object
 import re
 
@@ -7,6 +8,7 @@ import pydoof
 
 from pydoof.errors import handle_errors
 from future.utils import with_metaclass
+
 
 class MetaManagementApiClient(type):
     """
@@ -23,10 +25,14 @@ class MetaManagementApiClient(type):
                 cls._base_management_url = pydoof.DEV_MANAGEMENT_URL
             else:
                 management_version = pydoof.MANAGEMENT_VERSION
-                management_domain = pydoof.MANAGEMENT_DOMAIN % cls.cluster_region
-                management_domain = re.sub('/*$', '', management_domain) # sanitize
-                cls._base_management_url = 'https://%s/v%s' % (management_domain,
-                                                               management_version)
+                management_domain = (pydoof.MANAGEMENT_DOMAIN %
+                                     cls.cluster_region)
+                management_domain = re.sub(r'/*$',
+                                           '',
+                                           management_domain)  # sanitize
+                cls._base_management_url = ('https://%s/v%s' %
+                                            (management_domain,
+                                             management_version))
         return cls._base_management_url
 
     @property
@@ -72,7 +78,7 @@ class ManagementApiClient(with_metaclass(MetaManagementApiClient, object)):
         """
 
         assert(method in ['get', 'post', 'put', 'delete'])
-        entry_point = re.sub('^/*(.*?)/*$', r'\1', entry_point) # sanitize
+        entry_point = re.sub('^/*(.*?)/*$', r'\1', entry_point)  # sanitize
         headers = {'Authorization': 'Token %s' % cls.token,
                    'Content-Type': 'application/json'}
         do_request = getattr(requests, method)
@@ -84,7 +90,7 @@ class ManagementApiClient(with_metaclass(MetaManagementApiClient, object)):
         try:
             return {'status_code': r.status_code,
                     'response': r.json() if r.text else {}}
-        except ValueError as ve:
+        except ValueError:
             return {'status_code': r.status_code,
                     'response': r.text}
 
@@ -108,7 +114,3 @@ class ManagementApiClient(with_metaclass(MetaManagementApiClient, object)):
                 ....}
         """
         return cls.management_api_call()['response']
-
-
-
-

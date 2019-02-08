@@ -1,3 +1,4 @@
+from __future__ import unicode_literals, absolute_import
 from builtins import object
 import re
 import json
@@ -68,7 +69,6 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
             search_engines.append(SearchEngine(hashid, name=props['name']))
         return search_engines
 
-
     def __init__(self, hashid, name=None, **kwargs):
         self.hashid = hashid
         self.name = name
@@ -84,7 +84,6 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
             ['product', 'page']
         """
         return self.get_types()
-
 
     def get_types(self):
         """
@@ -201,8 +200,7 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
             'post', entry_point='%s/items/%s' % (self.hashid, item_type),
             data=json.dumps(items_description))
 
-        return [ self._obtain_id(item['df_url']) for item in result['response'] ]
-
+        return [self._obtain_id(item['df_url']) for item in result['response']]
 
     def update_item(self, item_type, item_id, item_description):
         """
@@ -247,7 +245,6 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
 
         if result['status_code'] == 200:
             return True
-
 
     def delete_item(self, item_type, item_id):
         """
@@ -300,7 +297,6 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
             raise BadRequest("The term '{0}' is not allowed".format(term))
 
         return TopTermsIterator(self, term, from_date, to_date)
-
 
     def process(self):
         """
@@ -423,7 +419,7 @@ class SearchEngine(SearchApiClient, ManagementApiClient):
         Returns:
             the item or task identificator
         """
-        url_re = re.compile('/(?P<hashid>\w{32})/(items/\w+|tasks)/(?P<id>[\w-]+)/?$')
+        url_re = re.compile(r'/(?P<hashid>\w{32})/(items/\w+|tasks)/(?P<id>[\w-]+)/?$')
 
         return url_re.search(url).groupdict()['id']
 
@@ -470,6 +466,7 @@ class QueryResponse(Item):
         """return elements from the 'results' list as items"""
         return getattr(self, 'results', [])
 
+
 class APIResultsIterator(object):
     """ Generic class to iterate through API results
 
@@ -493,7 +490,6 @@ class APIResultsIterator(object):
             for element in self._results_page:
                 yield Item(element)
             self._fetch_results_and_total()
-
 
 
 class ScrolledItemsIterator(APIResultsIterator):
@@ -551,6 +547,7 @@ class AggregatesIterator(APIResultsIterator):
             self._last_page += 1
         except NotFound:
             self._results_page = []
+
 
 class TopTermsIterator(AggregatesIterator):
     """ Class to iterate 'forward only' through top terms data"""
