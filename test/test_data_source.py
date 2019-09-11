@@ -15,9 +15,9 @@ from __future__ import absolute_import
 
 import unittest
 
-import pydoof
-from pydoof.models.data_source import DataSource  # noqa: E501
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.models.data_source import DataSource  # noqa: E501
+from pydoof2.rest import ApiException
 
 
 class TestDataSource(unittest.TestCase):
@@ -32,7 +32,7 @@ class TestDataSource(unittest.TestCase):
     def testDataSource(self):
         """Test DataSource"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = pydoof.models.data_source.DataSource()  # noqa: E501
+        # model = pydoof2.models.data_source.DataSource()  # noqa: E501
         pass
 
 

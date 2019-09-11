@@ -1,4 +1,4 @@
-# pydoof.HealthApi
+# pydoof2.HealthApi
 
 All URIs are relative to *https://us1-api.doofinder.com*
 
@@ -18,12 +18,12 @@ Allows detection of failures.
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = pydoof.HealthApi()
+api_instance = pydoof2.HealthApi()
 
 try:
     # Load balancer check

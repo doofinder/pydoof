@@ -15,16 +15,16 @@ from __future__ import absolute_import
 
 import unittest
 
-import pydoof
-from pydoof.api.temp_items_api import TempItemsApi  # noqa: E501
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.api.temp_items_api import TempItemsApi  # noqa: E501
+from pydoof2.rest import ApiException
 
 
 class TestTempItemsApi(unittest.TestCase):
     """TempItemsApi unit test stubs"""
 
     def setUp(self):
-        self.api = pydoof.api.temp_items_api.TempItemsApi()  # noqa: E501
+        self.api = pydoof2.api.temp_items_api.TempItemsApi()  # noqa: E501
 
     def tearDown(self):
         pass

@@ -18,7 +18,7 @@ import re  # noqa: F401
 # python 2 and python 3 compatibility library
 import six
 
-from pydoof.api_client import ApiClient
+from pydoof2.api_client import ApiClient
 
 
 class TempIndicesApi(object):

@@ -23,9 +23,9 @@ import tempfile
 import six
 from six.moves.urllib.parse import quote
 
-from pydoof.configuration import Configuration
-import pydoof.models
-from pydoof import rest
+from pydoof2.configuration import Configuration
+import pydoof2.models
+from pydoof2 import rest
 
 
 class ApiClient(object):
@@ -74,7 +74,7 @@ class ApiClient(object):
             self.default_headers[header_name] = header_value
         self.cookie = cookie
         # Set default User-Agent.
-        self.user_agent = 'Swagger-Codegen/1.0.0/python'
+        self.user_agent = 'Swagger-Codegen/2.0.0/python'
 
     def __del__(self):
         if self._pool is not None:
@@ -266,7 +266,7 @@ class ApiClient(object):
             if klass in self.NATIVE_TYPES_MAPPING:
                 klass = self.NATIVE_TYPES_MAPPING[klass]
             else:
-                klass = getattr(pydoof.models, klass)
+                klass = getattr(pydoof2.models, klass)
 
         if klass in self.PRIMITIVE_TYPES:
             return self.__deserialize_primitive(data, klass)

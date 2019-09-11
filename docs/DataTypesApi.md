@@ -1,4 +1,4 @@
-# pydoof.DataTypesApi
+# pydoof2.DataTypesApi
 
 All URIs are relative to *https://us1-api.doofinder.com*
 
@@ -22,25 +22,25 @@ Create new datatype for the given search engine
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.DataTypesApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.DataTypesApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | Search engine identifier (hashid)
-datatype = pydoof.DataType() # DataType | DataType data
+datatype = pydoof2.DataType() # DataType | DataType data
 
 try:
     # Create a datatype
@@ -83,23 +83,23 @@ Delete a datatype for the given search engine and name
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.DataTypesApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.DataTypesApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | Search engine identifier (hashid)
 name = 'name_example' # str | Name of the datatype
 
@@ -144,23 +144,23 @@ List the datatypes of the given search engine
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.DataTypesApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.DataTypesApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | Search engine identifier (hashid)
 
 try:
@@ -203,23 +203,23 @@ Get datatype of the given search engine and name
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.DataTypesApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.DataTypesApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | Search engine identifier (hashid)
 name = 'name_example' # str | Name of the datatype
 
@@ -264,26 +264,26 @@ Update a datatype for the given search engine and name
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.DataTypesApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.DataTypesApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | Search engine identifier (hashid)
 name = 'name_example' # str | Name of the datatype
-datatype = pydoof.UpdateDataType() # UpdateDataType | DataType data
+datatype = pydoof2.UpdateDataType() # UpdateDataType | DataType data
 
 try:
     # Update a datatype

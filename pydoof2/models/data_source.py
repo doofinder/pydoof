@@ -16,7 +16,7 @@ import re  # noqa: F401
 
 import six
 
-from pydoof.models.update_data_source import UpdateDataSource  # noqa: F401,E501
+from pydoof2.models.update_data_source import UpdateDataSource  # noqa: F401,E501
 
 
 class DataSource(object):

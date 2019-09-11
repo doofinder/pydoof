@@ -15,9 +15,9 @@ from __future__ import absolute_import
 
 import unittest
 
-import pydoof
-from pydoof.models.item import Item  # noqa: E501
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.models.item import Item  # noqa: E501
+from pydoof2.rest import ApiException
 
 
 class TestItem(unittest.TestCase):
@@ -32,7 +32,7 @@ class TestItem(unittest.TestCase):
     def testItem(self):
         """Test Item"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = pydoof.models.item.Item()  # noqa: E501
+        # model = pydoof2.models.item.Item()  # noqa: E501
         pass
 
 

@@ -15,9 +15,9 @@ from __future__ import absolute_import
 
 import unittest
 
-import pydoof
-from pydoof.models.new_search_engine import NewSearchEngine  # noqa: E501
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.models.new_search_engine import NewSearchEngine  # noqa: E501
+from pydoof2.rest import ApiException
 
 
 class TestNewSearchEngine(unittest.TestCase):
@@ -32,7 +32,7 @@ class TestNewSearchEngine(unittest.TestCase):
     def testNewSearchEngine(self):
         """Test NewSearchEngine"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = pydoof.models.new_search_engine.NewSearchEngine()  # noqa: E501
+        # model = pydoof2.models.new_search_engine.NewSearchEngine()  # noqa: E501
         pass
 
 

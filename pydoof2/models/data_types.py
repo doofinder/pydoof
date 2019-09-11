@@ -16,7 +16,7 @@ import re  # noqa: F401
 
 import six
 
-from pydoof.models.data_type import DataType  # noqa: F401,E501
+from pydoof2.models.data_type import DataType  # noqa: F401,E501
 
 
 class DataTypes(object):

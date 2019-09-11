@@ -15,16 +15,16 @@ from __future__ import absolute_import
 
 import unittest
 
-import pydoof
-from pydoof.api.search_engines_api import SearchEnginesApi  # noqa: E501
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.api.search_engines_api import SearchEnginesApi  # noqa: E501
+from pydoof2.rest import ApiException
 
 
 class TestSearchEnginesApi(unittest.TestCase):
     """SearchEnginesApi unit test stubs"""
 
     def setUp(self):
-        self.api = pydoof.api.search_engines_api.SearchEnginesApi()  # noqa: E501
+        self.api = pydoof2.api.search_engines_api.SearchEnginesApi()  # noqa: E501
 
     def tearDown(self):
         pass

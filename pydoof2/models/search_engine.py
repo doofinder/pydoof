@@ -16,8 +16,8 @@ import re  # noqa: F401
 
 import six
 
-from pydoof.models.data_types import DataTypes  # noqa: F401,E501
-from pydoof.models.new_search_engine import NewSearchEngine  # noqa: F401,E501
+from pydoof2.models.data_types import DataTypes  # noqa: F401,E501
+from pydoof2.models.new_search_engine import NewSearchEngine  # noqa: F401,E501
 
 
 class SearchEngine(object):

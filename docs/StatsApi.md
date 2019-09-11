@@ -1,4 +1,4 @@
-# pydoof.StatsApi
+# pydoof2.StatsApi
 
 All URIs are relative to *https://us1-api.doofinder.com*
 
@@ -34,23 +34,23 @@ Gets how many times a banner has been clicked
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.StatsApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.StatsApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | HashID of the search engine to query or a list in the format [hashid1,hashid2,...]
 dto = 'dto_example' # str | Date end of the interval in the format of UNIX timestamp or YYYYMMDD. Today, by default. (optional)
 dfrom = 'dfrom_example' # str | Date start of the interval in the format of UNIX timestamp or YYYYMMDD. By default, 10 days from current date. (optional)
@@ -101,23 +101,23 @@ Gets how many times a banner has been shown
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.StatsApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.StatsApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | HashID of the search engine to query or a list in the format [hashid1,hashid2,...]
 dto = 'dto_example' # str | Date end of the interval in the format of UNIX timestamp or YYYYMMDD. Today, by default. (optional)
 dfrom = 'dfrom_example' # str | Date start of the interval in the format of UNIX timestamp or YYYYMMDD. By default, 10 days from current date. (optional)
@@ -168,23 +168,23 @@ Gets a total of the checkouts in a time period
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.StatsApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.StatsApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | HashID of the search engine to query or a list in the format [hashid1,hashid2,...]
 dto = 'dto_example' # str | Date end of the interval in the format of UNIX timestamp or YYYYMMDD. Today, by default. (optional)
 dfrom = 'dfrom_example' # str | Date start of the interval in the format of UNIX timestamp or YYYYMMDD. By default, 10 days from current date. (optional)
@@ -237,23 +237,23 @@ Gets a total of the checkouts aggregated in a time period, separated by dates
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.StatsApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.StatsApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | HashID of the search engine to query or a list in the format [hashid1,hashid2,...]
 dto = 'dto_example' # str | Date end of the interval in the format of UNIX timestamp or YYYYMMDD. Today, by default. (optional)
 dfrom = 'dfrom_example' # str | Date start of the interval in the format of UNIX timestamp or YYYYMMDD. By default, 10 days from current date. (optional)
@@ -312,23 +312,23 @@ Gets a total of the clicks in a time period
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.StatsApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.StatsApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | HashID of the search engine to query or a list in the format [hashid1,hashid2,...]
 dto = 'dto_example' # str | Date end of the interval in the format of UNIX timestamp or YYYYMMDD. Today, by default. (optional)
 dfrom = 'dfrom_example' # str | Date start of the interval in the format of UNIX timestamp or YYYYMMDD. By default, 10 days from current date. (optional)
@@ -381,23 +381,23 @@ Gets a total of the clicks aggregated in a time period, separated by dates
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.StatsApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.StatsApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | HashID of the search engine to query or a list in the format [hashid1,hashid2,...]
 dto = 'dto_example' # str | Date end of the interval in the format of UNIX timestamp or YYYYMMDD. Today, by default. (optional)
 dfrom = 'dfrom_example' # str | Date start of the interval in the format of UNIX timestamp or YYYYMMDD. By default, 10 days from current date. (optional)
@@ -456,23 +456,23 @@ Get the products clicked given a certain query
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.StatsApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.StatsApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | HashID of the search engine to query or a list in the format [hashid1,hashid2,...]
 query = 'query_example' # str | Search query term
 dto = 'dto_example' # str | Date end of the interval in the format of UNIX timestamp or YYYYMMDD. Today, by default. (optional)
@@ -525,23 +525,23 @@ Gets a top of the clicks in a time period
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.StatsApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.StatsApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | HashID of the search engine to query or a list in the format [hashid1,hashid2,...]
 dto = 'dto_example' # str | Date end of the interval in the format of UNIX timestamp or YYYYMMDD. Today, by default. (optional)
 dfrom = 'dfrom_example' # str | Date start of the interval in the format of UNIX timestamp or YYYYMMDD. By default, 10 days from current date. (optional)
@@ -592,23 +592,23 @@ Gets a total of the sessions started in a time period
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.StatsApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.StatsApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | HashID of the search engine to query or a list in the format [hashid1,hashid2,...]
 dto = 'dto_example' # str | Date end of the interval in the format of UNIX timestamp or YYYYMMDD. Today, by default. (optional)
 dfrom = 'dfrom_example' # str | Date start of the interval in the format of UNIX timestamp or YYYYMMDD. By default, 10 days from current date. (optional)
@@ -661,23 +661,23 @@ Gets a total of the sessions started aggregated in a time period, separated by d
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.StatsApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.StatsApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | HashID of the search engine to query or a list in the format [hashid1,hashid2,...]
 dto = 'dto_example' # str | Date end of the interval in the format of UNIX timestamp or YYYYMMDD. Today, by default. (optional)
 dfrom = 'dfrom_example' # str | Date start of the interval in the format of UNIX timestamp or YYYYMMDD. By default, 10 days from current date. (optional)
@@ -736,23 +736,23 @@ Gets the search engines usage, close to the current minute, but slow.
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.StatsApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.StatsApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | HashID of the search engine to query or a list in the format [hashid1,hashid2,...]
 dto = 'dto_example' # str | Date end of the interval in the format of UNIX timestamp or YYYYMMDD. Today, by default. (optional)
 dfrom = 'dfrom_example' # str | Date start of the interval in the format of UNIX timestamp or YYYYMMDD. By default, 10 days from current date. (optional)
@@ -805,23 +805,23 @@ Gets how many times there's been a redirect
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.StatsApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.StatsApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | HashID of the search engine to query or a list in the format [hashid1,hashid2,...]
 dto = 'dto_example' # str | Date end of the interval in the format of UNIX timestamp or YYYYMMDD. Today, by default. (optional)
 dfrom = 'dfrom_example' # str | Date start of the interval in the format of UNIX timestamp or YYYYMMDD. By default, 10 days from current date. (optional)
@@ -872,23 +872,23 @@ Gets a total of the searches in a time period
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.StatsApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.StatsApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | HashID of the search engine to query or a list in the format [hashid1,hashid2,...]
 dto = 'dto_example' # str | Date end of the interval in the format of UNIX timestamp or YYYYMMDD. Today, by default. (optional)
 dfrom = 'dfrom_example' # str | Date start of the interval in the format of UNIX timestamp or YYYYMMDD. By default, 10 days from current date. (optional)
@@ -941,23 +941,23 @@ Gets the top searches that got a click in a product, and how many times.
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.StatsApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.StatsApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | HashID of the search engine to query or a list in the format [hashid1,hashid2,...]
 dfid = 'dfid_example' # str | Doofinder ID to filter by
 dto = 'dto_example' # str | Date end of the interval in the format of UNIX timestamp or YYYYMMDD. Today, by default. (optional)
@@ -1010,23 +1010,23 @@ Gets a total of the searches in a time period, separated by dates
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.StatsApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.StatsApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | HashID of the search engine to query or a list in the format [hashid1,hashid2,...]
 dto = 'dto_example' # str | Date end of the interval in the format of UNIX timestamp or YYYYMMDD. Today, by default. (optional)
 dfrom = 'dfrom_example' # str | Date start of the interval in the format of UNIX timestamp or YYYYMMDD. By default, 10 days from current date. (optional)
@@ -1085,23 +1085,23 @@ Gets a top of the searches in a time period
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.StatsApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.StatsApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | HashID of the search engine to query or a list in the format [hashid1,hashid2,...]
 dto = 'dto_example' # str | Date end of the interval in the format of UNIX timestamp or YYYYMMDD. Today, by default. (optional)
 dfrom = 'dfrom_example' # str | Date start of the interval in the format of UNIX timestamp or YYYYMMDD. By default, 10 days from current date. (optional)
@@ -1152,23 +1152,23 @@ Gets the search engines usage, up until previous day, fast call.
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.StatsApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.StatsApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | HashID of the search engine to query or a list in the format [hashid1,hashid2,...]
 dto = 'dto_example' # str | Date end of the interval in the format of UNIX timestamp or YYYYMMDD. Today, by default. (optional)
 dfrom = 'dfrom_example' # str | Date start of the interval in the format of UNIX timestamp or YYYYMMDD. By default, 10 days from current date. (optional)

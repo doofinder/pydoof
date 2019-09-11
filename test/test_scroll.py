@@ -15,9 +15,9 @@ from __future__ import absolute_import
 
 import unittest
 
-import pydoof
-from pydoof.models.scroll import Scroll  # noqa: E501
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.models.scroll import Scroll  # noqa: E501
+from pydoof2.rest import ApiException
 
 
 class TestScroll(unittest.TestCase):
@@ -32,7 +32,7 @@ class TestScroll(unittest.TestCase):
     def testScroll(self):
         """Test Scroll"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = pydoof.models.scroll.Scroll()  # noqa: E501
+        # model = pydoof2.models.scroll.Scroll()  # noqa: E501
         pass
 
 

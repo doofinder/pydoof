@@ -15,9 +15,9 @@ from __future__ import absolute_import
 
 import unittest
 
-import pydoof
-from pydoof.models.data_type import DataType  # noqa: E501
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.models.data_type import DataType  # noqa: E501
+from pydoof2.rest import ApiException
 
 
 class TestDataType(unittest.TestCase):
@@ -32,7 +32,7 @@ class TestDataType(unittest.TestCase):
     def testDataType(self):
         """Test DataType"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = pydoof.models.data_type.DataType()  # noqa: E501
+        # model = pydoof2.models.data_type.DataType()  # noqa: E501
         pass
 
 

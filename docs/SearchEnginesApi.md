@@ -1,4 +1,4 @@
-# pydoof.SearchEnginesApi
+# pydoof2.SearchEnginesApi
 
 All URIs are relative to *https://us1-api.doofinder.com*
 
@@ -22,24 +22,24 @@ Create a new search engine
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.SearchEnginesApi(pydoof.ApiClient(configuration))
-searchengine = pydoof.NewSearchEngine() # NewSearchEngine | Search engine data
+api_instance = pydoof2.SearchEnginesApi(pydoof2.ApiClient(configuration))
+searchengine = pydoof2.NewSearchEngine() # NewSearchEngine | Search engine data
 
 try:
     # Create new search engine 
@@ -81,23 +81,23 @@ Delete a search engine
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.SearchEnginesApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.SearchEnginesApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | Search engine identifier (hashid)
 
 try:
@@ -140,23 +140,23 @@ List search engines
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.SearchEnginesApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.SearchEnginesApi(pydoof2.ApiClient(configuration))
 
 try:
     # List search engines
@@ -195,23 +195,23 @@ Get a search engine given by his hashid
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.SearchEnginesApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.SearchEnginesApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | Search engine identifier (hashid)
 
 try:
@@ -254,25 +254,25 @@ Update a search engine by the given hashid
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.SearchEnginesApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.SearchEnginesApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | Search engine identifier (hashid)
-searchengine = pydoof.NewSearchEngine() # NewSearchEngine | Search engine data
+searchengine = pydoof2.NewSearchEngine() # NewSearchEngine | Search engine data
 
 try:
     # Update a search engine

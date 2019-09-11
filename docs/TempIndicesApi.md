@@ -1,4 +1,4 @@
-# pydoof.TempIndicesApi
+# pydoof2.TempIndicesApi
 
 All URIs are relative to *https://us1-api.doofinder.com*
 
@@ -21,23 +21,23 @@ This executes a reindexing operation between the real index and the temporary on
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.TempIndicesApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.TempIndicesApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | Search engine identifier (hashid)
 name = 'name_example' # str | Name of the datatype
 
@@ -82,23 +82,23 @@ This request takes the temporary index and \"overwrites\" the real one. Any cont
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.TempIndicesApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.TempIndicesApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | Search engine identifier (hashid)
 name = 'name_example' # str | Name of the datatype
 
@@ -143,23 +143,23 @@ Creates a new temporary index for the given datatype. There could not be two tem
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.TempIndicesApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.TempIndicesApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | Search engine identifier (hashid)
 name = 'name_example' # str | Name of the datatype
 
@@ -204,23 +204,23 @@ Deletes the temporary index. This also removes the lock in the search engine. If
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.TempIndicesApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.TempIndicesApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | Search engine identifier (hashid)
 name = 'name_example' # str | Name of the datatype
 

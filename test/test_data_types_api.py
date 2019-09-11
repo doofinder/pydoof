@@ -15,16 +15,16 @@ from __future__ import absolute_import
 
 import unittest
 
-import pydoof
-from pydoof.api.data_types_api import DataTypesApi  # noqa: E501
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.api.data_types_api import DataTypesApi  # noqa: E501
+from pydoof2.rest import ApiException
 
 
 class TestDataTypesApi(unittest.TestCase):
     """DataTypesApi unit test stubs"""
 
     def setUp(self):
-        self.api = pydoof.api.data_types_api.DataTypesApi()  # noqa: E501
+        self.api = pydoof2.api.data_types_api.DataTypesApi()  # noqa: E501
 
     def tearDown(self):
         pass

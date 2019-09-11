@@ -1,4 +1,4 @@
-# pydoof.ItemsApi
+# pydoof2.ItemsApi
 
 All URIs are relative to *https://us1-api.doofinder.com*
 
@@ -25,26 +25,26 @@ Creates an item with the data provided.
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.ItemsApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.ItemsApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | Search engine identifier (hashid)
 name = 'name_example' # str | Name of the datatype
-item = pydoof.Item() # Item | Item fields
+item = pydoof2.Item() # Item | Item fields
 
 try:
     # Creates an item.
@@ -88,23 +88,23 @@ Deletes an item given its id.
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.ItemsApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.ItemsApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | Search engine identifier (hashid)
 name = 'name_example' # str | Name of the datatype
 item_id = 'item_id_example' # str | Item unique identifier
@@ -151,23 +151,23 @@ Starts a scroll through all items. Generate a scroll id that can be traversed wi
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.ItemsApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.ItemsApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | Search engine identifier (hashid)
 name = 'name_example' # str | Name of the datatype
 scroll_id = 'scroll_id_example' # str | Unique identifier for the scroll. The scroll saves a \"pointer\" to the last fetched page. (optional)
@@ -216,23 +216,23 @@ Fetch an item from the search engine and datatype
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.ItemsApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.ItemsApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | Search engine identifier (hashid)
 name = 'name_example' # str | Name of the datatype
 item_id = 'item_id_example' # str | Item unique identifier
@@ -279,27 +279,27 @@ Partially updates an item and returns the indexed result.
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.ItemsApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.ItemsApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | Search engine identifier (hashid)
 name = 'name_example' # str | Name of the datatype
 item_id = 'item_id_example' # str | Item unique identifier
-item = pydoof.Item() # Item | Item fields
+item = pydoof2.Item() # Item | Item fields
 
 try:
     # Partially updates an item.
@@ -344,26 +344,26 @@ Creates an array of items in a single bulk operation
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.ItemsApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.ItemsApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | Search engine identifier (hashid)
 name = 'name_example' # str | Name of the datatype
-bulk = pydoof.BulkOperation() # BulkOperation | Bulk data
+bulk = pydoof2.BulkOperation() # BulkOperation | Bulk data
 
 try:
     # Creates items in bulk
@@ -407,26 +407,26 @@ Deletes an array of items in a single bulk operation
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.ItemsApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.ItemsApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | Search engine identifier (hashid)
 name = 'name_example' # str | Name of the datatype
-bulk = pydoof.BulkOperation() # BulkOperation | Bulk data
+bulk = pydoof2.BulkOperation() # BulkOperation | Bulk data
 
 try:
     # Deletes items in bulk
@@ -470,26 +470,26 @@ Updates an array of items in a single bulk operation
 ```python
 from __future__ import print_function
 import time
-import pydoof
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 # Configure API key authorization: jwt_token
-configuration = pydoof.Configuration()
+configuration = pydoof2.Configuration()
 configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof.ItemsApi(pydoof.ApiClient(configuration))
+api_instance = pydoof2.ItemsApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | Search engine identifier (hashid)
 name = 'name_example' # str | Name of the datatype
-bulk = pydoof.BulkOperation() # BulkOperation | Bulk data
+bulk = pydoof2.BulkOperation() # BulkOperation | Bulk data
 
 try:
     # Partial updates items in bulk

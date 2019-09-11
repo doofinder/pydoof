@@ -15,16 +15,16 @@ from __future__ import absolute_import
 
 import unittest
 
-import pydoof
-from pydoof.api.health_api import HealthApi  # noqa: E501
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.api.health_api import HealthApi  # noqa: E501
+from pydoof2.rest import ApiException
 
 
 class TestHealthApi(unittest.TestCase):
     """HealthApi unit test stubs"""
 
     def setUp(self):
-        self.api = pydoof.api.health_api.HealthApi()  # noqa: E501
+        self.api = pydoof2.api.health_api.HealthApi()  # noqa: E501
 
     def tearDown(self):
         pass

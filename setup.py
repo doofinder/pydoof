@@ -13,8 +13,8 @@
 
 from setuptools import setup, find_packages  # noqa: H301
 
-NAME = "pydoof"
-VERSION = "1.0.0"
+NAME = "PyDoof2"
+VERSION = "2.0.0"
 # To install the library, run the following
 #
 # python setup.py install

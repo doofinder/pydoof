@@ -15,9 +15,9 @@ from __future__ import absolute_import
 
 import unittest
 
-import pydoof
-from pydoof.models.bulk_result_results import BulkResultResults  # noqa: E501
-from pydoof.rest import ApiException
+import pydoof2
+from pydoof2.models.bulk_result_results import BulkResultResults  # noqa: E501
+from pydoof2.rest import ApiException
 
 
 class TestBulkResultResults(unittest.TestCase):
@@ -32,7 +32,7 @@ class TestBulkResultResults(unittest.TestCase):
     def testBulkResultResults(self):
         """Test BulkResultResults"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = pydoof.models.bulk_result_results.BulkResultResults()  # noqa: E501
+        # model = pydoof2.models.bulk_result_results.BulkResultResults()  # noqa: E501
         pass
 
 
