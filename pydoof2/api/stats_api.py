@@ -1989,6 +1989,7 @@ class StatsApi(object):
         :param str tz: Timezone for the given dates, by default assumes UTC.
         :param str device: Device filter, by default is all
         :param str interval: Time interval for aggregations
+        :param str type: Filter by the given usage type.
         :return: object
                  If the method is called asynchronously,
                  returns the request thread.
@@ -2016,12 +2017,13 @@ class StatsApi(object):
         :param str tz: Timezone for the given dates, by default assumes UTC.
         :param str device: Device filter, by default is all
         :param str interval: Time interval for aggregations
+        :param str type: Filter by the given usage type.
         :return: object
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['hashid', 'dto', 'dfrom', 'tz', 'device', 'interval']  # noqa: E501
+        all_params = ['hashid', 'dto', 'dfrom', 'tz', 'device', 'interval', 'type']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -2058,6 +2060,8 @@ class StatsApi(object):
             query_params.append(('device', params['device']))  # noqa: E501
         if 'interval' in params:
             query_params.append(('interval', params['interval']))  # noqa: E501
+        if 'type' in params:
+            query_params.append(('type', params['type']))  # noqa: E501
 
         header_params = {}
 

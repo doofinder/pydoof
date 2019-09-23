@@ -1142,7 +1142,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **usage**
-> object usage(hashid, dto=dto, dfrom=dfrom, tz=tz, device=device, interval=interval)
+> object usage(hashid, dto=dto, dfrom=dfrom, tz=tz, device=device, interval=interval, type=type)
 
 Get the search engines usage.
 
@@ -1175,10 +1175,11 @@ dfrom = 'dfrom_example' # str | Date start of the interval in the format of UNIX
 tz = 'tz_example' # str | Timezone for the given dates, by default assumes UTC. (optional)
 device = 'device_example' # str | Device filter, by default is all (optional)
 interval = '1d' # str | Time interval for aggregations (optional) (default to 1d)
+type = 'type_example' # str | Filter by the given usage type. (optional)
 
 try:
     # Get the search engines usage.
-    api_response = api_instance.usage(hashid, dto=dto, dfrom=dfrom, tz=tz, device=device, interval=interval)
+    api_response = api_instance.usage(hashid, dto=dto, dfrom=dfrom, tz=tz, device=device, interval=interval, type=type)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling StatsApi->usage: %s\n" % e)
@@ -1194,6 +1195,7 @@ Name | Type | Description  | Notes
  **tz** | **str**| Timezone for the given dates, by default assumes UTC. | [optional] 
  **device** | **str**| Device filter, by default is all | [optional] 
  **interval** | **str**| Time interval for aggregations | [optional] [default to 1d]
+ **type** | **str**| Filter by the given usage type. | [optional] 
 
 ### Return type
 
