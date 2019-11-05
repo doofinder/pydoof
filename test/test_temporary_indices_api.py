@@ -16,15 +16,15 @@ from __future__ import absolute_import
 import unittest
 
 import pydoof2
-from pydoof2.api.temp_indices_api import TempIndicesApi  # noqa: E501
+from pydoof2.api.temporary_indices_api import TemporaryIndicesApi  # noqa: E501
 from pydoof2.rest import ApiException
 
 
-class TestTempIndicesApi(unittest.TestCase):
-    """TempIndicesApi unit test stubs"""
+class TestTemporaryIndicesApi(unittest.TestCase):
+    """TemporaryIndicesApi unit test stubs"""
 
     def setUp(self):
-        self.api = pydoof2.api.temp_indices_api.TempIndicesApi()  # noqa: E501
+        self.api = pydoof2.api.temporary_indices_api.TemporaryIndicesApi()  # noqa: E501
 
     def tearDown(self):
         pass

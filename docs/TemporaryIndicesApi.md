@@ -1,13 +1,13 @@
-# pydoof2.TempIndicesApi
+# pydoof2.TemporaryIndicesApi
 
 All URIs are relative to *https://us1-api.doofinder.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**reindex_to_temp**](TempIndicesApi.md#reindex_to_temp) | **POST** /api/v2/search_engines/{hashid}/datatypes/{name}/reindex_to_temp/ | Reindex the content of the real index into the temporary one.
-[**replace_by_temp**](TempIndicesApi.md#replace_by_temp) | **POST** /api/v2/search_engines/{hashid}/datatypes/{name}/replace_by_temp/ | Replace the real index with the temporary one.
-[**temporary_index_create**](TempIndicesApi.md#temporary_index_create) | **POST** /api/v2/search_engines/{hashid}/datatypes/{name}/temp/ | Creates a temporary index
-[**temporary_index_delete**](TempIndicesApi.md#temporary_index_delete) | **DELETE** /api/v2/search_engines/{hashid}/datatypes/{name}/temp/ | Deletes the temporary index.
+[**reindex_to_temp**](TemporaryIndicesApi.md#reindex_to_temp) | **POST** /api/v2/search_engines/{hashid}/datatypes/{name}/_reindex_to_temp/ | Reindex the content of the real index into the temporary one.
+[**replace_by_temp**](TemporaryIndicesApi.md#replace_by_temp) | **POST** /api/v2/search_engines/{hashid}/datatypes/{name}/_replace_by_temp/ | Replace the real index with the temporary one.
+[**temporary_index_create**](TemporaryIndicesApi.md#temporary_index_create) | **POST** /api/v2/search_engines/{hashid}/datatypes/{name}/temp/ | Creates a temporary index
+[**temporary_index_delete**](TemporaryIndicesApi.md#temporary_index_delete) | **DELETE** /api/v2/search_engines/{hashid}/datatypes/{name}/temp/ | Deletes the temporary index.
 
 
 # **reindex_to_temp**
@@ -37,7 +37,7 @@ configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof2.TempIndicesApi(pydoof2.ApiClient(configuration))
+api_instance = pydoof2.TemporaryIndicesApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | Search engine identifier (hashid)
 name = 'name_example' # str | Name of the datatype
 
@@ -46,7 +46,7 @@ try:
     api_response = api_instance.reindex_to_temp(hashid, name)
     pprint(api_response)
 except ApiException as e:
-    print("Exception when calling TempIndicesApi->reindex_to_temp: %s\n" % e)
+    print("Exception when calling TemporaryIndicesApi->reindex_to_temp: %s\n" % e)
 ```
 
 ### Parameters
@@ -98,7 +98,7 @@ configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof2.TempIndicesApi(pydoof2.ApiClient(configuration))
+api_instance = pydoof2.TemporaryIndicesApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | Search engine identifier (hashid)
 name = 'name_example' # str | Name of the datatype
 
@@ -107,7 +107,7 @@ try:
     api_response = api_instance.replace_by_temp(hashid, name)
     pprint(api_response)
 except ApiException as e:
-    print("Exception when calling TempIndicesApi->replace_by_temp: %s\n" % e)
+    print("Exception when calling TemporaryIndicesApi->replace_by_temp: %s\n" % e)
 ```
 
 ### Parameters
@@ -159,7 +159,7 @@ configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof2.TempIndicesApi(pydoof2.ApiClient(configuration))
+api_instance = pydoof2.TemporaryIndicesApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | Search engine identifier (hashid)
 name = 'name_example' # str | Name of the datatype
 
@@ -168,7 +168,7 @@ try:
     api_response = api_instance.temporary_index_create(hashid, name)
     pprint(api_response)
 except ApiException as e:
-    print("Exception when calling TempIndicesApi->temporary_index_create: %s\n" % e)
+    print("Exception when calling TemporaryIndicesApi->temporary_index_create: %s\n" % e)
 ```
 
 ### Parameters
@@ -220,7 +220,7 @@ configuration.api_key['Authorization'] = 'YOUR_API_KEY'
 # configuration.api_key_prefix['Authorization'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = pydoof2.TempIndicesApi(pydoof2.ApiClient(configuration))
+api_instance = pydoof2.TemporaryIndicesApi(pydoof2.ApiClient(configuration))
 hashid = 'hashid_example' # str | Search engine identifier (hashid)
 name = 'name_example' # str | Name of the datatype
 
@@ -229,7 +229,7 @@ try:
     api_response = api_instance.temporary_index_delete(hashid, name)
     pprint(api_response)
 except ApiException as e:
-    print("Exception when calling TempIndicesApi->temporary_index_delete: %s\n" % e)
+    print("Exception when calling TemporaryIndicesApi->temporary_index_delete: %s\n" % e)
 ```
 
 ### Parameters

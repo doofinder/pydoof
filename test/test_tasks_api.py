@@ -16,23 +16,30 @@ from __future__ import absolute_import
 import unittest
 
 import pydoof2
-from pydoof2.api.health_api import HealthApi  # noqa: E501
+from pydoof2.api.tasks_api import TasksApi  # noqa: E501
 from pydoof2.rest import ApiException
 
 
-class TestHealthApi(unittest.TestCase):
-    """HealthApi unit test stubs"""
+class TestTasksApi(unittest.TestCase):
+    """TasksApi unit test stubs"""
 
     def setUp(self):
-        self.api = pydoof2.api.health_api.HealthApi()  # noqa: E501
+        self.api = pydoof2.api.tasks_api.TasksApi()  # noqa: E501
 
     def tearDown(self):
         pass
 
-    def test_status(self):
-        """Test case for status
+    def test_process(self):
+        """Test case for process
 
-        Load balancer check  # noqa: E501
+        Process Search Engine Data Sources  # noqa: E501
+        """
+        pass
+
+    def test_process_status(self):
+        """Test case for process_status
+
+          # noqa: E501
         """
         pass
 

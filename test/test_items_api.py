@@ -57,6 +57,41 @@ class TestItemsApi(unittest.TestCase):
         """
         pass
 
+    def test_item_temp_create(self):
+        """Test case for item_temp_create
+
+        Creates an item in the temporal datatype  # noqa: E501
+        """
+        pass
+
+    def test_item_temp_delete(self):
+        """Test case for item_temp_delete
+
+        Deletes an item in the temporal datatype  # noqa: E501
+        """
+        pass
+
+    def test_item_temp_index(self):
+        """Test case for item_temp_index
+
+        Scrolls through all items from the temporal datatype  # noqa: E501
+        """
+        pass
+
+    def test_item_temp_show(self):
+        """Test case for item_temp_show
+
+        Get an item from the temporal datatype  # noqa: E501
+        """
+        pass
+
+    def test_item_temp_update(self):
+        """Test case for item_temp_update
+
+        Partially updates an item in the temporal datatype  # noqa: E501
+        """
+        pass
+
     def test_item_update(self):
         """Test case for item_update
 
@@ -82,6 +117,27 @@ class TestItemsApi(unittest.TestCase):
         """Test case for items_bulk_update
 
         Partial updates items in bulk  # noqa: E501
+        """
+        pass
+
+    def test_items_temp_bulk_create(self):
+        """Test case for items_temp_bulk_create
+
+        Creates items in bulk in the temporal datatype  # noqa: E501
+        """
+        pass
+
+    def test_items_temp_bulk_delete(self):
+        """Test case for items_temp_bulk_delete
+
+        Deletes items in bulk in the temporal datatype  # noqa: E501
+        """
+        pass
+
+    def test_items_temp_bulk_update(self):
+        """Test case for items_temp_bulk_update
+
+        Partial updates items in bulk in the temporal datatype  # noqa: E501
         """
         pass
 
