@@ -1,6 +1,6 @@
 # pydoof2.ItemsApi
 
-All URIs are relative to *https://us1-api.doofinder.com*
+All URIs are relative to *https://eu1-api.doofinder.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -10,7 +10,6 @@ Method | HTTP request | Description
 [**item_show**](ItemsApi.md#item_show) | **GET** /api/v2/search_engines/{hashid}/datatypes/{name}/items/{item_id} | Get an item
 [**item_temp_create**](ItemsApi.md#item_temp_create) | **POST** /api/v2/search_engines/{hashid}/datatypes/{name}/temp/items/ | Creates an item in the temporal datatype
 [**item_temp_delete**](ItemsApi.md#item_temp_delete) | **DELETE** /api/v2/search_engines/{hashid}/datatypes/{name}/temp/items/{item_id} | Deletes an item in the temporal datatype
-[**item_temp_index**](ItemsApi.md#item_temp_index) | **GET** /api/v2/search_engines/{hashid}/datatypes/{name}/temp/items/ | Scrolls through all items from the temporal datatype
 [**item_temp_show**](ItemsApi.md#item_temp_show) | **GET** /api/v2/search_engines/{hashid}/datatypes/{name}/temp/items/{item_id} | Get an item from the temporal datatype
 [**item_temp_update**](ItemsApi.md#item_temp_update) | **PATCH** /api/v2/search_engines/{hashid}/datatypes/{name}/temp/items/{item_id} | Partially updates an item in the temporal datatype
 [**item_update**](ItemsApi.md#item_update) | **PATCH** /api/v2/search_engines/{hashid}/datatypes/{name}/items/{item_id} | Partially updates an item.
@@ -390,71 +389,6 @@ Name | Type | Description  | Notes
 ### Return type
 
 **object**
-
-### Authorization
-
-[api_token](../README.md#api_token), [jwt_token](../README.md#jwt_token)
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **item_temp_index**
-> Scroll item_temp_index(hashid, name, scroll_id=scroll_id, rpp=rpp)
-
-Scrolls through all items from the temporal datatype
-
-Starts a scroll through all items. Generate a scroll id that can be traversed with successive requests.
-
-### Example
-```python
-from __future__ import print_function
-import time
-import pydoof2
-from pydoof2.rest import ApiException
-from pprint import pprint
-
-# Configure API key authorization: api_token
-configuration = pydoof2.Configuration()
-configuration.api_key['Authorization'] = 'YOUR_API_KEY'
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# configuration.api_key_prefix['Authorization'] = 'Bearer'
-# Configure API key authorization: jwt_token
-configuration = pydoof2.Configuration()
-configuration.api_key['Authorization'] = 'YOUR_API_KEY'
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# configuration.api_key_prefix['Authorization'] = 'Bearer'
-
-# create an instance of the API class
-api_instance = pydoof2.ItemsApi(pydoof2.ApiClient(configuration))
-hashid = 'hashid_example' # str | Search engine identifier (hashid)
-name = 'name_example' # str | Name of the datatype
-scroll_id = 'scroll_id_example' # str | Unique identifier for the scroll. The scroll saves a \"pointer\" to the last fetched page. (optional)
-rpp = 56 # int | _Results per page_. How many items are fetched per page (optional)
-
-try:
-    # Scrolls through all items from the temporal datatype
-    api_response = api_instance.item_temp_index(hashid, name, scroll_id=scroll_id, rpp=rpp)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling ItemsApi->item_temp_index: %s\n" % e)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **hashid** | **str**| Search engine identifier (hashid) | 
- **name** | **str**| Name of the datatype | 
- **scroll_id** | **str**| Unique identifier for the scroll. The scroll saves a \&quot;pointer\&quot; to the last fetched page. | [optional] 
- **rpp** | **int**| _Results per page_. How many items are fetched per page | [optional] 
-
-### Return type
-
-[**Scroll**](Scroll.md)
 
 ### Authorization
 

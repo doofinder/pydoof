@@ -40,7 +40,7 @@ class Configuration(object):
             return
 
         # Default Base url
-        self.host = "https://us1-api.doofinder.com"
+        self.host = "https://eu1-api.doofinder.com"
         # Temp file folder for downloading files
         self.temp_folder_path = None
 
@@ -247,5 +247,5 @@ class Configuration(object):
                "OS: {env}\n"\
                "Python Version: {pyversion}\n"\
                "Version of the API: 1.0\n"\
-               "SDK Package Version: 3.0.0".\
+               "SDK Package Version: 3.0.1".\
                format(env=sys.platform, pyversion=sys.version)

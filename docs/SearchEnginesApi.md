@@ -1,6 +1,6 @@
 # pydoof2.SearchEnginesApi
 
-All URIs are relative to *https://us1-api.doofinder.com*
+All URIs are relative to *https://eu1-api.doofinder.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------

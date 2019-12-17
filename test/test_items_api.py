@@ -71,13 +71,6 @@ class TestItemsApi(unittest.TestCase):
         """
         pass
 
-    def test_item_temp_index(self):
-        """Test case for item_temp_index
-
-        Scrolls through all items from the temporal datatype  # noqa: E501
-        """
-        pass
-
     def test_item_temp_show(self):
         """Test case for item_temp_show
 
