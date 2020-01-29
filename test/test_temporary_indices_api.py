@@ -29,6 +29,13 @@ class TestTemporaryIndicesApi(unittest.TestCase):
     def tearDown(self):
         pass
 
+    def test_get_reindexing_status(self):
+        """Test case for get_reindexing_status
+
+        Return the status of the current reindexing task.  # noqa: E501
+        """
+        pass
+
     def test_reindex_to_temp(self):
         """Test case for reindex_to_temp
 

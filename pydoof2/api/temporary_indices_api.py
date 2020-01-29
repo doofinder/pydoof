@@ -33,6 +33,113 @@ class TemporaryIndicesApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
+    def get_reindexing_status(self, hashid, name, **kwargs):  # noqa: E501
+        """Return the status of the current reindexing task.  # noqa: E501
+
+        This return the status of the current reindexing tasks if there is any.   # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_reindexing_status(hashid, name, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str hashid: Search engine identifier (hashid) (required)
+        :param str name: Name of the datatype (required)
+        :return: object
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_reindexing_status_with_http_info(hashid, name, **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_reindexing_status_with_http_info(hashid, name, **kwargs)  # noqa: E501
+            return data
+
+    def get_reindexing_status_with_http_info(self, hashid, name, **kwargs):  # noqa: E501
+        """Return the status of the current reindexing task.  # noqa: E501
+
+        This return the status of the current reindexing tasks if there is any.   # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_reindexing_status_with_http_info(hashid, name, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str hashid: Search engine identifier (hashid) (required)
+        :param str name: Name of the datatype (required)
+        :return: object
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['hashid', 'name']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_reindexing_status" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'hashid' is set
+        if ('hashid' not in params or
+                params['hashid'] is None):
+            raise ValueError("Missing the required parameter `hashid` when calling `get_reindexing_status`")  # noqa: E501
+        # verify the required parameter 'name' is set
+        if ('name' not in params or
+                params['name'] is None):
+            raise ValueError("Missing the required parameter `name` when calling `get_reindexing_status`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'hashid' in params:
+            path_params['hashid'] = params['hashid']  # noqa: E501
+        if 'name' in params:
+            path_params['name'] = params['name']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['api_token', 'jwt_token']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/v2/search_engines/{hashid}/datatypes/{name}/_reindex_to_temp/', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='object',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
     def reindex_to_temp(self, hashid, name, **kwargs):  # noqa: E501
         """Reindex the content of the real index into the temporary one.  # noqa: E501
 

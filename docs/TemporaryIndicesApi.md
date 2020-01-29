@@ -4,11 +4,73 @@ All URIs are relative to *https://eu1-api.doofinder.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**get_reindexing_status**](TemporaryIndicesApi.md#get_reindexing_status) | **GET** /api/v2/search_engines/{hashid}/datatypes/{name}/_reindex_to_temp/ | Return the status of the current reindexing task.
 [**reindex_to_temp**](TemporaryIndicesApi.md#reindex_to_temp) | **POST** /api/v2/search_engines/{hashid}/datatypes/{name}/_reindex_to_temp/ | Reindex the content of the real index into the temporary one.
 [**replace_by_temp**](TemporaryIndicesApi.md#replace_by_temp) | **POST** /api/v2/search_engines/{hashid}/datatypes/{name}/_replace_by_temp/ | Replace the real index with the temporary one.
 [**temporary_index_create**](TemporaryIndicesApi.md#temporary_index_create) | **POST** /api/v2/search_engines/{hashid}/datatypes/{name}/temp/ | Creates a temporary index
 [**temporary_index_delete**](TemporaryIndicesApi.md#temporary_index_delete) | **DELETE** /api/v2/search_engines/{hashid}/datatypes/{name}/temp/ | Deletes the temporary index.
 
+
+# **get_reindexing_status**
+> object get_reindexing_status(hashid, name)
+
+Return the status of the current reindexing task.
+
+This return the status of the current reindexing tasks if there is any. 
+
+### Example
+```python
+from __future__ import print_function
+import time
+import pydoof2
+from pydoof2.rest import ApiException
+from pprint import pprint
+
+# Configure API key authorization: api_token
+configuration = pydoof2.Configuration()
+configuration.api_key['Authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['Authorization'] = 'Bearer'
+# Configure API key authorization: jwt_token
+configuration = pydoof2.Configuration()
+configuration.api_key['Authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['Authorization'] = 'Bearer'
+
+# create an instance of the API class
+api_instance = pydoof2.TemporaryIndicesApi(pydoof2.ApiClient(configuration))
+hashid = 'hashid_example' # str | Search engine identifier (hashid)
+name = 'name_example' # str | Name of the datatype
+
+try:
+    # Return the status of the current reindexing task.
+    api_response = api_instance.get_reindexing_status(hashid, name)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling TemporaryIndicesApi->get_reindexing_status: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **hashid** | **str**| Search engine identifier (hashid) | 
+ **name** | **str**| Name of the datatype | 
+
+### Return type
+
+**object**
+
+### Authorization
+
+[api_token](../README.md#api_token), [jwt_token](../README.md#jwt_token)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **reindex_to_temp**
 > object reindex_to_temp(hashid, name)
