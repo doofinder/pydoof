@@ -4,13 +4,12 @@ with open('README.txt') as file:
     long_description = file.read()
 
 
-setup(name='PyDoof', version='2.5.2', author='JoeZ99',
-      author_email='jzarate@gmail.com',
+setup(name='PyDoof', version='3.0', author='Doofinder',
+      author_email='support@doofinder.com',
       description="Doofinder's search & management API client",
       url='https://github.com/doofinder/pydoof',
       packages=['pydoof'],
-      requires=['requests(>=1.2.3)'],
-      install_requires=['requests>=1.2.3'],
+      install_requires=['requests >= 1.2.3', 'pydoof-core == 1.0.1'],
       test_suite='nose.collector',
       tests_require=['nose', 'HTTPretty>=0.0.14'],
       provides=['PyDoof'],
@@ -19,7 +18,7 @@ setup(name='PyDoof', version='2.5.2', author='JoeZ99',
           'Development Status :: 4 - Beta',
           'Intended Audience :: Developers',
           'License :: OSI Approved :: MIT License',
-          'Programming Language :: Python :: 2.7',
+          'Programming Language :: Python :: 3.5',
           'Topic :: Internet :: WWW/HTTP :: Indexing/Search'
           ]
       )
