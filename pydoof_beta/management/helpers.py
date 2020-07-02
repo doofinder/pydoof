@@ -6,8 +6,8 @@ import pydoof_beta
 def get_management_host(**opts):
     """
     """
-    zone = opts.get('zone') or pydoof.zone
-    host = opts.get('management_host') or pydoof.management_host
+    zone = opts.get('zone') or pydoof_beta.zone
+    host = opts.get('management_host') or pydoof_beta.management_host
 
     if host is None:
         return f'https://{zone}-api.doofinder.com'
@@ -17,8 +17,8 @@ def get_management_host(**opts):
 def setup_management_api(klass=None, **opts):
     """
     """
-    dfmaster_token = opts.get('dfmaster_token') or pydoof._dfmaster_token
-    token = opts.get('token') or pydoof.token
+    dfmaster_token = opts.get('dfmaster_token') or pydoof_beta._dfmaster_token
+    token = opts.get('token') or pydoof_beta.token
     host = get_management_host(**opts)
 
     configuration = Configuration()
