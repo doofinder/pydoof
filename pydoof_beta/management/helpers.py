@@ -1,6 +1,6 @@
 from pydoof_core import ApiClient, Configuration
 
-import pydoof
+import pydoof_beta
 
 
 def get_management_host(**opts):

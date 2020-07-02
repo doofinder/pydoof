@@ -1,9 +1,9 @@
 from pydoof_core import ApiClient, Configuration
 
 import json
-import pydoof
+import pydoof_beta
 
-from pydoof.management.helpers import (list_to_query_params,
+from pydoof_beta.management.helpers import (list_to_query_params,
                                        setup_management_api)
 
 __ALL__ = ('Internals')

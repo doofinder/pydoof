@@ -1,6 +1,6 @@
 from pydoof_core import IndicesApi
 
-from pydoof.management.helpers import setup_management_api
+from pydoof_beta.management.helpers import setup_management_api
 
 __ALL__ = ('Indices')
 
