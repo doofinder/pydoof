@@ -159,9 +159,9 @@ API Documentation
 
   * `Doofinder Management v1 documentation`_
 
-.. _Doofinder Search v4 documentation: http://www.doofinder.com/developer/search-api
+.. _Doofinder Search v4 documentation: https://www.doofinder.com/support/developer/api/search-api
 
-.. _Doofinder Management v1 documentation: http://www.doofinder.com/developer/management-api
+.. _Doofinder Management v1 documentation: https://www.doofinder.com/support/developer/api/management-api
 
 
 To Run Tests

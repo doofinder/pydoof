@@ -158,9 +158,9 @@ Please note **https is mandatory for versions >= 5**
 
 API Documentation
 -----------------
-[Doofinder Search v5 documentation](http://www.doofinder.com/developer/search-api)
+[Doofinder Search v5 documentation](https://www.doofinder.com/support/developer/api/search-api)
 
-[Doofinder Management v1 documentation](http://www.doofinder.com/developer/management-api)
+[Doofinder Management v1 documentation](https://www.doofinder.com/support/developer/api/management-api)
 
 
 To Run Tests
