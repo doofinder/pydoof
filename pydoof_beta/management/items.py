@@ -1,6 +1,4 @@
-from pydoof_core import ItemsApi
-
-from pydoof_beta.management.helpers import setup_management_api
+from pydoof_beta.management.helpers import bulk_request, setup_management_api
 
 __ALL__ = ('Items', 'Scroll')
 
@@ -48,71 +46,120 @@ class Items():
 
     @staticmethod
     def create(hashid, name, item, temp=False, **opts):
-        api_instance = setup_management_api(ItemsApi, **opts)
-        if temp:
-            return api_instance.item_temp_create(item, hashid, name)
-        return api_instance.item_create(item, hashid, name)
-
-    @staticmethod
-    def get(hashid, name, item_id, temp=False, **opts):
-        api_instance = setup_management_api(ItemsApi, **opts)
-        if temp:
-            return api_instance.item_temp_show(hashid, name, item_id)
-        return api_instance.item_show(hashid, name, item_id)
-
-    @staticmethod
-    def mget(hashid, name, items, temp=False, **opts):
-        api_instance = setup_management_api(ItemsApi, **opts)
-        if temp:
-            return api_instance.items_temp_mget(items, hashid, name)
-        return api_instance.items_mget(items, hashid, name)
-
-    @staticmethod
-    def update(hashid, name, item_id, item, temp=False, **opts):
-        api_instance = setup_management_api(ItemsApi, **opts)
-        if temp:
-            return api_instance.item_temp_update(item, hashid, name, item_id)
-        return api_instance.item_update(item, hashid, name, item_id)
-
-    @staticmethod
-    def delete(hashid, name, item_id, temp=False, **opts):
-        api_instance = setup_management_api(ItemsApi, **opts)
-        if temp:
-            api_instance.item_temp_delete(hashid, name, item_id)
-        api_instance.item_delete(hashid, name, item_id)
-
-    @staticmethod
-    def bulk_create(hashid, name, items, temp=False, **opts):
         query_params = []
         if 'destination_server' in opts:
             query_params += [('destination_server', opts['destination_server'])]
 
-        url = '/api/v2/search_engines/{hashid}/indices/{name}/items/_bulk'
+        url = '/api/v2/search_engines/{hashid}/indices/{name}/items'
         if temp:
-            url = '/api/v2/search_engines/{hashid}/indices/{name}/temp/items/_bulk'
+            url = '/api/v2/search_engines/{hashid}/indices/{name}/temp/items'
 
         api_client = setup_management_api(**opts)
-        api_client.call_api(
+        return api_client.call_api(
             url,
             'POST',
             path_params={'hashid': hashid, 'name': name},
             query_params=query_params,
-            body=items,
+            body=item,
             auth_settings=['api_token'],
             response_type='object',
             _return_http_data_only=True
         )
 
     @staticmethod
-    def bulk_delete(hashid, name, items, temp=False, **opts):
-        api_instance = setup_management_api(ItemsApi, **opts)
+    def get(hashid, name, item_id, temp=False, **opts):
+        query_params = []
+        if 'destination_server' in opts:
+            query_params += [('destination_server', opts['destination_server'])]
+
+        url = '/api/v2/search_engines/{hashid}/indices/{name}/items/{item_id}'
         if temp:
-            return api_instance.items_temp_bulk_delete(items, hashid, name)
-        return api_instance.items_bulk_delete(items, hashid, name)
+            url = '/api/v2/search_engines/{hashid}/indices/{name}/temp/items/{item_id}'
+
+        api_client = setup_management_api(**opts)
+        return api_client.call_api(
+            url,
+            'GET',
+            path_params={'hashid': hashid, 'name': name, 'item_id': item_id},
+            query_params=query_params,
+            auth_settings=['api_token'],
+            response_type='object',
+            _return_http_data_only=True
+        )
+
+    @staticmethod
+    def update(hashid, name, item_id, item, temp=False, **opts):
+        query_params = []
+        if 'destination_server' in opts:
+            query_params += [('destination_server', opts['destination_server'])]
+
+        url = '/api/v2/search_engines/{hashid}/indices/{name}/items/{item_id}'
+        if temp:
+            url = '/api/v2/search_engines/{hashid}/indices/{name}/temp/items/{item_id}'
+
+        api_client = setup_management_api(**opts)
+        return api_client.call_api(
+            url,
+            'PATCH',
+            path_params={'hashid': hashid, 'name': name, 'item_id': item_id},
+            query_params=query_params,
+            body=item,
+            auth_settings=['api_token'],
+            response_type='object',
+            _return_http_data_only=True
+        )
+
+    @staticmethod
+    def delete(hashid, name, item_id, temp=False, **opts):
+        query_params = []
+        if 'destination_server' in opts:
+            query_params += [('destination_server', opts['destination_server'])]
+
+        url = '/api/v2/search_engines/{hashid}/indices/{name}/items/{item_id}'
+        if temp:
+            url = '/api/v2/search_engines/{hashid}/indices/{name}/temp/items/{item_id}'
+
+        api_client = setup_management_api(**opts)
+        return api_client.call_api(
+            url,
+            'DELETE',
+            path_params={'hashid': hashid, 'name': name, 'item_id': item_id},
+            query_params=query_params,
+            auth_settings=['api_token'],
+            response_type='object',
+            _return_http_data_only=True
+        )
+
+    @staticmethod
+    def mget(hashid, name, items, temp=False, **opts):
+        query_params = []
+        if 'destination_server' in opts:
+            query_params += [('destination_server', opts['destination_server'])]
+
+        url = '/api/v2/search_engines/{hashid}/indices/{name}/items/_mget'
+        if temp:
+            url = '/api/v2/search_engines/{hashid}/indices/{name}/temp/items/_mget'
+
+        api_client = setup_management_api(**opts)
+        return api_client.call_api(
+            url,
+            'POST',
+            path_params={'hashid': hashid, 'name': name},
+            query_params=query_params,
+            body=item,
+            auth_settings=['api_token'],
+            response_type='object',
+            _return_http_data_only=True
+        )
+
+    @staticmethod
+    def bulk_create(hashid, name, items, temp=False, **opts):
+        return bulk_request(hashid, name, items, temp, 'POST', **opts)
+
+    @staticmethod
+    def bulk_delete(hashid, name, items, temp=False, **opts):
+        return bulk_request(hashid, name, items, temp, 'DELETE', **opts)
 
     @staticmethod
     def bulk_update(hashid, name, items, temp=False, **opts):
-        api_instance = setup_management_api(ItemsApi, **opts)
-        if temp:
-            return api_instance.items_temp_bulk_update(items, hashid, name)
-        return api_instance.items_bulk_update(items, hashid, name)
+        return bulk_request(hashid, name, items, temp, 'PATCH', **opts)

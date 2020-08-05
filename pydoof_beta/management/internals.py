@@ -4,7 +4,7 @@ import json
 import pydoof_beta
 
 from pydoof_beta.management.helpers import (list_to_query_params,
-                                       setup_management_api)
+                                            setup_management_api)
 
 __ALL__ = ('Internals')
 

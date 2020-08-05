@@ -3,6 +3,32 @@ from pydoof_core import ApiClient, Configuration
 import pydoof_beta
 
 
+def bulk_request(hashid, name, items, temp, method, **opts):
+    """
+    """
+    query_params = []
+    if 'raw' in opts:
+        query_params += [('raw', 1)]
+    if 'destination_server' in opts:
+        query_params += [('destination_server', opts['destination_server'])]
+
+    url = '/api/v2/search_engines/{hashid}/indices/{name}/items/_bulk'
+    if temp:
+        url = '/api/v2/search_engines/{hashid}/indices/{name}/temp/items/_bulk'
+
+    api_client = setup_management_api(**opts)
+    return api_client.call_api(
+        url,
+        method,
+        path_params={'hashid': hashid, 'name': name},
+        query_params=query_params,
+        body=items,
+        auth_settings=['api_token'],
+        response_type='object',
+        _return_http_data_only=True
+    )
+
+
 def get_management_host(**opts):
     """
     """
@@ -14,10 +40,16 @@ def get_management_host(**opts):
     return host
 
 
+def list_to_query_params(param_name, param_values):
+    """
+    """
+    return [(f'{param_name}[]', param) for param in param_values]
+
+
 def setup_management_api(klass=None, **opts):
     """
     """
-    dfmaster_token = opts.get('dfmaster_token') or pydoof_beta._dfmaster_token
+    dfmaster_token = opts.get('_dfmaster_token') or pydoof_beta._dfmaster_token
     token = opts.get('token') or pydoof_beta.token
     host = get_management_host(**opts)
 
@@ -32,9 +64,3 @@ def setup_management_api(klass=None, **opts):
     if klass is None:
         return api_client
     return klass(api_client)
-
-
-def list_to_query_params(param_name, param_values):
-    """
-    """
-    return [(f'{param_name}[]', param) for param in param_values]
