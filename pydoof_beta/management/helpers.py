@@ -1,6 +1,25 @@
-from pydoof_core import ApiClient, Configuration
+from functools import wraps
 
+from pydoof_core import ApiClient, Configuration
+from pydoof_core.rest import ApiException
+
+from pydoof_beta.management.exceptions import _get_exception_class
 import pydoof_beta
+
+
+def handle_api_errors(func):
+    """
+    """
+    return func
+    # Disable while refactoring
+    # @wraps(func)
+    # def handle_errors(*args, **kwargs):
+    #     try:
+    #         return func(*args, **kwargs)
+    #     except ApiException as exc:
+    #         pydoof_exc_class = _get_exception_class(exc)
+    #         raise pydoof_exc_class(api_exc=exc) from exc
+    # return handle_errors
 
 
 def bulk_request(hashid, name, items, temp, method, **opts):

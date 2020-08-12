@@ -1,4 +1,5 @@
-from pydoof_beta.management.helpers import (list_to_query_params,
+from pydoof_beta.management.helpers import (handle_api_errors,
+                                            list_to_query_params,
                                             setup_management_api)
 
 __ALL__ = ('Stats')
@@ -24,6 +25,7 @@ class Stats:
         QUERY = 'query_counters'
 
     @staticmethod
+    @handle_api_errors
     def searches_by_click(from_, to, dfid, hashids=None, tz=None,
                           device=None, format_=None, **opts):
         query_params = [('from', from_), ('to', to)]
@@ -44,6 +46,7 @@ class Stats:
         )
 
     @staticmethod
+    @handle_api_errors
     def searches_top(from_, to, hashids=None, tz=None, device=None,
                      format_=None, query_name=None, total_hits=None,
                      exclude=None, **opts):
@@ -71,6 +74,7 @@ class Stats:
         )
 
     @staticmethod
+    @handle_api_errors
     def usage(from_, to, hashids=None, type_=None, format_=None, **opts):
         query_params = [('from', from_), ('to', to)]
         if hashids is not None:

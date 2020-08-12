@@ -1,4 +1,7 @@
-from pydoof_beta.management.helpers import bulk_request, setup_management_api
+from pydoof_core import ItemsApi
+
+from pydoof_beta.management.helpers import (bulk_request, handle_api_errors,
+                                            setup_management_api)
 
 __ALL__ = ('Items', 'Scroll')
 
@@ -23,6 +26,7 @@ class Scroll():
                 yield item
             scroll = self.next()
 
+    @handle_api_errors
     def new(self):
         api_instance = setup_management_api(ItemsApi, **self.opts)
         scroll_page = api_instance.item_index(
@@ -31,6 +35,7 @@ class Scroll():
         self.scroll_id = scroll_page['scroll_id']
         return scroll_page
 
+    @handle_api_errors
     def next(self):
         api_instance = setup_management_api(ItemsApi, **self.opts)
         return api_instance.item_index(
@@ -45,10 +50,13 @@ class Items():
         return Scroll(hashid, name, rpp, **opts)
 
     @staticmethod
+    @handle_api_errors
     def create(hashid, name, item, temp=False, **opts):
         query_params = []
         if 'destination_server' in opts:
-            query_params += [('destination_server', opts['destination_server'])]
+            query_params += [
+                ('destination_server', opts['destination_server'])
+            ]
 
         url = '/api/v2/search_engines/{hashid}/indices/{name}/items'
         if temp:
@@ -67,10 +75,13 @@ class Items():
         )
 
     @staticmethod
+    @handle_api_errors
     def get(hashid, name, item_id, temp=False, **opts):
         query_params = []
         if 'destination_server' in opts:
-            query_params += [('destination_server', opts['destination_server'])]
+            query_params += [
+                ('destination_server', opts['destination_server'])
+            ]
 
         url = '/api/v2/search_engines/{hashid}/indices/{name}/items/{item_id}'
         if temp:
@@ -88,10 +99,13 @@ class Items():
         )
 
     @staticmethod
+    @handle_api_errors
     def update(hashid, name, item_id, item, temp=False, **opts):
         query_params = []
         if 'destination_server' in opts:
-            query_params += [('destination_server', opts['destination_server'])]
+            query_params += [
+                ('destination_server', opts['destination_server'])
+            ]
 
         url = '/api/v2/search_engines/{hashid}/indices/{name}/items/{item_id}'
         if temp:
@@ -110,10 +124,13 @@ class Items():
         )
 
     @staticmethod
+    @handle_api_errors
     def delete(hashid, name, item_id, temp=False, **opts):
         query_params = []
         if 'destination_server' in opts:
-            query_params += [('destination_server', opts['destination_server'])]
+            query_params += [
+                ('destination_server', opts['destination_server'])
+            ]
 
         url = '/api/v2/search_engines/{hashid}/indices/{name}/items/{item_id}'
         if temp:
@@ -131,10 +148,13 @@ class Items():
         )
 
     @staticmethod
+    @handle_api_errors
     def mget(hashid, name, items, temp=False, **opts):
         query_params = []
         if 'destination_server' in opts:
-            query_params += [('destination_server', opts['destination_server'])]
+            query_params += [
+                ('destination_server', opts['destination_server'])
+            ]
 
         url = '/api/v2/search_engines/{hashid}/indices/{name}/items/_mget'
         if temp:
@@ -153,13 +173,16 @@ class Items():
         )
 
     @staticmethod
+    @handle_api_errors
     def bulk_create(hashid, name, items, temp=False, **opts):
         return bulk_request(hashid, name, items, temp, 'POST', **opts)
 
     @staticmethod
+    @handle_api_errors
     def bulk_delete(hashid, name, items, temp=False, **opts):
         return bulk_request(hashid, name, items, temp, 'DELETE', **opts)
 
     @staticmethod
+    @handle_api_errors
     def bulk_update(hashid, name, items, temp=False, **opts):
         return bulk_request(hashid, name, items, temp, 'PATCH', **opts)
