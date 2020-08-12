@@ -146,7 +146,7 @@ class Items():
             'POST',
             path_params={'hashid': hashid, 'name': name},
             query_params=query_params,
-            body=item,
+            body=items,
             auth_settings=['api_token'],
             response_type='object',
             _return_http_data_only=True
