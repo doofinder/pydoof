@@ -29,15 +29,23 @@ class Scroll():
     @handle_api_errors
     def new(self):
         api_instance = setup_management_api(ItemsApi, **self.opts)
+        kwargs = {'rpp': self.rpp} if self.rpp else {}
+
         scroll_page = api_instance.item_index(
-            self.hashid, self.name, rpp=self.rpp
+            self.hashid, self.name, **kwargs
         ).to_dict()
+
         self.scroll_id = scroll_page['scroll_id']
         return scroll_page
 
     @handle_api_errors
     def next(self):
         api_instance = setup_management_api(ItemsApi, **self.opts)
+
+        kwargs = {'scroll_id': self.scroll_id}
+        if self.rpp:
+            kwargs['rpp'] = self.rpp
+
         return api_instance.item_index(
             self.hashid, self.name, scroll_id=self.scroll_id, rpp=self.rpp
         ).to_dict()
