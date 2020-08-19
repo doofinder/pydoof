@@ -1,14 +1,16 @@
 from pydoof_beta.base import PyDoofError
 
 from pydoof_beta.management.exceptions import (AccessDeniedError,
+                                               BadRequestError,
                                                BadParametersError,
+                                               ConflictError,
                                                IndexInternalError,
                                                InvalidBoostValueError,
                                                InvalidFieldNamesError,
                                                NotAuthenticatedError,
                                                NotFoundError,
                                                SearchEngineLockedError,
-                                               TimeoutError,
+                                               APITimeoutError,
                                                TooManyItemsError,
                                                TooManyRequestsError,
                                                TooManyTemporaryError)

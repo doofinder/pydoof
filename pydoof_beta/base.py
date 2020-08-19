@@ -1,20 +1,15 @@
 """
 Common resources for management and search modules.
 """
-import json
 
 
 class PyDoofError(Exception):
     """Generic PyDoof Error"""
-    def __init__(self, code=None, details=None, message=None, api_exc=None):
-        if api_exc:
-            try:
-                error = json.loads(api_exc.body).get('error', {})
-            except json.JSONDecodeError:
-                error = {}
-            self.code = error.get('code')
-            self.details = error.get('details')
-            self.message = error.get('message')
+    def __init__(self, code=None, details=None, message=None, error_body=None):
+        if error_body:
+            self.code = error_body.get('code')
+            self.details = error_body.get('details')
+            self.message = error_body.get('message')
         else:
             self.code = code
             self.details = details

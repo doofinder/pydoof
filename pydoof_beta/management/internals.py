@@ -1,61 +1,45 @@
-from pydoof_beta.management.helpers import (list_to_query_params,
-                                            handle_api_errors,
-                                            setup_management_api)
+from pydoof_beta.api_client import ApiClient
+from pydoof_beta.management.helpers import build_query_params
+
 
 __ALL__ = ('Internals')
 
 
 class Internals():
-
+    """
+    """
     @staticmethod
-    @handle_api_errors
-    def users_refresh(user_id, **opts):
-        api_client = setup_management_api(**opts)
-        return api_client.call_api(
-            '/api/v2/internal/users/{user_id}/refresh/',
-            'POST',
-            path_params={'user_id': user_id},
-            response_type='str',
-            _return_http_data_only=True
+    def __user_url(user_id):
+        return f'/api/v2/internal/users/{user_id}',
+
+    def __searchengine_url(searchengine_hashid):
+        return f'/api/v2/internal/search_engines/{searchengine_hashid}'
+
+    @classmethod
+    def users_refresh(cls, user_id, **opts):
+        api_client = ApiClient(**opts)
+        api_client.post(
+            cls.__user_url(user_id) + '/refresh'
         )
 
-    @staticmethod
-    @handle_api_errors
-    def searchengine_refresh(searchengine_hashid, **opts):
-        api_client = setup_management_api(**opts)
-        return api_client.call_api(
-            '/api/v2/internal/search_engines/{hashid}/refresh/',
-            'POST',
-            path_params={'hashid': searchengine_hashid},
-            response_type='str',
-            _return_http_data_only=True
+    @classmethod
+    def searchengine_refresh(cls, searchengine_hashid, **opts):
+        api_client = ApiClient(**opts)
+        api_client.post(
+            cls.__searchengine_url(searchengine_hashid) + '/refresh'
         )
 
-    @staticmethod
-    @handle_api_errors
-    def searchengine_mappings(searchengine_hashid, indices=None, **opts):
-        query_params = None
-        if indices is not None:
-            query_params = list_to_query_params('indices', indices)
-
-        api_client = setup_management_api(**opts)
-        return api_client.call_api(
-            '/api/v2/internal/search_engines/{hashid}/mappings',
-            'GET',
-            path_params={'hashid': searchengine_hashid},
-            query_params=query_params,
-            response_type='object',
-            _return_http_data_only=True
+    @classmethod
+    def searchengine_mappings(cls, searchengine_hashid, indices=None, **opts):
+        api_client = ApiClient(**opts)
+        return api_client.get(
+            cls.__searchengine_url(searchengine_hashid) + '/mappings',
+            query_params=build_query_params({'indices': indices})
         )
 
-    @staticmethod
-    @handle_api_errors
-    def searchengine_stats_blocked_ips(searchengine_hashid, **opts):
-        api_client = setup_management_api(**opts)
-        return api_client.call_api(
-            '/api/v2/internal/search_engines/{hashid}/stats_blocked_ips',
-            'GET',
-            path_params={'hashid': searchengine_hashid},
-            response_type='object',
-            _return_http_data_only=True
+    @classmethod
+    def searchengine_stats_blocked_ips(cls, searchengine_hashid, **opts):
+        api_client = ApiClient(**opts)
+        return api_client.get(
+            cls.__searchengine_url(searchengine_hashid) + '/stats_blocked_ips',
         )

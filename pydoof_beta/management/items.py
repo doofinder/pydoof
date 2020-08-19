@@ -1,12 +1,12 @@
-from pydoof_core import ItemsApi
-
-from pydoof_beta.management.helpers import (bulk_request, handle_api_errors,
-                                            setup_management_api)
+from pydoof_beta.api_client import ApiClient
 
 __ALL__ = ('Items', 'Scroll')
 
 
 class Scroll():
+    @staticmethod
+    def __url(hashid, name):
+        return f'/api/v2/search_engines/{hashid}/indices/{name}/items/'
 
     def __init__(self, hashid, name, rpp=None, **opts):
         super(Scroll, self).__init__()
@@ -26,171 +26,133 @@ class Scroll():
                 yield item
             scroll = self.next()
 
-    @handle_api_errors
+    @property
+    def _query_params(self):
+        params = {}
+        if self.scroll_id:
+            params['scroll_id'] = self.scroll_id
+        if self.rpp:
+            params['rpp'] = self.rpp
+        return params
+
     def new(self):
-        api_instance = setup_management_api(ItemsApi, **self.opts)
-        kwargs = {'rpp': self.rpp} if self.rpp else {}
-
-        scroll_page = api_instance.item_index(
-            self.hashid, self.name, **kwargs
-        ).to_dict()
-
+        api_client = ApiClient(**self.opts)
+        scroll_page = api_client.get(
+            self.__url(self.hashid, self.name),
+            self._query_params
+        )
         self.scroll_id = scroll_page['scroll_id']
         return scroll_page
 
-    @handle_api_errors
     def next(self):
-        api_instance = setup_management_api(ItemsApi, **self.opts)
-
-        kwargs = {'scroll_id': self.scroll_id}
-        if self.rpp:
-            kwargs['rpp'] = self.rpp
-
-        return api_instance.item_index(
-            self.hashid, self.name, scroll_id=self.scroll_id, rpp=self.rpp
-        ).to_dict()
+        api_client = ApiClient(**self.opts)
+        return api_client.get(
+            self.__url(self.hashid, self.name),
+            self._query_params
+        )
 
 
 class Items():
+    """
+    """
+    @staticmethod
+    def __class_url(hashid, name, temp=False):
+        url = f'/api/v2/search_engines/{hashid}/indices/{name}'
+        if temp:
+            url += '/temp'
+        return url + '/items'
+
+    @staticmethod
+    def __instance_url(hashid, name, item_id, temp=False):
+        url = f'/api/v2/search_engines/{hashid}/indices/{name}'
+        if temp:
+            url += '/temp'
+        return url + f'/items/{item_id}'
+
+    @staticmethod
+    def __bulk_url(hashid, name, temp=False):
+        url = f'/api/v2/search_engines/{hashid}/indices/{name}'
+        if temp:
+            url += '/temp'
+        return url + '/items/_bulk'
+
+    @staticmethod
+    def __query_params(**opts):
+        params = {}
+        if 'destination_server' in opts:
+            params['destination_server'] = opts['destination_server']
+        return params
 
     @staticmethod
     def scroll(hashid, name, rpp=None, **opts):
         return Scroll(hashid, name, rpp, **opts)
 
-    @staticmethod
-    @handle_api_errors
-    def create(hashid, name, item, temp=False, **opts):
-        query_params = []
-        if 'destination_server' in opts:
-            query_params += [
-                ('destination_server', opts['destination_server'])
-            ]
-
-        url = '/api/v2/search_engines/{hashid}/indices/{name}/items'
-        if temp:
-            url = '/api/v2/search_engines/{hashid}/indices/{name}/temp/items'
-
-        api_client = setup_management_api(**opts)
-        return api_client.call_api(
-            url,
-            'POST',
-            path_params={'hashid': hashid, 'name': name},
-            query_params=query_params,
-            body=item,
-            auth_settings=['api_token'],
-            response_type='object',
-            _return_http_data_only=True
+    @classmethod
+    def create(cls, hashid, name, item, temp=False, **opts):
+        api_client = ApiClient(**opts)
+        return api_client.post(
+            cls.__class_url(hashid, name, temp),
+            item,
+            cls.__query_params(**opts)
         )
 
-    @staticmethod
-    @handle_api_errors
-    def get(hashid, name, item_id, temp=False, **opts):
-        query_params = []
-        if 'destination_server' in opts:
-            query_params += [
-                ('destination_server', opts['destination_server'])
-            ]
-
-        url = '/api/v2/search_engines/{hashid}/indices/{name}/items/{item_id}'
-        if temp:
-            url = '/api/v2/search_engines/{hashid}/indices/{name}/temp/items/{item_id}'
-
-        api_client = setup_management_api(**opts)
-        return api_client.call_api(
-            url,
-            'GET',
-            path_params={'hashid': hashid, 'name': name, 'item_id': item_id},
-            query_params=query_params,
-            auth_settings=['api_token'],
-            response_type='object',
-            _return_http_data_only=True
+    @classmethod
+    def get(cls, hashid, name, item_id, temp=False, **opts):
+        api_client = ApiClient(**opts)
+        return api_client.get(
+            cls.__instance_url(hashid, name, item_id, temp),
+            cls.__query_params(**opts)
         )
 
-    @staticmethod
-    @handle_api_errors
-    def update(hashid, name, item_id, item, temp=False, **opts):
-        query_params = []
-        if 'destination_server' in opts:
-            query_params += [
-                ('destination_server', opts['destination_server'])
-            ]
-
-        url = '/api/v2/search_engines/{hashid}/indices/{name}/items/{item_id}'
-        if temp:
-            url = '/api/v2/search_engines/{hashid}/indices/{name}/temp/items/{item_id}'
-
-        api_client = setup_management_api(**opts)
-        return api_client.call_api(
-            url,
-            'PATCH',
-            path_params={'hashid': hashid, 'name': name, 'item_id': item_id},
-            query_params=query_params,
-            body=item,
-            auth_settings=['api_token'],
-            response_type='object',
-            _return_http_data_only=True
+    @classmethod
+    def update(cls, hashid, name, item_id, item, temp=False, **opts):
+        api_client = ApiClient(**opts)
+        return api_client.patch(
+            cls.__instance_url(hashid, name, item_id, temp),
+            item,
+            cls.__query_params(**opts)
         )
 
-    @staticmethod
-    @handle_api_errors
-    def delete(hashid, name, item_id, temp=False, **opts):
-        query_params = []
-        if 'destination_server' in opts:
-            query_params += [
-                ('destination_server', opts['destination_server'])
-            ]
-
-        url = '/api/v2/search_engines/{hashid}/indices/{name}/items/{item_id}'
-        if temp:
-            url = '/api/v2/search_engines/{hashid}/indices/{name}/temp/items/{item_id}'
-
-        api_client = setup_management_api(**opts)
-        return api_client.call_api(
-            url,
-            'DELETE',
-            path_params={'hashid': hashid, 'name': name, 'item_id': item_id},
-            query_params=query_params,
-            auth_settings=['api_token'],
-            response_type='object',
-            _return_http_data_only=True
+    @classmethod
+    def delete(cls, hashid, name, item_id, temp=False, **opts):
+        api_client = ApiClient(**opts)
+        api_client.delete(
+            cls.__instance_url(hashid, name, item_id, temp),
+            cls.__query_params(**opts)
         )
 
-    @staticmethod
-    @handle_api_errors
-    def mget(hashid, name, items, temp=False, **opts):
-        query_params = []
-        if 'destination_server' in opts:
-            query_params += [
-                ('destination_server', opts['destination_server'])
-            ]
-
-        url = '/api/v2/search_engines/{hashid}/indices/{name}/items/_mget'
-        if temp:
-            url = '/api/v2/search_engines/{hashid}/indices/{name}/temp/items/_mget'
-
-        api_client = setup_management_api(**opts)
-        return api_client.call_api(
-            url,
-            'POST',
-            path_params={'hashid': hashid, 'name': name},
-            query_params=query_params,
-            body=items,
-            auth_settings=['api_token'],
-            response_type='object',
-            _return_http_data_only=True
+    @classmethod
+    def mget(cls, hashid, name, items, temp=False, **opts):
+        api_client = ApiClient(**opts)
+        return api_client.post(
+            cls.__class_url(hashid, name, temp) + '/_mget',
+            items,
+            cls.__query_params(**opts)
         )
 
-    @staticmethod
-    @handle_api_errors
-    def bulk_create(hashid, name, items, temp=False, **opts):
-        return bulk_request(hashid, name, items, temp, 'POST', **opts)
+    @classmethod
+    def bulk_create(cls, hashid, name, items, temp=False, **opts):
+        api_client = ApiClient(**opts)
+        return api_client.post(
+            cls.__bulk_url(hashid, name, temp),
+            items,
+            cls.__query_params(**opts)
+        )
 
-    @staticmethod
-    @handle_api_errors
-    def bulk_delete(hashid, name, items, temp=False, **opts):
-        return bulk_request(hashid, name, items, temp, 'DELETE', **opts)
+    @classmethod
+    def bulk_update(cls, hashid, name, items, temp=False, **opts):
+        api_client = ApiClient(**opts)
+        return api_client.patch(
+            cls.__bulk_url(hashid, name, temp),
+            items,
+            cls.__query_params(**opts)
+        )
 
-    @staticmethod
-    @handle_api_errors
-    def bulk_update(hashid, name, items, temp=False, **opts):
-        return bulk_request(hashid, name, items, temp, 'PATCH', **opts)
+    @classmethod
+    def bulk_delete(cls, hashid, name, items, temp=False, **opts):
+        api_client = ApiClient(**opts)
+        return api_client.delete(
+            cls.__bulk_url(hashid, name, temp),
+            items,
+            cls.__query_params(**opts)
+        )
