@@ -1,14 +1,7 @@
-from pydoof_beta.management.helpers import (handle_api_errors,
-                                            list_to_query_params,
-                                            setup_management_api)
+from pydoof_beta.api_client import ApiClient
+from pydoof_beta.management.helpers import build_query_params
 
 __ALL__ = ('Stats')
-
-__COMMON_PARAMS__ = {
-    'response_type': object,
-    'auth_settings': ['api_token'],
-    '_return_http_data_only': True
-}
 
 
 class Stats:
@@ -20,73 +13,227 @@ class Stats:
         JSON = 'json'
         CSV = 'csv'
 
+    class sources:
+        voice = 'voice'
+
     class types:
         API = 'api_counters'
         QUERY = 'query_counters'
 
-    @staticmethod
-    @handle_api_errors
-    def searches_by_click(from_, to, dfid, hashids=None, tz=None,
-                          device=None, format_=None, **opts):
-        query_params = [('from', from_), ('to', to)]
-        if hashids is not None:
-            query_params += list_to_query_params('hashid', hashids)
-        if tz is not None:
-            query_params += [('tz', tz)]
-        if device is not None:
-            query_params += [('device', device)]
-        if format_ is not None:
-            query_params += [('format', format_)]
-
-        api_client = setup_management_api(**opts)
-        return api_client.call_api(
-            '/api/v2/stats/searches/top', 'GET',
-            query_params=query_params,
-            **__COMMON_PARAMS__
+    @classmethod
+    def banners(cls, from_, to, hashids=None, banner_id=None, tz=None,
+                format_=None, **opts):
+        query_params = build_query_params({
+            'from': from_,
+            'to': to,
+            'hashid': hashids,
+            'id': banner_id,
+            'tz': tz,
+            'format': format_
+        })
+        api_client = ApiClient(**opts)
+        return api_client.get(
+            '/api/v2/stats/banners',
+            query_params
         )
 
-    @staticmethod
-    @handle_api_errors
-    def searches_top(from_, to, hashids=None, tz=None, device=None,
-                     format_=None, query_name=None, total_hits=None,
-                     exclude=None, **opts):
-        query_params = [('from', from_), ('to', to)]
-        if hashids is not None:
-            query_params += list_to_query_params('hashid', hashids)
-        if tz is not None:
-            query_params += [('tz', tz)]
-        if device is not None:
-            query_params += [('device', device)]
-        if format_ is not None:
-            query_params += [('format', format_)]
-        if query_name is not None:
-            query_params += [('query_name', query_name)]
-        if total_hits is not None:
-            query_params += [('total_hits', total_hits)]
-        if exclude is not None:
-            query_params += [('exclude', exclude)]
-
-        api_client = setup_management_api(**opts)
-        return api_client.call_api(
-            '/api/v2/stats/searches/top', 'GET',
-            query_params=query_params,
-            **__COMMON_PARAMS__
+    @classmethod
+    def checkouts(cls, from_, to, hashids=None, device=None, tz=None,
+                  interval=None, format_=None, **opts):
+        query_params = build_query_params({
+            'from': from_,
+            'to': to,
+            'hashid': hashids,
+            'device': device,
+            'tz': tz,
+            'interval': interval,
+            'format': format_
+        })
+        api_client = ApiClient(**opts)
+        return api_client.get(
+            '/api/v2/stats/checkouts',
+            query_params
         )
 
-    @staticmethod
-    @handle_api_errors
-    def usage(from_, to, hashids=None, type_=None, format_=None, **opts):
-        query_params = [('from', from_), ('to', to)]
-        if hashids is not None:
-            query_params += list_to_query_params('hashid', hashids)
-        if type_ is not None:
-            query_params += [('type', type_)]
-        if format_ is not None:
-            query_params += [('format', format_)]
+    @classmethod
+    def clicks(cls, from_, to, hashids=None, device=None, tz=None,
+               interval=None, format_=None, **opts):
+        query_params = build_query_params({
+            'from': from_,
+            'to': to,
+            'hashid': hashids,
+            'device': device,
+            'tz': tz,
+            'interval': interval,
+            'format': format_
+        })
+        api_client = ApiClient(**opts)
+        return api_client.get(
+            '/api/v2/stats/clicks',
+            query_params
+        )
 
-        api_client = setup_management_api(**opts)
-        return api_client.call_api(
-            '/api/v2/stats/usage', 'GET',
-            query_params=query_params,
-            **__COMMON_PARAMS__
+    @classmethod
+    def clicks_by_query(cls, query, from_, to, hashids=None, device=None,
+                        tz=None, interval=None, format_=None, **opts):
+        query_params = build_query_params({
+            'from': from_,
+            'to': to,
+            'hashid': hashids,
+            'device': device,
+            'tz': tz,
+            'interval': interval,
+            'format': format_
+        })
+        api_client = ApiClient(**opts)
+        return api_client.get(
+            f'/api/v2/stats/clicks/by-query/{query}',
+            query_params
+        )
+
+    @classmethod
+    def clicks_top(cls, from_, to, hashids=None, query=None, device=None,
+                   tz=None, interval=None, format_=None, **opts):
+        query_params = build_query_params({
+            'from': from_,
+            'to': to,
+            'hashid': hashids,
+            'query': query,
+            'device': device,
+            'tz': tz,
+            'interval': interval,
+            'format': format_
+        })
+        api_client = ApiClient(**opts)
+        return api_client.get(
+            '/api/v2/stats/clicks/top',
+            query_params
+        )
+
+    @classmethod
+    def custom_results(cls, from_, to, hashids=None, custom_result_id=None,
+                       tz=None, format_=None, **opts):
+        query_params = build_query_params({
+            'from': from_,
+            'to': to,
+            'hashid': hashids,
+            'id': custom_result_id,
+            'tz': tz,
+            'format': format_
+        })
+        api_client = ApiClient(**opts)
+        return api_client.get(
+            '/api/v2/stats/custom-results',
+            query_params
+        )
+
+    @classmethod
+    def inits(cls, from_, to, hashids=None, device=None, tz=None,
+              interval=None, format_=None, **opts):
+        query_params = build_query_params({
+            'from': from_,
+            'to': to,
+            'hashid': hashids,
+            'device': device,
+            'tz': tz,
+            'interval': interval,
+            'format': format_
+        })
+        api_client = ApiClient(**opts)
+        return api_client.get(
+            '/api/v2/stats/inits',
+            query_params
+        )
+
+    @classmethod
+    def redirects(cls, from_, to, hashids=None, redirect_id=None, tz=None,
+                  format_=None, **opts):
+        query_params = build_query_params({
+            'from': from_,
+            'to': to,
+            'hashid': hashids,
+            'id': redirect_id,
+            'tz': tz,
+            'format': format_
+        })
+        api_client = ApiClient(**opts)
+        return api_client.get(
+            '/api/v2/stats/redirects',
+            query_params
+        )
+
+    @classmethod
+    def click_searches(cls, from_, to, dfid, hashids=None, device=None,
+                       tz=None, format_=None, **opts):
+        query_params = build_query_params({
+            'from': from_,
+            'to': to,
+            'hashid': hashids,
+            'tz': tz,
+            'device': device,
+            'format': format_
+        })
+        api_client = ApiClient(**opts)
+        return api_client.get(
+            f'/api/v2/stats/clicks/{dfid}/searches/top',
+            query_params
+        )
+
+    @classmethod
+    def searches(cls, from_, to, hashids=None, device=None, query_name=None,
+                 source=None, total_hits=None, tz=None, interval=None,
+                 format_=None, **opts):
+        query_params = build_query_params({
+            'from': from_,
+            'to': to,
+            'hashid': hashids,
+            'device': device,
+            'query_name': query_name,
+            'source': source,
+            'total_hits': total_hits,
+            'tz': tz,
+            'interval': interval,
+            'format': format_
+        })
+        api_client = ApiClient(**opts)
+        return api_client.get(
+            '/api/v2/stats/searches',
+            query_params
+        )
+
+    @classmethod
+    def searches_top(cls, from_, to, hashids=None, device=None,
+                     query_name=None, exclude=None, total_hits=None,
+                     tz=None, interval=None, format_=None, **opts):
+        query_params = build_query_params({
+            'from': from_,
+            'to': to,
+            'hashid': hashids,
+            'device': device,
+            'query_name': query_name,
+            'exclude': exclude,
+            'total_hits': total_hits,
+            'tz': tz,
+            'interval': interval,
+            'format': format_
+        })
+        api_client = ApiClient(**opts)
+        return api_client.get(
+            '/api/v2/stats/searches/top',
+            query_params
+        )
+
+    @classmethod
+    def usage(cls, from_, to, hashids=None, type_=None, format_=None, **opts):
+        query_params = build_query_params({
+            'from': from_,
+            'to': to,
+            'hashid[]': hashids,
+            'type': type_,
+            'format': format_
+        })
+        api_client = ApiClient(**opts)
+        return api_client.get(
+            '/api/v2/stats/usage',
+            query_params
         )

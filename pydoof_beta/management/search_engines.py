@@ -1,50 +1,70 @@
-from pydoof_core import SearchEnginesApi
-
-from pydoof_beta.management.helpers import (handle_api_errors,
-                                            setup_management_api)
+from pydoof_beta.api_client import ApiClient
 
 __ALL__ = ('SearchEngines')
 
 
 class SearchEngines():
+    """
+    """
     @staticmethod
-    @handle_api_errors
-    def list(**opts):
-        api_instance = setup_management_api(SearchEnginesApi, **opts)
-        return api_instance.search_engine_list()
+    def __class_url():
+        return '/api/v2/search_engines'
 
     @staticmethod
-    @handle_api_errors
-    def create(data, **opts):
-        api_instance = setup_management_api(SearchEnginesApi, **opts)
-        return api_instance.search_engine_create(data).to_dict()
+    def __instance_url(hashid):
+        return f'/api/v2/search_engines/{hashid}'
 
     @staticmethod
-    @handle_api_errors
-    def get(hashid, **opts):
-        api_instance = setup_management_api(SearchEnginesApi, **opts)
-        return api_instance.search_engine_show(hashid).to_dict()
+    def __process_url(hashid):
+        return f'/api/v2/search_engines/{hashid}/_process'
 
-    @staticmethod
-    @handle_api_errors
-    def update(hashid, data, **opts):
-        api_instance = setup_management_api(SearchEnginesApi, **opts)
-        return api_instance.search_engine_update(data, hashid).to_dict()
+    @classmethod
+    def list(cls, **opts):
+        api_client = ApiClient(**opts)
+        return api_client.get(
+            cls.__class_url()
+        )
 
-    @staticmethod
-    @handle_api_errors
-    def delete(hashid, **opts):
-        api_instance = setup_management_api(SearchEnginesApi, **opts)
-        return api_instance.search_engine_delete(hashid).to_dict()
+    @classmethod
+    def create(cls, data, **opts):
+        api_client = ApiClient(**opts)
+        return api_client.post(
+            cls.__class_url(),
+            data
+        )
 
-    @staticmethod
-    @handle_api_errors
-    def schedule_process(hashid, **opts):
-        api_instance = setup_management_api(SearchEnginesApi, **opts)
-        return api_instance.process(hashid).to_dict()
+    @classmethod
+    def get(cls, hashid, **opts):
+        api_client = ApiClient(**opts)
+        return api_client.get(
+            cls.__instance_url(hashid)
+        )
 
-    @staticmethod
-    @handle_api_errors
-    def get_process_status(hashid, **opts):
-        api_instance = setup_management_api(SearchEnginesApi, **opts)
-        return api_instance.process_status(hashid).to_dict()
+    @classmethod
+    def update(cls, hashid, data, **opts):
+        api_client = ApiClient(**opts)
+        return api_client.patch(
+            cls.__instance_url(hashid),
+            data
+        )
+
+    @classmethod
+    def delete(cls, hashid, **opts):
+        api_client = ApiClient(**opts)
+        api_client.delete(
+            cls.__instance_url(hashid)
+        )
+
+    @classmethod
+    def schedule_process(cls, hashid, **opts):
+        api_client = ApiClient(**opts)
+        return api_client.post(
+            cls.__process_url(hashid)
+        )
+
+    @classmethod
+    def get_process_status(cls, hashid, **opts):
+        api_client = ApiClient(**opts)
+        return api_client.get(
+            cls.__process_url(hashid)
+        )
