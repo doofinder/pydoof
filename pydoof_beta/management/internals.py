@@ -10,7 +10,7 @@ class Internals():
     """
     @staticmethod
     def __user_url(user_id):
-        return f'/api/v2/internal/users/{user_id}',
+        return f'/api/v2/internal/users/{user_id}'
 
     def __searchengine_url(searchengine_hashid):
         return f'/api/v2/internal/search_engines/{searchengine_hashid}'

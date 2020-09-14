@@ -1,5 +1,8 @@
-from json import JSONDecodeError
 import requests
+try:
+    from simplejson.errors import JSONDecodeError
+except ImportError:
+    from json.decoder import JSONDecodeError
 
 from pydoof_beta import exceptions
 import pydoof_beta
