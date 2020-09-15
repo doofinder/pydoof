@@ -228,7 +228,7 @@ class Stats:
         query_params = build_query_params({
             'from': from_,
             'to': to,
-            'hashid[]': hashids,
+            'hashid': hashids,
             'type': type_,
             'format': format_
         })
