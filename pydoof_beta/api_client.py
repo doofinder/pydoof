@@ -108,7 +108,7 @@ class ApiClient():
             return exceptions.APITimeoutError
         elif e_status == 409:
             if e_code == 'searchengine_locked':
-                return exceptions.NotFoundError
+                return exceptions.SearchEngineLockedError
             elif e_code == 'too_many_temporary':
                 return exceptions.TooManyTemporaryError
             else:
