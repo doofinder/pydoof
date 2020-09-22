@@ -75,21 +75,36 @@ class Indices():
 
     @classmethod
     def reindex_to_temp(cls, hashid, name, **opts):
+        params = {}
+        if 'destination_server' in opts:
+            params['destination_server'] = opts['destination_server']
+
         api_client = ApiClient(**opts)
         return api_client.post(
-            cls.__instance_url(hashid, name) + '/_reindex_to_temp'
+            cls.__instance_url(hashid, name) + '/_reindex_to_temp',
+            query_params=params
         )
 
     @classmethod
     def reindex_status(cls, hashid, name, **opts):
+        params = {}
+        if 'destination_server' in opts:
+            params['destination_server'] = opts['destination_server']
+
         api_client = ApiClient(**opts)
         return api_client.get(
-            cls.__instance_url(hashid, name) + '/_reindex_to_temp'
+            cls.__instance_url(hashid, name) + '/_reindex_to_temp',
+            query_params=params
         )
 
     @classmethod
     def replace_by_temp(cls, hashid, name, **opts):
+        params = {}
+        if 'destination_server' in opts:
+            params['destination_server'] = opts['destination_server']
+
         api_client = ApiClient(**opts)
         return api_client.post(
-            cls.__instance_url(hashid, name) + '/_replace_by_temp'
+            cls.__instance_url(hashid, name) + '/_replace_by_temp',
+            query_params=params
         )
