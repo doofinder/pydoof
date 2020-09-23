@@ -43,21 +43,39 @@ class ApiClient():
                              dfmaster_token=self.dfmaster_token)
 
     def request(self, method, url, query_params=None, json=None):
-        response = requests.request(
-            method,
-            url=f'{self.host}{url}',
-            params=query_params,
-            json=json,
-            headers=self.headers,
-            auth=self.authentication
-        )
+        try:
+            response = requests.request(
+                method,
+                url=f'{self.host}{url}',
+                params=query_params,
+                json=json,
+                headers=self.headers,
+                auth=self.authentication
+            )
+        except Exception as exc:
+            raise exceptions.APIConnectionError(
+                message="Unexpected error communicating with Doofinder.",
+                original_exc=exc
+            )
+
         try:
             response_body = response.json()
         except JSONDecodeError:
             response_body = response.text
 
         if not 200 <= response.status_code < 300:
-            self.__handle_error(response.status_code, response_body)
+            error_code = None
+            kwargs = {'http_status': response.status_code}
+            try:
+                error = response_body['error']
+                error_code = error['code']
+            except (TypeError, KeyError):
+                kwargs = {'http_body': response_body}
+            else:
+                kwargs.update(**error)
+            self.__handle_response_error(
+                response.status_code, error_code, kwargs
+            )
 
         return response_body
 
@@ -73,49 +91,43 @@ class ApiClient():
     def patch(self, url, json=None, query_params=None):
         return self.request('PATCH', url, query_params, json)
 
-    def __handle_error(self, e_status, e_body):
-        e_code = None
-        try:
-            error = e_body["error"]
-            e_code = error["code"]
-        except (TypeError, KeyError):
-            kwargs = {'message': e_body}
-        else:
-            kwargs = {'error_body': error}
-
-        e_klass = self.__get_error_class(e_status, e_code)
-        raise e_klass(**kwargs)
-
-    def __get_error_class(self, e_status, e_code):
-        if e_status == 400:
-            if e_code == 'bad_params':
-                return exceptions.BadParametersError
-            if e_code == 'index_internal_error':
-                return exceptions.IndexInternalError
-            if e_code == 'invalid_boost_value':
-                return exceptions.InvalidBoostValueError
-            if e_code == 'invalid_field_name':
-                return exceptions.InvalidFieldNamesError
+    def __handle_response_error(self, http_status, error_code, kwargs):
+        if http_status == 400:
+            if error_code == 'bad_params':
+                raise exceptions.BadParametersError(**kwargs)
+            if error_code == 'index_internal_error':
+                raise exceptions.IndexInternalError(**kwargs)
+            if error_code == 'invalid_boost_value':
+                raise exceptions.InvalidBoostValueError(**kwargs)
+            if error_code == 'invalid_field_name':
+                raise exceptions.InvalidFieldNamesError(**kwargs)
             else:
-                return exceptions.BadRequestError
-        elif e_status == 401:
-            return exceptions.NotAuthenticatedError
-        elif e_status == 403:
-            return exceptions.AccessDeniedError
-        elif e_status == 404:
-            return exceptions.NotFoundError
-        elif e_status == 408:
-            return exceptions.APITimeoutError
-        elif e_status == 409:
-            if e_code == 'searchengine_locked':
-                return exceptions.SearchEngineLockedError
-            elif e_code == 'too_many_temporary':
-                return exceptions.TooManyTemporaryError
+                raise exceptions.BadRequestError(**kwargs)
+        elif http_status == 401:
+            raise exceptions.NotAuthenticatedError(**kwargs)
+        elif http_status == 403:
+            raise exceptions.AccessDeniedError(**kwargs)
+        elif http_status == 404:
+            raise exceptions.NotFoundError(**kwargs)
+        elif http_status == 408:
+            raise exceptions.APITimeoutError(**kwargs)
+        elif http_status == 409:
+            if error_code == 'searchengine_locked':
+                raise exceptions.SearchEngineLockedError(**kwargs)
+            elif error_code == 'too_many_temporary':
+                raise exceptions.TooManyTemporaryError(**kwargs)
             else:
-                return exceptions.ConflictError
-        elif e_status == 413:
-            return exceptions.TooManyItemsError
-        elif e_status == 429:
-            return exceptions.TooManyRequestsError
+                raise exceptions.ConflictError(**kwargs)
+        elif http_status == 413:
+            raise exceptions.TooManyItemsError(**kwargs)
+        elif http_status == 429:
+            raise exceptions.TooManyRequestsError(**kwargs)
+        elif http_status == 502:
+            kwargs.update(
+                message="Unexpected error communicating with Doofinder. "
+                        "If this problem persists, let us know at "
+                        "support@doofinder.com."
+            )
+            raise exceptions.BadGatewayError(**kwargs)
         else:
-            return exceptions.PyDoofError
+            raise exceptions.PyDoofError(**kwargs)
