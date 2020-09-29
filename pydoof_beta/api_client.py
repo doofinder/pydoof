@@ -42,7 +42,7 @@ class ApiClient():
         return DoofinderAuth(token=self.token,
                              dfmaster_token=self.dfmaster_token)
 
-    def request(self, method, url, query_params=None, json=None):
+    def request(self, method, url, query_params=None, json=None, stream=False):
         try:
             response = requests.request(
                 method,

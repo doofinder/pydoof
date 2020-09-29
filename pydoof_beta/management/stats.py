@@ -128,6 +128,37 @@ class Stats:
         )
 
     @classmethod
+    def facets(cls, from_, to, hashids=None, tz=None, format_=None, **opts):
+        query_params = build_query_params({
+            'from': from_,
+            'to': to,
+            'hashid': hashids,
+            'tz': tz,
+            'format': format_
+        })
+        api_client = ApiClient(**opts)
+        return api_client.get(
+            '/api/v2/stats/facets',
+            query_params
+        )
+
+    @classmethod
+    def facets_top(cls, from_, to, hashids=None, tz=None, format_=None,
+                   **opts):
+        query_params = build_query_params({
+            'from': from_,
+            'to': to,
+            'hashid': hashids,
+            'tz': tz,
+            'format': format_
+        })
+        api_client = ApiClient(**opts)
+        return api_client.get(
+            '/api/v2/stats/facets/top',
+            query_params
+        )
+
+    @classmethod
     def inits(cls, from_, to, hashids=None, device=None, tz=None,
               interval=None, format_=None, **opts):
         query_params = build_query_params({
