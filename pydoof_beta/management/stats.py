@@ -268,3 +268,19 @@ class Stats:
             '/api/v2/stats/usage',
             query_params
         )
+
+    @classmethod
+    def query_log_iter(cls, from_, to, hashids=None, **opts):
+        query_params = build_query_params({
+            'from': from_,
+            'to': to,
+            'hashid': hashids
+        })
+
+        api_client = ApiClient(**opts)
+        return api_client.request(
+            'GET',
+            '/api/v2/stats/query_log',
+            query_params,
+            stream=True
+        )

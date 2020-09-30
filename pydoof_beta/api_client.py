@@ -42,7 +42,8 @@ class ApiClient():
         return DoofinderAuth(token=self.token,
                              dfmaster_token=self.dfmaster_token)
 
-    def request(self, method, url, query_params=None, json=None, stream=False):
+    def request(self, method, url, query_params=None, json=None,
+                **request_opts):
         try:
             response = requests.request(
                 method,
@@ -50,7 +51,8 @@ class ApiClient():
                 params=query_params,
                 json=json,
                 headers=self.headers,
-                auth=self.authentication
+                auth=self.authentication,
+                **request_opts
             )
         except Exception as exc:
             raise exceptions.APIConnectionError(
@@ -58,25 +60,17 @@ class ApiClient():
                 original_exc=exc
             )
 
-        try:
-            response_body = response.json()
-        except JSONDecodeError:
-            response_body = response.text
-
         if not 200 <= response.status_code < 300:
-            error_code = None
-            kwargs = {'http_status': response.status_code}
-            try:
-                error = response_body['error']
-                error_code = error['code']
-            except (TypeError, KeyError):
-                kwargs = {'http_body': response_body}
-            else:
-                kwargs.update(**error)
-            self.__handle_response_error(
-                response.status_code, error_code, kwargs
-            )
+            err = self.__handle_response_error(response)
+            raise err
 
+        if request_opts.get('stream', False):
+            response_body = response.iter_content(chunk_size=None)
+        else:
+            try:
+                response_body = response.json()
+            except JSONDecodeError:
+                response_body = response.text
         return response_body
 
     def get(self, url, query_params=None):
@@ -91,43 +85,59 @@ class ApiClient():
     def patch(self, url, json=None, query_params=None):
         return self.request('PATCH', url, query_params, json)
 
-    def __handle_response_error(self, http_status, error_code, kwargs):
+    def __handle_response_error(self, response):
+        error_code = None
+        http_status = response.status_code
+        error_data = {'http_status': http_status}
+
+        try:
+            response_json = response.json()
+            error = response_json['error']
+            error_code = error['code']
+        except (TypeError, KeyError, JSONDecodeError):
+            error_data.update(http_body=response.text)
+        else:
+            error_data.update(**error)
+        return self.__specific_error(http_status, error_code, error_data)
+
+    def __specific_error(self, http_status, error_code, error_data):
         if http_status == 400:
             if error_code == 'bad_params':
-                raise exceptions.BadParametersError(**kwargs)
+                return exceptions.BadParametersError(**error_data)
             if error_code == 'index_internal_error':
-                raise exceptions.IndexInternalError(**kwargs)
+                return exceptions.IndexInternalError(**error_data)
             if error_code == 'invalid_boost_value':
-                raise exceptions.InvalidBoostValueError(**kwargs)
+                return exceptions.InvalidBoostValueError(**error_data)
             if error_code == 'invalid_field_name':
-                raise exceptions.InvalidFieldNamesError(**kwargs)
+                return exceptions.InvalidFieldNamesError(**error_data)
             else:
-                raise exceptions.BadRequestError(**kwargs)
+                return exceptions.BadRequestError(**error_data)
         elif http_status == 401:
-            raise exceptions.NotAuthenticatedError(**kwargs)
+            return exceptions.NotAuthenticatedError(**error_data)
         elif http_status == 403:
-            raise exceptions.AccessDeniedError(**kwargs)
+            return exceptions.AccessDeniedError(**error_data)
         elif http_status == 404:
-            raise exceptions.NotFoundError(**kwargs)
+            return exceptions.NotFoundError(**error_data)
         elif http_status == 408:
-            raise exceptions.APITimeoutError(**kwargs)
+            return exceptions.APITimeoutError(**error_data)
         elif http_status == 409:
             if error_code == 'searchengine_locked':
-                raise exceptions.SearchEngineLockedError(**kwargs)
+                return exceptions.SearchEngineLockedError(**error_data)
             elif error_code == 'too_many_temporary':
-                raise exceptions.TooManyTemporaryError(**kwargs)
+                return exceptions.TooManyTemporaryError(**error_data)
             else:
-                raise exceptions.ConflictError(**kwargs)
+                return exceptions.ConflictError(**error_data)
         elif http_status == 413:
-            raise exceptions.TooManyItemsError(**kwargs)
+            return exceptions.TooManyItemsError(**error_data)
         elif http_status == 429:
-            raise exceptions.TooManyRequestsError(**kwargs)
+            return exceptions.TooManyRequestsError(**error_data)
         elif http_status == 502:
-            kwargs.update(
-                message="Unexpected error communicating with Doofinder. "
-                        "If this problem persists, let us know at "
-                        "support@doofinder.com."
-            )
-            raise exceptions.BadGatewayError(**kwargs)
+            error_data = {
+                **error_data,
+                'message': "Unexpected error communicating with Doofinder. "
+                           "If this problem persists, let us know at "
+                           "support@doofinder.com."
+            }
+            return exceptions.BadGatewayError(**error_data)
         else:
-            raise exceptions.PyDoofError(**kwargs)
+            return exceptions.PyDoofError(**error_data)

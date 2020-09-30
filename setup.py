@@ -4,7 +4,7 @@ with open('README.txt') as file:
     long_description = file.read()
 
 
-setup(name='PyDoofBeta', version='3.1.7', author='Doofinder',
+setup(name='PyDoofBeta', version='3.1.8', author='Doofinder',
       author_email='support@doofinder.com',
       description="Doofinder's search & management API client",
       url='https://github.com/doofinder/pydoof',
