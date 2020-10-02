@@ -6,11 +6,11 @@ __ALL__ = ('RawItems')
 class RawItems():
     @staticmethod
     def __class_url(hashid, name):
-        return '/api/v2/search_engines/{hashid}/indices/{name}/temp/items'
+        return f'/api/v2/search_engines/{hashid}/indices/{name}/temp/items'
 
     @staticmethod
     def __instance_url(hashid, name, item_id):
-        return '/api/v2/search_engines/{hashid}/indices/{name}/temp/items/{item_id}'
+        return f'/api/v2/search_engines/{hashid}/indices/{name}/temp/items/{item_id}'
 
     def __query_params(**opts):
         query_params = {'raw': 1}
