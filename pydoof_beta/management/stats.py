@@ -177,6 +177,23 @@ class Stats:
         )
 
     @classmethod
+    def inits_locations(cls, from_, to, hashids=None, device=None, tz=None,
+                        format_=None, **opts):
+        query_params = build_query_params({
+            'from': from_,
+            'to': to,
+            'hashid': hashids,
+            'device': device,
+            'tz': tz,
+            'format': format_
+        })
+        api_client = ApiClient(**opts)
+        return api_client.get(
+            '/api/v2/stats/inits/locations',
+            query_params
+        )
+
+    @classmethod
     def redirects(cls, from_, to, hashids=None, redirect_id=None, tz=None,
                   format_=None, **opts):
         query_params = build_query_params({
