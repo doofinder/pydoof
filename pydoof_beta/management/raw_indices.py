@@ -6,7 +6,7 @@ __ALL__ = ('RawIndices')
 class RawIndices():
     @staticmethod
     def __class_url(hashid, name):
-        return f'/api/v2/search_engines/{hashid}/indices/{name}/temp',
+        return f'/api/v2/search_engines/{hashid}/indices/{name}/temp'
 
     @staticmethod
     def __get_query_params(**opts):
