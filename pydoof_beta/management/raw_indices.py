@@ -6,7 +6,7 @@ __ALL__ = ('RawIndices')
 class RawIndices():
     @staticmethod
     def __class_url(hashid, name):
-        return f'/api/v2/search_engines/{hashid}/indices/{name}/temp'
+        return f'/api/v2/search_engines/{hashid}/indices/{name}'
 
     @staticmethod
     def __get_query_params(**opts):
@@ -19,7 +19,7 @@ class RawIndices():
     def create_temp(cls, hashid, name, index_config, **opts):
         api_client = ApiClient(**opts)
         api_client.post(
-            cls.__class_url(hashid, name),
+            cls.__class_url(hashid, name) + '/temp',
             index_config,
             query_params=cls.__get_query_params(**opts)
         )
@@ -28,7 +28,7 @@ class RawIndices():
     def delete_temp(cls, hashid, name, **opts):
         api_client = ApiClient(**opts)
         api_client.delete(
-            cls.__class_url(hashid, name),
+            cls.__class_url(hashid, name) + '/temp',
             query_params=cls.__get_query_params(**opts)
         )
 
