@@ -52,6 +52,6 @@ class RawIndices():
     def replace_by_temp(cls, hashid, name, **opts):
         api_client = ApiClient(**opts)
         api_client.post(
-            cls.__class_url(hashid, name) + '_replace_by_temp',
+            cls.__class_url(hashid, name) + '/_replace_by_temp',
             query_params=cls.__get_query_params(**opts)
         )
