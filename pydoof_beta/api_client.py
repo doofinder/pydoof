@@ -25,12 +25,6 @@ class ApiClient():
     """
     """
     def __init__(self, **kwargs):
-        host = kwargs.get('management_host') or pydoof_beta.management_host
-        if host is None:
-            zone = kwargs.get('zone') or pydoof_beta.zone
-            host = f'https://{zone}-api.doofinder.com'
-
-        self.host = host
         self.headers = {'User-Agent': 'doofinder-api-client/python'}
         self.dfmaster_token = (
             kwargs.get('_dfmaster_token') or pydoof_beta._dfmaster_token
@@ -141,3 +135,25 @@ class ApiClient():
             return exceptions.BadGatewayError(**error_data)
         else:
             return exceptions.PyDoofError(**error_data)
+
+
+class ManagementApiClient(ApiClient):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        host = kwargs.get('management_host') or pydoof_beta.management_host
+        if host is None:
+            zone = kwargs.get('zone') or pydoof_beta.zone
+            host = f'https://{zone}-api.doofinder.com'
+
+        self.host = host
+
+
+class SearchApiClient(ApiClient):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        host = kwargs.get('search_host') or pydoof_beta.search_host
+        if host is None:
+            zone = kwargs.get('zone') or pydoof_beta.zone
+            host = f'https://{zone}-search.doofinder.com'
+
+        self.host = host
