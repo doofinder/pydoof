@@ -1,4 +1,4 @@
-from pydoof_beta.api_client import ManagementApiClient
+from pydoof_beta.management_api.api_client import ManagementApiClient
 
 
 def _get_items_url(hashid, name):

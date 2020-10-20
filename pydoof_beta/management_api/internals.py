@@ -1,5 +1,5 @@
-from pydoof_beta.api_client import ManagementApiClient
-from pydoof_beta.helpers import build_query_params
+from pydoof_beta.management_api.api_client import ManagementApiClient
+from pydoof_beta.helpers import parse_query_params
 
 
 def _get_user_url(user_id):
@@ -28,7 +28,7 @@ def searchengine_mappings(searchengine_hashid, indices=None, **opts):
     api_client = ManagementApiClient(**opts)
     return api_client.get(
         _get_searchengine_url(searchengine_hashid) + '/mappings',
-        query_params=build_query_params({'indices': indices})
+        query_params=parse_query_params({'indices': indices})
     )
 
 

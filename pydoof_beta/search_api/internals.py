@@ -1,4 +1,4 @@
-from pydoof_beta.api_client import SearchApiClient
+from pydoof_beta.search_api.api_client import SearchApiClient
 
 __ALL__ = ('Internals')
 

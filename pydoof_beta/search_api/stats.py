@@ -1,4 +1,4 @@
-from pydoof_beta.api_client import SearchApiClient
+from pydoof_beta.search_api.api_client import SearchApiClient
 
 
 def add_to_cart(hashid, datatype, session_id, item_id, amount, title, price,
@@ -52,16 +52,14 @@ def clear_cart(hashid, session_id, **opts):
     )
 
 
-def click(dfid, query, random_value, **opts):
+def checkout(hashid, session_id, **opts):
     query_params = {
-        'dfid': dfid,
-        'query': query,
-        'random_value': random_value
+        'hashid': hashid,
+        'session_id': session_id
     }
 
     api_client = SearchApiClient(**opts)
     api_client.get(
-        '/5/stats/click',
+        '/5/stats/checkout',
         query_params
     )
-

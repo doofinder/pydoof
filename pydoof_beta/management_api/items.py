@@ -1,5 +1,5 @@
-from pydoof_beta.api_client import ManagementApiClient
-from pydoof_beta.exceptions import TooManyRequestsError
+from pydoof_beta.management_api.api_client import ManagementApiClient
+from pydoof_beta.management_api.exceptions import TooManyRequestsError
 from time import sleep
 
 

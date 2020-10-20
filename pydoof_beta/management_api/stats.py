@@ -1,7 +1,7 @@
 from enum import Enum, unique
 
-from pydoof_beta.api_client import ManagementApiClient
-from pydoof_beta.helpers import build_query_params
+from pydoof_beta.management_api.api_client import ManagementApiClient
+from pydoof_beta.helpers import parse_query_params
 
 
 @unique
@@ -29,7 +29,7 @@ class Types(Enum):
 
 def banners(from_, to, hashids=None, banner_id=None, tz=None,
             format_=None, **opts):
-    query_params = build_query_params({
+    query_params = parse_query_params({
         'from': from_,
         'to': to,
         'hashid': hashids,
@@ -46,7 +46,7 @@ def banners(from_, to, hashids=None, banner_id=None, tz=None,
 
 def checkouts(from_, to, hashids=None, device=None, tz=None,
               interval=None, format_=None, **opts):
-    query_params = build_query_params({
+    query_params = parse_query_params({
         'from': from_,
         'to': to,
         'hashid': hashids,
@@ -64,7 +64,7 @@ def checkouts(from_, to, hashids=None, device=None, tz=None,
 
 def clicks(from_, to, hashids=None, device=None, tz=None,
            interval=None, format_=None, **opts):
-    query_params = build_query_params({
+    query_params = parse_query_params({
         'from': from_,
         'to': to,
         'hashid': hashids,
@@ -82,7 +82,7 @@ def clicks(from_, to, hashids=None, device=None, tz=None,
 
 def clicks_by_query(query, from_, to, hashids=None, device=None,
                     tz=None, interval=None, format_=None, **opts):
-    query_params = build_query_params({
+    query_params = parse_query_params({
         'from': from_,
         'to': to,
         'hashid': hashids,
@@ -100,7 +100,7 @@ def clicks_by_query(query, from_, to, hashids=None, device=None,
 
 def clicks_top(from_, to, hashids=None, query=None, device=None,
                tz=None, interval=None, format_=None, **opts):
-    query_params = build_query_params({
+    query_params = parse_query_params({
         'from': from_,
         'to': to,
         'hashid': hashids,
@@ -119,7 +119,7 @@ def clicks_top(from_, to, hashids=None, query=None, device=None,
 
 def custom_results(from_, to, hashids=None, custom_result_id=None,
                    tz=None, format_=None, **opts):
-    query_params = build_query_params({
+    query_params = parse_query_params({
         'from': from_,
         'to': to,
         'hashid': hashids,
@@ -135,7 +135,7 @@ def custom_results(from_, to, hashids=None, custom_result_id=None,
 
 
 def facets(from_, to, hashids=None, tz=None, format_=None, **opts):
-    query_params = build_query_params({
+    query_params = parse_query_params({
         'from': from_,
         'to': to,
         'hashid': hashids,
@@ -151,7 +151,7 @@ def facets(from_, to, hashids=None, tz=None, format_=None, **opts):
 
 def facets_top(from_, to, hashids=None, tz=None, format_=None,
                **opts):
-    query_params = build_query_params({
+    query_params = parse_query_params({
         'from': from_,
         'to': to,
         'hashid': hashids,
@@ -167,7 +167,7 @@ def facets_top(from_, to, hashids=None, tz=None, format_=None,
 
 def inits(from_, to, hashids=None, device=None, tz=None,
           interval=None, format_=None, **opts):
-    query_params = build_query_params({
+    query_params = parse_query_params({
         'from': from_,
         'to': to,
         'hashid': hashids,
@@ -185,7 +185,7 @@ def inits(from_, to, hashids=None, device=None, tz=None,
 
 def inits_locations(from_, to, hashids=None, device=None, tz=None,
                     format_=None, **opts):
-    query_params = build_query_params({
+    query_params = parse_query_params({
         'from': from_,
         'to': to,
         'hashid': hashids,
@@ -202,7 +202,7 @@ def inits_locations(from_, to, hashids=None, device=None, tz=None,
 
 def redirects(from_, to, hashids=None, redirect_id=None, tz=None,
               format_=None, **opts):
-    query_params = build_query_params({
+    query_params = parse_query_params({
         'from': from_,
         'to': to,
         'hashid': hashids,
@@ -219,7 +219,7 @@ def redirects(from_, to, hashids=None, redirect_id=None, tz=None,
 
 def click_searches(from_, to, dfid, hashids=None, device=None,
                    tz=None, format_=None, **opts):
-    query_params = build_query_params({
+    query_params = parse_query_params({
         'from': from_,
         'to': to,
         'hashid': hashids,
@@ -237,7 +237,7 @@ def click_searches(from_, to, dfid, hashids=None, device=None,
 def searches(from_, to, hashids=None, device=None, query_name=None,
              source=None, total_hits=None, tz=None, interval=None,
              format_=None, **opts):
-    query_params = build_query_params({
+    query_params = parse_query_params({
         'from': from_,
         'to': to,
         'hashid': hashids,
@@ -259,7 +259,7 @@ def searches(from_, to, hashids=None, device=None, query_name=None,
 def searches_top(from_, to, hashids=None, device=None,
                  query_name=None, exclude=None, total_hits=None,
                  tz=None, interval=None, format_=None, **opts):
-    query_params = build_query_params({
+    query_params = parse_query_params({
         'from': from_,
         'to': to,
         'hashid': hashids,
@@ -279,7 +279,7 @@ def searches_top(from_, to, hashids=None, device=None,
 
 
 def usage(from_, to, hashids=None, type_=None, format_=None, **opts):
-    query_params = build_query_params({
+    query_params = parse_query_params({
         'from': from_,
         'to': to,
         'hashid': hashids,
@@ -294,7 +294,7 @@ def usage(from_, to, hashids=None, type_=None, format_=None, **opts):
 
 
 def query_log_iter(from_, to, hashids=None, **opts):
-    query_params = build_query_params({
+    query_params = parse_query_params({
         'from': from_,
         'to': to,
         'hashid': hashids
