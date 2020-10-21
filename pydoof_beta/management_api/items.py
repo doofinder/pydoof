@@ -27,14 +27,16 @@ class Scroll():
             scroll = self.__next_with_retry()
 
     def __next_with_retry(self):
-        error = None
-        for i in range(2):
+        tries = 0
+        while True:
             try:
                 return self.next()
-            except TooManyRequestsError as exc:
-                error = exc
-                sleep(1)
-        raise error
+            except TooManyRequestsError:
+                if tries < 3:
+                    tries += 1
+                    sleep(1)
+                else:
+                    raise
 
     @property
     def _query_params(self):
