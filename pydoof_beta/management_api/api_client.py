@@ -3,12 +3,12 @@ try:
 except ImportError:
     from json.decoder import JSONDecodeError
 
+from pydoof_beta.base import APIClient
 from pydoof_beta.management_api import exceptions
-from pydoof_beta.base import ApiClient
 import pydoof_beta
 
 
-class ManagementApiClient(ApiClient):
+class ManagementAPIClient(APIClient):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         host = kwargs.get('management_host') or pydoof_beta.management_host
@@ -18,7 +18,7 @@ class ManagementApiClient(ApiClient):
 
         self.host = host
 
-    def __handle_response_error(self, response):
+    def _handle_response_error(self, response):
         error_code = None
         http_status = response.status_code
         error_data = {'http_status': http_status}
@@ -46,7 +46,7 @@ class ManagementApiClient(ApiClient):
             502: exceptions.BadGatewayError,
 
         }
-        error = errors_map.get(http_status, exceptions.ManagementApiClient)
+        error = errors_map.get(http_status, exceptions.ManagementAPIError)
         return error(**error_data)
 
     def __get_400_error(self, error_code):

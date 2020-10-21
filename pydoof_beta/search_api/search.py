@@ -1,6 +1,6 @@
 from enum import Enum, unique
 
-from pydoof_beta.search_api.api_client import SearchApiClient
+from pydoof_beta.search_api.api_client import SearchAPIClient
 from pydoof_beta.helpers import parse_query_params
 
 
@@ -18,7 +18,7 @@ class Transformers(Enum):
     ONLY_IDS = "onlyid"
 
 
-def query(hashid, query, filter_=None, exclude=None, type_=None,
+def query(hashid, query, filter_=None, exclude=None, index_name=None,
           query_name=None, sort=None, page=None, rpp=None, transformer=None,
           nostats=None, **opts):
     query_params = parse_query_params({
@@ -26,7 +26,7 @@ def query(hashid, query, filter_=None, exclude=None, type_=None,
         'query': query,
         'filter': filter_,
         'exclude': exclude,
-        'type': type_,
+        'type': index_name,
         'query_name': query_name,
         'sort': sort,
         'page': page,
@@ -35,7 +35,7 @@ def query(hashid, query, filter_=None, exclude=None, type_=None,
         'nostats': nostats
     })
 
-    api_client = SearchApiClient(**opts)
+    api_client = SearchAPIClient(**opts)
     return api_client.get(
         '/5/search',
         query_params=query_params
@@ -55,7 +55,7 @@ def suggest(hashid, query, filter_=None, exclude=None, sort=None, page=None,
         'transformer': transformer,
         'nostats': nostats
     })
-    api_client = SearchApiClient(**opts)
+    api_client = SearchAPIClient(**opts)
     return api_client.get(
         '/5/suggest',
         query_params=query_params

@@ -1,6 +1,6 @@
 from enum import Enum, unique
 
-from pydoof_beta.management_api.api_client import ManagementApiClient
+from pydoof_beta.management_api.api_client import ManagementAPIClient
 from pydoof_beta.helpers import parse_query_params
 
 
@@ -37,7 +37,7 @@ def banners(from_, to, hashids=None, banner_id=None, tz=None,
         'tz': tz,
         'format': format_
     })
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.get(
         '/api/v2/stats/banners',
         query_params
@@ -55,7 +55,7 @@ def checkouts(from_, to, hashids=None, device=None, tz=None,
         'interval': interval,
         'format': format_
     })
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.get(
         '/api/v2/stats/checkouts',
         query_params
@@ -73,7 +73,7 @@ def clicks(from_, to, hashids=None, device=None, tz=None,
         'interval': interval,
         'format': format_
     })
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.get(
         '/api/v2/stats/clicks',
         query_params
@@ -91,7 +91,7 @@ def clicks_by_query(query, from_, to, hashids=None, device=None,
         'interval': interval,
         'format': format_
     })
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.get(
         f'/api/v2/stats/clicks/by-query/{query}',
         query_params
@@ -110,7 +110,7 @@ def clicks_top(from_, to, hashids=None, query=None, device=None,
         'interval': interval,
         'format': format_
     })
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.get(
         '/api/v2/stats/clicks/top',
         query_params
@@ -127,7 +127,7 @@ def custom_results(from_, to, hashids=None, custom_result_id=None,
         'tz': tz,
         'format': format_
     })
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.get(
         '/api/v2/stats/custom-results',
         query_params
@@ -142,7 +142,7 @@ def facets(from_, to, hashids=None, tz=None, format_=None, **opts):
         'tz': tz,
         'format': format_
     })
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.get(
         '/api/v2/stats/facets',
         query_params
@@ -158,7 +158,7 @@ def facets_top(from_, to, hashids=None, tz=None, format_=None,
         'tz': tz,
         'format': format_
     })
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.get(
         '/api/v2/stats/facets/top',
         query_params
@@ -176,7 +176,7 @@ def inits(from_, to, hashids=None, device=None, tz=None,
         'interval': interval,
         'format': format_
     })
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.get(
         '/api/v2/stats/inits',
         query_params
@@ -193,7 +193,7 @@ def inits_locations(from_, to, hashids=None, device=None, tz=None,
         'tz': tz,
         'format': format_
     })
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.get(
         '/api/v2/stats/inits/locations',
         query_params
@@ -210,7 +210,7 @@ def redirects(from_, to, hashids=None, redirect_id=None, tz=None,
         'tz': tz,
         'format': format_
     })
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.get(
         '/api/v2/stats/redirects',
         query_params
@@ -227,7 +227,7 @@ def click_searches(from_, to, dfid, hashids=None, device=None,
         'device': device,
         'format': format_
     })
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.get(
         f'/api/v2/stats/clicks/{dfid}/searches/top',
         query_params
@@ -249,7 +249,7 @@ def searches(from_, to, hashids=None, device=None, query_name=None,
         'interval': interval,
         'format': format_
     })
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.get(
         '/api/v2/stats/searches',
         query_params
@@ -271,7 +271,7 @@ def searches_top(from_, to, hashids=None, device=None,
         'interval': interval,
         'format': format_
     })
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.get(
         '/api/v2/stats/searches/top',
         query_params
@@ -286,7 +286,7 @@ def usage(from_, to, hashids=None, type_=None, format_=None, **opts):
         'type': type_,
         'format': format_
     })
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.get(
         '/api/v2/stats/usage',
         query_params
@@ -300,7 +300,7 @@ def query_log_iter(from_, to, hashids=None, **opts):
         'hashid': hashids
     })
 
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.request(
         'GET',
         '/api/v2/stats/query_log',

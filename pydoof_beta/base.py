@@ -21,14 +21,14 @@ class APIConnectionError(PyDoofError):
         self.original_exc = original_exc
 
     def __str__(self):
-        error_message = "\n"
+        error_message = []
         if self.message:
-            error_message += f"{self.message}\n\n"
+            error_message += [f"{self.message}"]
         if self.original_exc:
-            error_message += f"{type(self.original_exc).__name__}"
+            error_message += [f"{type(self.original_exc).__name__}"]
             if str(self.original_exc):
-                error_message += f": {str(self.original_exc)}"
-        return error_message
+                error_message += [f": {str(self.original_exc)}"]
+        return "\n".join(error_message)
 
 
 class DoofinderAuth(requests.auth.AuthBase):
@@ -44,7 +44,7 @@ class DoofinderAuth(requests.auth.AuthBase):
         return r
 
 
-class ApiClient():
+class APIClient():
     """
     """
     def __init__(self, **kwargs):
@@ -61,7 +61,6 @@ class ApiClient():
 
     def request(self, method, url, query_params=None, json=None,
                 **request_opts):
-        print(query_params)
         try:
             response = requests.request(
                 method,
@@ -79,7 +78,7 @@ class ApiClient():
             )
 
         if not 200 <= response.status_code < 300:
-            err = self.__handle_response_error(response)
+            err = self._handle_response_error(response)
             raise err
 
         if request_opts.get('stream', False):

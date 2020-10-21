@@ -1,4 +1,4 @@
-from pydoof_beta.management_api.api_client import ManagementApiClient
+from pydoof_beta.management_api.api_client import ManagementAPIClient
 
 
 def _get_searchengines_url():
@@ -14,14 +14,14 @@ def _get_process_url(hashid):
 
 
 def list(**opts):
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.get(
         _get_searchengines_url()
     )
 
 
 def create(data, **opts):
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.post(
         _get_searchengines_url(),
         data
@@ -29,14 +29,14 @@ def create(data, **opts):
 
 
 def get(hashid, **opts):
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.get(
         _get_searchengine_url(hashid)
     )
 
 
 def update(hashid, data, **opts):
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.patch(
         _get_searchengine_url(hashid),
         data
@@ -44,21 +44,21 @@ def update(hashid, data, **opts):
 
 
 def delete(hashid, **opts):
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     api_client.delete(
         _get_searchengine_url(hashid)
     )
 
 
 def schedule_process(hashid, **opts):
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.post(
         _get_process_url(hashid)
     )
 
 
 def get_process_status(hashid, **opts):
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.get(
         _get_process_url(hashid)
     )

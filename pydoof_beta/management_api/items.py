@@ -1,4 +1,4 @@
-from pydoof_beta.management_api.api_client import ManagementApiClient
+from pydoof_beta.management_api.api_client import ManagementAPIClient
 from pydoof_beta.management_api.exceptions import TooManyRequestsError
 from time import sleep
 
@@ -40,7 +40,7 @@ class Scroll():
         return params
 
     def new(self):
-        api_client = ManagementApiClient(**self.opts)
+        api_client = ManagementAPIClient(**self.opts)
         scroll_page = api_client.get(
             self.__url(self.hashid, self.name),
             self._query_params
@@ -49,7 +49,7 @@ class Scroll():
         return scroll_page
 
     def next(self):
-        api_client = ManagementApiClient(**self.opts)
+        api_client = ManagementAPIClient(**self.opts)
         return api_client.get(
             self.__url(self.hashid, self.name),
             self._query_params
@@ -89,7 +89,7 @@ def scroll(hashid, name, rpp=None, **opts):
 
 
 def create(hashid, name, item, temp=False, **opts):
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.post(
         _get_items_url(hashid, name, temp),
         item,
@@ -98,7 +98,7 @@ def create(hashid, name, item, temp=False, **opts):
 
 
 def get(hashid, name, item_id, temp=False, **opts):
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.get(
         _get_item_url(hashid, name, item_id, temp),
         _get_query_params(**opts)
@@ -106,7 +106,7 @@ def get(hashid, name, item_id, temp=False, **opts):
 
 
 def update(hashid, name, item_id, item, temp=False, **opts):
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.patch(
         _get_item_url(hashid, name, item_id, temp),
         item,
@@ -115,7 +115,7 @@ def update(hashid, name, item_id, item, temp=False, **opts):
 
 
 def delete(hashid, name, item_id, temp=False, **opts):
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     api_client.delete(
         _get_item_url(hashid, name, item_id, temp),
         _get_query_params(**opts)
@@ -123,7 +123,7 @@ def delete(hashid, name, item_id, temp=False, **opts):
 
 
 def find(hashid, name, items_ids, temp=False, **opts):
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.post(
         _get_items_url(hashid, name, temp) + '/_mget',
         items_ids,
@@ -132,7 +132,7 @@ def find(hashid, name, items_ids, temp=False, **opts):
 
 
 def bulk_create(hashid, name, items, temp=False, **opts):
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.post(
         _get_bulk_url(hashid, name, temp),
         items,
@@ -141,7 +141,7 @@ def bulk_create(hashid, name, items, temp=False, **opts):
 
 
 def bulk_update(hashid, name, items, temp=False, **opts):
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.patch(
         _get_bulk_url(hashid, name, temp),
         items,
@@ -150,7 +150,7 @@ def bulk_update(hashid, name, items, temp=False, **opts):
 
 
 def bulk_delete(hashid, name, items, temp=False, **opts):
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.delete(
         _get_bulk_url(hashid, name, temp),
         items,

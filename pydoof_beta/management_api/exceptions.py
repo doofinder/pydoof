@@ -1,9 +1,9 @@
 """
 """
-from pydoof_beta.base import PyDoofError
-
+from pydoof_beta.base import APIConnectionError, PyDoofError
 
 __ALL__ = (
+    'APIConnectionError',
     'APITimeoutError',
     'AccessDeniedError',
     'BadGatewayError',
@@ -16,6 +16,7 @@ __ALL__ = (
     'ManagementAPIError',
     'NotAuthenticatedError',
     'NotFoundError',
+    'PyDoofError',
     'SearchEngineLockedError',
     'TooManyItemsError',
     'TooManyRequestsError',
@@ -36,16 +37,16 @@ class ManagementAPIError(PyDoofError):
 
     def __str__(self):
         """Custom error messages for exception"""
-        error_message = f"({self.http_status})\n"
+        error_message = [f"({self.http_status})"]
         if self.message:
-            error_message += f"{self.message}\n\n"
+            error_message += [f"{self.message}"]
         if self.code:
-            error_message += f"Code: {self.code}\n"
+            error_message += [f"Code: {self.code}"]
         if self.details:
-            error_message += f"Details: {self.details}\n"
+            error_message += [f"Details: {self.details}"]
         if self.http_body:
-            error_message += f"Response: {self.http_body}\n"
-        return error_message
+            error_message += [f"Response: {self.http_body}"]
+        return "\n".join(error_message)
 
 
 class BadGatewayError(ManagementAPIError):

@@ -1,4 +1,4 @@
-from pydoof_beta.management_api.api_client import ManagementApiClient
+from pydoof_beta.management_api.api_client import ManagementAPIClient
 
 
 def _get_items_url(hashid, name):
@@ -17,7 +17,7 @@ def _get_query_params(**opts):
 
 
 def create(hashid, name, item, **opts):
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.post(
         _get_items_url(hashid, name),
         item,
@@ -26,7 +26,7 @@ def create(hashid, name, item, **opts):
 
 
 def get(hashid, name, item_id, **opts):
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.get(
         _get_item_url(hashid, name, item_id),
         query_params=_get_query_params(**opts)
@@ -34,7 +34,7 @@ def get(hashid, name, item_id, **opts):
 
 
 def update(hashid, name, item_id, item, **opts):
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.patch(
         _get_item_url(hashid, name, item_id),
         item,
@@ -43,7 +43,7 @@ def update(hashid, name, item_id, item, **opts):
 
 
 def delete(hashid, name, item_id, **opts):
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     api_client.delete(
         _get_item_url(hashid, name, item_id),
         query_params=_get_query_params(**opts)
@@ -51,7 +51,7 @@ def delete(hashid, name, item_id, **opts):
 
 
 def find(hashid, name, items, **opts):
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.post(
         _get_items_url(hashid, name),
         items,
@@ -60,7 +60,7 @@ def find(hashid, name, items, **opts):
 
 
 def bulk_create(hashid, name, items, **opts):
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.post(
         _get_items_url(hashid, name) + '/_bulk',
         items,
@@ -69,7 +69,7 @@ def bulk_create(hashid, name, items, **opts):
 
 
 def bulk_delete(hashid, name, items, temp=False, **opts):
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.delete(
         _get_items_url(hashid, name) + '/_bulk',
         items,
@@ -78,7 +78,7 @@ def bulk_delete(hashid, name, items, temp=False, **opts):
 
 
 def bulk_update(hashid, name, items, temp=False, **opts):
-    api_client = ManagementApiClient(**opts)
+    api_client = ManagementAPIClient(**opts)
     return api_client.patch(
         _get_items_url(hashid, name) + '/_bulk',
         items,
