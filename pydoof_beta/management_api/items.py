@@ -5,7 +5,7 @@ from time import sleep
 
 class Scroll():
     @staticmethod
-    def __url(hashid, name):
+    def __get_url(hashid, name):
         return f'/api/v2/search_engines/{hashid}/indices/{name}/items/'
 
     def __init__(self, hashid, name, rpp=None, **opts):
@@ -24,11 +24,17 @@ class Scroll():
         while scroll['items']:
             for item in scroll['items']:
                 yield item
+            scroll = self.__next_with_retry()
+
+    def __next_with_retry(self):
+        error = None
+        for i in range(2):
             try:
-                scroll = self.next()
-            except TooManyRequestsError:
-                sleep(1000)
-                scroll = self.next()
+                return self.next()
+            except TooManyRequestsError as exc:
+                error = exc
+                sleep(1)
+        raise error
 
     @property
     def _query_params(self):
@@ -42,7 +48,7 @@ class Scroll():
     def new(self):
         api_client = ManagementAPIClient(**self.opts)
         scroll_page = api_client.get(
-            self.__url(self.hashid, self.name),
+            self.__get_url(self.hashid, self.name),
             self._query_params
         )
         self.scroll_id = scroll_page['scroll_id']
@@ -51,7 +57,7 @@ class Scroll():
     def next(self):
         api_client = ManagementAPIClient(**self.opts)
         return api_client.get(
-            self.__url(self.hashid, self.name),
+            self.__get_url(self.hashid, self.name),
             self._query_params
         )
 
