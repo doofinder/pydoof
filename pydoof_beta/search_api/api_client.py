@@ -11,12 +11,7 @@ import pydoof_beta
 class SearchAPIClient(APIClient):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        host = kwargs.get('search_host') or pydoof_beta.search_host
-        if host is None:
-            zone = kwargs.get('zone') or pydoof_beta.zone
-            host = f'https://{zone}-search.doofinder.com'
-
-        self.host = host
+        self.host = kwargs.get('search_url') or pydoof_beta.search_url
 
     def _handle_response_error(self, response):
         http_status = response.status_code

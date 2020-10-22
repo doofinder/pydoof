@@ -1,9 +1,8 @@
 token = None
-zone = None
 _dfmaster_token = None
 
-management_host = None
-search_host = None
+management_url = None
+search_url = None
 
 
 from pydoof_beta.management_api import indices, items, search_engines

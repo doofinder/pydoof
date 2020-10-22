@@ -11,12 +11,7 @@ import pydoof_beta
 class ManagementAPIClient(APIClient):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        host = kwargs.get('management_host') or pydoof_beta.management_host
-        if host is None:
-            zone = kwargs.get('zone') or pydoof_beta.zone
-            host = f'https://{zone}-api.doofinder.com'
-
-        self.host = host
+        self.host = kwargs.get('management_url') or pydoof_beta.management_url
 
     def _handle_response_error(self, response):
         error_code = None
