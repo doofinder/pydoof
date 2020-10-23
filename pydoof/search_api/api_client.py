@@ -3,15 +3,15 @@ try:
 except ImportError:
     from json.decoder import JSONDecodeError
 
-from pydoof_beta.base import APIClient
-from pydoof_beta.search_api import exceptions
-import pydoof_beta
+from pydoof.base import APIClient
+from pydoof.search_api import exceptions
+import pydoof
 
 
 class SearchAPIClient(APIClient):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.host = kwargs.get('search_url') or pydoof_beta.search_url
+        self.host = kwargs.get('search_url') or pydoof.search_url
 
     def _handle_response_error(self, response):
         http_status = response.status_code

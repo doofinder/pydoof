@@ -1,6 +1,6 @@
 """
 """
-from pydoof_beta.base import APIConnectionError, PyDoofError
+from pydoof.base import APIConnectionError, PyDoofError
 
 # __ALL__ = (
 # )

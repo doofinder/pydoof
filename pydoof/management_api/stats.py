@@ -1,7 +1,7 @@
 from enum import Enum, unique
 
-from pydoof_beta.management_api.api_client import ManagementAPIClient
-from pydoof_beta.helpers import parse_query_params
+from pydoof.management_api.api_client import ManagementAPIClient
+from pydoof.helpers import parse_query_params
 
 
 @unique

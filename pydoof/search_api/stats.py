@@ -1,4 +1,4 @@
-from pydoof_beta.search_api.api_client import SearchAPIClient
+from pydoof.search_api.api_client import SearchAPIClient
 
 
 def add_to_cart(hashid, index_name, session_id, item_id, amount, title, price,

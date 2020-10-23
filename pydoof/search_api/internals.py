@@ -1,4 +1,4 @@
-from pydoof_beta.search_api.api_client import SearchAPIClient
+from pydoof.search_api.api_client import SearchAPIClient
 
 
 def _get_cache_url(hashid):

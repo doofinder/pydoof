@@ -6,7 +6,7 @@ try:
 except ImportError:
     from json.decoder import JSONDecodeError
 
-import pydoof_beta
+import pydoof
 
 
 class PyDoofError(Exception):
@@ -50,9 +50,9 @@ class APIClient():
     def __init__(self, **kwargs):
         self.headers = {'User-Agent': 'doofinder-api-client/python'}
         self.dfmaster_token = (
-            kwargs.get('_dfmaster_token') or pydoof_beta._dfmaster_token
+            kwargs.get('_dfmaster_token') or pydoof._dfmaster_token
         )
-        self.token = kwargs.get('token') or pydoof_beta.token
+        self.token = kwargs.get('token') or pydoof.token
 
     @property
     def authentication(self):

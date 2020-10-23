@@ -1,4 +1,4 @@
-from pydoof_beta.management_api.api_client import ManagementAPIClient
+from pydoof.management_api.api_client import ManagementAPIClient
 
 __ALL__ = ('RawIndices')
 
