@@ -18,13 +18,14 @@ class Scroll():
         self.name = name
 
         self.opts = opts
+        self.api_client = ManagementAPIClient(**self.opts)
 
     def __iter__(self):
-        scroll = self.new()
-        while scroll['items']:
-            for item in scroll['items']:
+        scroll_page = self.new()
+        while scroll_page['items']:
+            for item in scroll_page['items']:
                 yield item
-            scroll = self.__next_with_retry()
+            scroll_page = self.__next_with_retry()
 
     def __next_with_retry(self):
         tries = 0
@@ -48,8 +49,7 @@ class Scroll():
         return params
 
     def new(self):
-        api_client = ManagementAPIClient(**self.opts)
-        scroll_page = api_client.get(
+        scroll_page = self.api_client.get(
             self.__get_url(self.hashid, self.name),
             self._query_params
         )
@@ -57,8 +57,7 @@ class Scroll():
         return scroll_page
 
     def next(self):
-        api_client = ManagementAPIClient(**self.opts)
-        return api_client.get(
+        return self.api_client.get(
             self.__get_url(self.hashid, self.name),
             self._query_params
         )

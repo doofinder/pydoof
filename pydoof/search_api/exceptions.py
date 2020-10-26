@@ -2,9 +2,6 @@
 """
 from pydoof.base import APIConnectionError, PyDoofError
 
-# __ALL__ = (
-# )
-
 
 class SearchAPIError(PyDoofError):
     """"""
@@ -36,15 +33,15 @@ class BadRequestError(SearchAPIError):
 
 
 class ForbiddenError(SearchAPIError):
-    """defexception message: "forbidden", plug_status: 403"""
+    """"""
     pass
 
 
 class InvalidTransformationError(SearchAPIError):
-    """defexception message: "transformation not valid", plug_status: 409"""
+    """"""
     pass
 
 
 class QueryLimitReachedError(SearchAPIError):
-    """defexception message: "Requests Limit Reached", plug_status: 429"""
+    """"""
     pass

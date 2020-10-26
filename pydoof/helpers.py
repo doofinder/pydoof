@@ -1,6 +1,7 @@
 """"""
 from collections import Iterable
 from datetime import date
+from enum import Enum
 
 
 def parse_query_params(params):
@@ -22,6 +23,8 @@ def _parse_param(param, value):
             query_params.update(
                 _parse_param(f'{param}[{k}]', v)
             )
+    elif isinstance(value, Enum):
+        query_params[param] = value.value
     elif not isinstance(value, str) and isinstance(value, Iterable):
         query_params.update(
             _dicts_appends(_parse_param(f'{param}[]', v) for v in value)

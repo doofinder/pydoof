@@ -18,7 +18,7 @@ class Formats(Enum):
 
 @unique
 class Sources(Enum):
-    voice = 'voice'
+    VOICE = 'voice'
 
 
 @unique

@@ -2,27 +2,6 @@
 """
 from pydoof.base import APIConnectionError, PyDoofError
 
-__ALL__ = (
-    'APIConnectionError',
-    'APITimeoutError',
-    'AccessDeniedError',
-    'BadGatewayError',
-    'BadParametersError',
-    'BadRequestError',
-    'ConflictError',
-    'IndexInternalError',
-    'InvalidBoostValueError',
-    'InvalidFieldNamesError',
-    'ManagementAPIError',
-    'NotAuthenticatedError',
-    'NotFoundError',
-    'PyDoofError',
-    'SearchEngineLockedError',
-    'TooManyItemsError',
-    'TooManyRequestsError',
-    'TooManyTemporaryError'
-)
-
 
 class ManagementAPIError(PyDoofError):
     """"""
