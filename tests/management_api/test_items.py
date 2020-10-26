@@ -200,7 +200,7 @@ class TestItems(unittest.TestCase):
     def test_find_temp(self, APIClientMock):
         hashid = 'aab32d8'
         index_name = 'product'
-        items_ids = {'id': '1235'}
+        items_ids = ['item_id']
 
         items.find(hashid, index_name, items_ids, temp=True)
 
@@ -210,34 +210,86 @@ class TestItems(unittest.TestCase):
             {}
         )
 
-    # def test_find(hashid, name, items_ids, temp=False, **opts):
-    #     api_client = ManagementAPIClient(**opts)
-    #     return api_client.post(
-    #         _get_items_url(hashid, name, temp) + '/_mget',
-    #         items_ids,
-    #         _get_query_params(**opts)
-    #     )
+    @mock.patch('pydoof.management_api.items.ManagementAPIClient')
+    def test_bulk_create(self, APIClientMock):
+        hashid = 'aab32d8'
+        index_name = 'product'
+        items_data = ['item']
 
-    # def test_bulk_create(hashid, name, items, temp=False, **opts):
-    #     api_client = ManagementAPIClient(**opts)
-    #     return api_client.post(
-    #         _get_bulk_url(hashid, name, temp),
-    #         items,
-    #         _get_query_params(**opts)
-    #     )
+        items.bulk_create(hashid, index_name, items_data)
 
-    # def test_bulk_update(hashid, name, items, temp=False, **opts):
-    #     api_client = ManagementAPIClient(**opts)
-    #     return api_client.patch(
-    #         _get_bulk_url(hashid, name, temp),
-    #         items,
-    #         _get_query_params(**opts)
-    #     )
+        APIClientMock.return_value.post.assert_called_with(
+            '/api/v2/search_engines/aab32d8/indices/product/items/_bulk',
+            items_data,
+            {}
+        )
 
-    # def test_bulk_delete(hashid, name, items, temp=False, **opts):
-    #     api_client = ManagementAPIClient(**opts)
-    #     return api_client.delete(
-    #         _get_bulk_url(hashid, name, temp),
-    #         items,
-    #         _get_query_params(**opts)
-    #     )
+    @mock.patch('pydoof.management_api.items.ManagementAPIClient')
+    def test_bulk_create_temp(self, APIClientMock):
+        hashid = 'aab32d8'
+        index_name = 'product'
+        items_data = ['item']
+
+        items.bulk_create(hashid, index_name, items_data, temp=True)
+
+        APIClientMock.return_value.post.assert_called_with(
+            '/api/v2/search_engines/aab32d8/indices/product/temp/items/_bulk',
+            items_data,
+            {}
+        )
+
+    @mock.patch('pydoof.management_api.items.ManagementAPIClient')
+    def test_bulk_update(self, APIClientMock):
+        hashid = 'aab32d8'
+        index_name = 'product'
+        items_data = ['item']
+
+        items.bulk_update(hashid, index_name, items_data)
+
+        APIClientMock.return_value.patch.assert_called_with(
+            '/api/v2/search_engines/aab32d8/indices/product/items/_bulk',
+            items_data,
+            {}
+        )
+
+    @mock.patch('pydoof.management_api.items.ManagementAPIClient')
+    def test_bulk_update_temp(self, APIClientMock):
+        hashid = 'aab32d8'
+        index_name = 'product'
+        items_data = ['item']
+
+        items.bulk_update(hashid, index_name, items_data, temp=True)
+
+        APIClientMock.return_value.patch.assert_called_with(
+            '/api/v2/search_engines/aab32d8/indices/product/temp/items/_bulk',
+            items_data,
+            {}
+        )
+
+    @mock.patch('pydoof.management_api.items.ManagementAPIClient')
+    def test_bulk_delete(self, APIClientMock):
+        hashid = 'aab32d8'
+        index_name = 'product'
+        items_data = ['item']
+
+        items.bulk_delete(hashid, index_name, items_data)
+
+        APIClientMock.return_value.delete.assert_called_with(
+            '/api/v2/search_engines/aab32d8/indices/product/items/_bulk',
+            items_data,
+            {}
+        )
+
+    @mock.patch('pydoof.management_api.items.ManagementAPIClient')
+    def test_bulk_delete_temp(self, APIClientMock):
+        hashid = 'aab32d8'
+        index_name = 'product'
+        items_data = ['item']
+
+        items.bulk_delete(hashid, index_name, items_data, temp=True)
+
+        APIClientMock.return_value.delete.assert_called_with(
+            '/api/v2/search_engines/aab32d8/indices/product/temp/items/_bulk',
+            items_data,
+            {}
+        )
