@@ -1,10 +1,11 @@
 """
+Collection of all Exceptions raised by Doofinder Search API.
 """
 from pydoof.base import APIConnectionError, PyDoofError
 
 
 class SearchAPIError(PyDoofError):
-    """"""
+    """Generic Search API Error."""
     def __init__(self, message=None, http_body=None, http_status=None,
                  **_kwargs):
         self.message = message
@@ -23,25 +24,25 @@ class SearchAPIError(PyDoofError):
 
 
 class NotFoundError(SearchAPIError):
-    """"""
+    """Resource not found."""
     pass
 
 
 class BadRequestError(SearchAPIError):
-    """"""
+    """Request contains wrong parameter or values."""
     pass
 
 
 class ForbiddenError(SearchAPIError):
-    """"""
+    """Requests is not authenticated or has wrong token."""
     pass
 
 
 class InvalidTransformationError(SearchAPIError):
-    """"""
+    """Request transformer ir wrong."""
     pass
 
 
 class QueryLimitReachedError(SearchAPIError):
-    """"""
+    """Account has reached her requests limit."""
     pass

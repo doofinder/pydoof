@@ -9,6 +9,19 @@ import pydoof
 
 
 class SearchAPIClient(APIClient):
+    """
+    Search API Client.
+
+    This is the base client for Doofinder Search API. To use it, you must
+    instance it with the `token` and `search_url` parameters. Or set those
+    parameters in PyDoof.
+
+        api_client = SearchAPIClient(
+            search_url='https://eu1-search.doofinder.com',
+            token='b8bcb...'
+        )
+        response = api_client.get('/5/search')
+    """
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.host = kwargs.get('search_url') or pydoof.search_url

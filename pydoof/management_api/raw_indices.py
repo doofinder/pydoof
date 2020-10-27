@@ -1,7 +1,5 @@
 from pydoof.management_api.api_client import ManagementAPIClient
 
-__ALL__ = ('RawIndices')
-
 
 def _get_index_url(hashid, name):
     return f'/api/v2/search_engines/{hashid}/indices/{name}'

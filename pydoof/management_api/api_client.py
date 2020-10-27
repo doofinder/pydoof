@@ -9,6 +9,19 @@ import pydoof
 
 
 class ManagementAPIClient(APIClient):
+    """
+    Management API Client.
+
+    This is the base client for Doofinder Management API. To use it, you must
+    instance it with the `token` and `management_url` parameters. Or set those
+    parameters in PyDoof.
+
+        api_client = ManagementAPIClient(
+            management_url='https://eu1-api.doofinder.com',
+            token='b8bcb...'
+        )
+        response = api_client.get('/api/v2/search_engines')
+    """
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.host = kwargs.get('management_url') or pydoof.management_url

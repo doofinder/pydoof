@@ -1,10 +1,25 @@
-""""""
+"""
+Collection of functions to assist PyDoof modules.
+"""
 from collections import Iterable
 from datetime import date
 from enum import Enum
 
 
 def parse_query_params(params):
+    """
+    Parses a query-parameters dictionary into their proper parameters schema.
+
+    Each key value of the dictionary represents a parameter and its value. The
+    function parses each key-value based on the value type.
+
+    * Parses dates into a string following the "YYYYMMDD" format.
+    * Parses dictionaries like `parameter: {key: value}` into parameter
+      `parameter[key]: value`.
+    * Parses lists like `parameter: [val0, val1]` into parameter
+      `parameter[]: [val0, val1]`.
+    * Excludes parameters where its value is `None`.
+    """
     query_params = {}
     for param, value in params.items():
         query_params.update(

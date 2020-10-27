@@ -1,10 +1,11 @@
 """
+Collection of all Exceptions raised by Doofinder Management API.
 """
 from pydoof.base import APIConnectionError, PyDoofError
 
 
 class ManagementAPIError(PyDoofError):
-    """"""
+    """Generic Management API Error."""
     def __init__(self, code=None, message=None, details=None, http_body=None,
                  http_status=None, **_kwargs):
         self.code = code

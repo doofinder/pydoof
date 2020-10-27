@@ -1,4 +1,5 @@
 """
+Common classes for Management and Search modules.
 """
 import requests
 try:
@@ -10,12 +11,17 @@ import pydoof
 
 
 class PyDoofError(Exception):
-    """Generic PyDoof Error"""
+    """Generic Doofinder API Error."""
     pass
 
 
 class APIConnectionError(PyDoofError):
-    """"""
+    """
+    Generic Error while processing HTTP Requests.
+
+    These are not errors coming from Doofinder. But for instance, errors
+    establishing the connection or parsing the response.
+    """
     def __init__(self, message=None, original_exc=None):
         self.message = message
         self.original_exc = original_exc
@@ -32,6 +38,7 @@ class APIConnectionError(PyDoofError):
 
 
 class DoofinderAuth(requests.auth.AuthBase):
+    """Authenticator for Doofinder APIs."""
     def __init__(self, token=None, dfmaster_token=None):
         self.token = token
         self.dfmaster_token = dfmaster_token
@@ -46,18 +53,23 @@ class DoofinderAuth(requests.auth.AuthBase):
 
 class APIClient():
     """
+    Base Doofinder API Client.
+
+    Includes methods for basic requests to a Doofinder endpoints. You should
+    not use this class, but create an API Client that inherit from it. The
+    child API Client should implement `_handle_response_error`. That method
+    takes the response error and raises the corresponding exception.
     """
     def __init__(self, **kwargs):
-        self.headers = {'User-Agent': 'doofinder-api-client/python'}
-        self.dfmaster_token = (
+        dfmaster_token = (
             kwargs.get('_dfmaster_token') or pydoof._dfmaster_token
         )
-        self.token = kwargs.get('token') or pydoof.token
+        token = kwargs.get('token') or pydoof.token
 
-    @property
-    def authentication(self):
-        return DoofinderAuth(token=self.token,
-                             dfmaster_token=self.dfmaster_token)
+        self.authentication = DoofinderAuth(
+            token=token, dfmaster_token=dfmaster_token
+        )
+        self.headers = {'User-Agent': 'doofinder-api-client/python'}
 
     def request(self, method, url, query_params=None, json=None,
                 **request_opts):
