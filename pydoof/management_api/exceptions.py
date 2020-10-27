@@ -41,69 +41,55 @@ class BadGatewayError(ManagementAPIError):
 
 class AccessDeniedError(ManagementAPIError):
     """User has no permission to access resource."""
-    pass
 
 
 class NotAuthenticatedError(ManagementAPIError):
     """Requests is not authenticated or has wrong token."""
-    pass
 
 
 class NotFoundError(ManagementAPIError):
     """Resource not found."""
-    pass
 
 
 class APITimeoutError(ManagementAPIError):
     """Operation has surpassed time limit."""
-    pass
 
 
 class TooManyItemsError(ManagementAPIError):
     """Requests contains too many items."""
-    pass
 
 
 class TooManyRequestsError(ManagementAPIError):
     """Too many requests by second."""
-    pass
 
 
 class BadRequestError(ManagementAPIError):
     """Generic error for bad requests"""
-    pass
 
 
 class BadParametersError(BadRequestError):
     """Request contains wrong parameter or values."""
-    pass
 
 
 class IndexInternalError(BadRequestError):
     """Error in the internal index engine."""
-    pass
 
 
 class InvalidBoostValueError(BadRequestError):
     """Invalid value for item boost field."""
-    pass
 
 
 class InvalidFieldNamesError(BadRequestError):
     """Items field names contains invalid characters."""
-    pass
 
 
 class ConflictError(ManagementAPIError):
     """Generic error for conflict state"""
-    pass
 
 
 class SearchEngineLockedError(ConflictError):
     """The request search engine is locked by another  operation."""
-    pass
 
 
 class TooManyTemporaryError(ConflictError):
     """There are too many temporary index."""
-    pass

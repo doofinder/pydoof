@@ -25,24 +25,19 @@ class SearchAPIError(PyDoofError):
 
 class NotFoundError(SearchAPIError):
     """Resource not found."""
-    pass
 
 
 class BadRequestError(SearchAPIError):
     """Request contains wrong parameter or values."""
-    pass
 
 
 class ForbiddenError(SearchAPIError):
     """Requests is not authenticated or has wrong token."""
-    pass
 
 
 class InvalidTransformationError(SearchAPIError):
     """Request transformer ir wrong."""
-    pass
 
 
 class QueryLimitReachedError(SearchAPIError):
     """Account has reached her requests limit."""
-    pass

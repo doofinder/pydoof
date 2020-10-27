@@ -29,6 +29,10 @@ class Types(Enum):
 
 def banners(from_, to, hashids=None, banner_id=None, tz=None,
             format_=None, **opts):
+    """
+    Returns how many times banners have been displayed and clicked in a period,
+    grouped by banner id.
+    """
     query_params = parse_query_params({
         'from': from_,
         'to': to,
@@ -46,6 +50,9 @@ def banners(from_, to, hashids=None, banner_id=None, tz=None,
 
 def checkouts(from_, to, hashids=None, device=None, tz=None,
               interval=None, format_=None, **opts):
+    """
+    Returns number of users checkouts in a period grouped by date.
+    """
     query_params = parse_query_params({
         'from': from_,
         'to': to,
@@ -64,6 +71,9 @@ def checkouts(from_, to, hashids=None, device=None, tz=None,
 
 def clicks(from_, to, hashids=None, device=None, tz=None,
            interval=None, format_=None, **opts):
+    """
+    Returns number of times a user clicked an item in a period grouped by date.
+    """
     query_params = parse_query_params({
         'from': from_,
         'to': to,
@@ -82,6 +92,9 @@ def clicks(from_, to, hashids=None, device=None, tz=None,
 
 def clicks_by_query(query, from_, to, hashids=None, device=None,
                     tz=None, interval=None, format_=None, **opts):
+    """
+    Returns most commonly clicked items for a search query in a period.
+    """
     query_params = parse_query_params({
         'from': from_,
         'to': to,
@@ -100,6 +113,9 @@ def clicks_by_query(query, from_, to, hashids=None, device=None,
 
 def clicks_top(from_, to, hashids=None, query=None, device=None,
                tz=None, interval=None, format_=None, **opts):
+    """
+    Returns most commonly clicked items in a period.
+    """
     query_params = parse_query_params({
         'from': from_,
         'to': to,
@@ -119,6 +135,10 @@ def clicks_top(from_, to, hashids=None, query=None, device=None,
 
 def custom_results(from_, to, hashids=None, custom_result_id=None,
                    tz=None, format_=None, **opts):
+    """
+    Returns how many times custom results have been displayed and clicked in a
+    period, grouped by custom result id.
+    """
     query_params = parse_query_params({
         'from': from_,
         'to': to,
@@ -135,6 +155,10 @@ def custom_results(from_, to, hashids=None, custom_result_id=None,
 
 
 def facets(from_, to, hashids=None, tz=None, format_=None, **opts):
+    """
+    Returns how many times facets filters have been used in a period, grouped
+    by facet field name.
+    """
     query_params = parse_query_params({
         'from': from_,
         'to': to,
@@ -151,6 +175,10 @@ def facets(from_, to, hashids=None, tz=None, format_=None, **opts):
 
 def facets_top(from_, to, hashids=None, tz=None, format_=None,
                **opts):
+    """
+    Returns most common facets filters used, how many times they have been
+    used, and which filter has been applied in a period.
+    """
     query_params = parse_query_params({
         'from': from_,
         'to': to,
@@ -167,6 +195,9 @@ def facets_top(from_, to, hashids=None, tz=None, format_=None,
 
 def inits(from_, to, hashids=None, device=None, tz=None,
           interval=None, format_=None, **opts):
+    """
+    Returns number of total unique search sessions in a period group by date.
+    """
     query_params = parse_query_params({
         'from': from_,
         'to': to,
@@ -185,6 +216,10 @@ def inits(from_, to, hashids=None, device=None, tz=None,
 
 def inits_locations(from_, to, hashids=None, device=None, tz=None,
                     format_=None, **opts):
+    """
+    Returns all unique sessions geolocation(longituted and latitude pairs) for
+    a period.
+    """
     query_params = parse_query_params({
         'from': from_,
         'to': to,
@@ -202,6 +237,10 @@ def inits_locations(from_, to, hashids=None, device=None, tz=None,
 
 def redirects(from_, to, hashids=None, redirect_id=None, tz=None,
               format_=None, **opts):
+    """
+    Returns how many times users have been redirected by a custom redirections,
+    and to which url in a period.
+    """
     query_params = parse_query_params({
         'from': from_,
         'to': to,
@@ -219,6 +258,10 @@ def redirects(from_, to, hashids=None, redirect_id=None, tz=None,
 
 def click_searches(from_, to, dfid, hashids=None, device=None,
                    tz=None, format_=None, **opts):
+    """
+    Returns most common searches that got a click for a product, and how many
+    times that product has been clicked from those searches.
+    """
     query_params = parse_query_params({
         'from': from_,
         'to': to,
@@ -237,6 +280,9 @@ def click_searches(from_, to, dfid, hashids=None, device=None,
 def searches(from_, to, hashids=None, device=None, query_name=None,
              source=None, total_hits=None, tz=None, interval=None,
              format_=None, **opts):
+    """
+    Return number of searches in a period grouped by date.
+    """
     query_params = parse_query_params({
         'from': from_,
         'to': to,
@@ -259,6 +305,9 @@ def searches(from_, to, hashids=None, device=None, query_name=None,
 def searches_top(from_, to, hashids=None, device=None,
                  query_name=None, exclude=None, total_hits=None,
                  tz=None, interval=None, format_=None, **opts):
+    """
+    Returns list of most common searches in a period.
+    """
     query_params = parse_query_params({
         'from': from_,
         'to': to,
@@ -279,6 +328,10 @@ def searches_top(from_, to, hashids=None, device=None,
 
 
 def usage(from_, to, hashids=None, type_=None, format_=None, **opts):
+    """
+    Returns usage to search engines during a period.
+    It sums the query and API requests made to the service.
+    """
     query_params = parse_query_params({
         'from': from_,
         'to': to,
@@ -294,6 +347,10 @@ def usage(from_, to, hashids=None, type_=None, format_=None, **opts):
 
 
 def query_log_iter(from_, to, hashids=None, **opts):
+    """
+    Returns an iterator with all the queries done to the search API in a
+    period.
+    """
     query_params = parse_query_params({
         'from': from_,
         'to': to,

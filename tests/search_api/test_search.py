@@ -17,7 +17,8 @@ class TestSearch(unittest.TestCase):
             hashid, 'QUERY', filter_={'color': 'red'},
             exclude={'color': 'blue'}, index_name=index_name,
             query_name=QueryNames.MATCH_AND, sort=[{'brand': 'asc'}],
-            page=page, rpp=rpp, transformer=Transformers.ONLY_IDS, nostats=True
+            page=page, rpp=rpp, transformer=Transformers.ONLY_IDS,
+            no_stats=True
         )
 
         APIClientMock.return_value.get.assert_called_once_with(
@@ -42,7 +43,7 @@ class TestSearch(unittest.TestCase):
         suggest(
             hashid, 'QUERY', filter_={'color': 'red'},
             exclude={'color': 'blue'}, sort=[{'brand': 'asc'}],
-            page=page, rpp=rpp, transformer=Transformers.BASIC, nostats=True
+            page=page, rpp=rpp, transformer=Transformers.BASIC, no_stats=True
         )
 
         APIClientMock.return_value.get.assert_called_once_with(
