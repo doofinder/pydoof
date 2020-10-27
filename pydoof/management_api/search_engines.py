@@ -20,11 +20,11 @@ def list(**opts):
     )
 
 
-def create(data, **opts):
+def create(search_engine, **opts):
     api_client = ManagementAPIClient(**opts)
     return api_client.post(
         _get_searchengines_url(),
-        data
+        search_engine
     )
 
 
@@ -35,11 +35,11 @@ def get(hashid, **opts):
     )
 
 
-def update(hashid, data, **opts):
+def update(hashid, search_engine, **opts):
     api_client = ManagementAPIClient(**opts)
     return api_client.patch(
         _get_searchengine_url(hashid),
-        data
+        search_engine
     )
 
 

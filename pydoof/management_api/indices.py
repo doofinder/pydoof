@@ -16,11 +16,11 @@ def list(hashid, **opts):
     )
 
 
-def create(hashid, data, **opts):
+def create(hashid, index, **opts):
     api_client = ManagementAPIClient(**opts)
     return api_client.post(
         _get_indices_url(hashid),
-        data
+        index
     )
 
 
@@ -31,11 +31,11 @@ def get(hashid, name, **opts):
     )
 
 
-def update(hashid, name, data, **opts):
+def update(hashid, name, index, **opts):
     api_client = ManagementAPIClient(**opts)
     return api_client.patch(
         _get_index_url(hashid, name),
-        data
+        index
     )
 
 
