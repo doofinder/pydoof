@@ -7,8 +7,8 @@ from pydoof.management_api.stats import (Devices, Formats, Sources, Types,
                                          clicks_by_query, click_searches,
                                          clicks_top, custom_results, facets,
                                          facets_top, inits, inits_locations,
-                                         query_log_iter, redirects, searches,
-                                         searches_top, usage)
+                                         query_log_iter, redirects, sales,
+                                         searches, searches_top, usage)
 
 
 def _stats_test_cases():
@@ -97,6 +97,12 @@ def _stats_test_cases():
          ('/api/v2/stats/redirects',
           {'from': '20200810', 'to': '20200910', 'hashid[]': 'aab32d8',
            'id': '1235', 'tz': '+01:00', 'format': 'json'})),
+        (sales,
+         {'from_': '20200810', 'to': '20200910', 'hashids': ['aab32d8'],
+          'tz': '+01:00', 'interval': '1d', 'format_': Formats.JSON},
+         ('/api/v2/stats/sales',
+          {'from': '20200810', 'to': '20200910', 'hashid[]': 'aab32d8',
+           'tz': '+01:00', 'format': 'json'})),
         (searches,
          {'from_': '20200810', 'to': '20200910', 'hashids': ['aab32d8'],
           'device': Devices.DESKTOP, 'query_name': 'match_and',

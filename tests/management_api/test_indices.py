@@ -80,8 +80,7 @@ class TestIndices(unittest.TestCase):
         indices.delete_temp(hashid, index_name)
 
         APIClientMock.return_value.delete.assert_called_with(
-            '/api/v2/search_engines/aab32d8/indices/product/temp',
-            query_params={}
+            '/api/v2/search_engines/aab32d8/indices/product/temp'
         )
 
     @mock.patch('pydoof.management_api.indices.ManagementAPIClient')
@@ -92,8 +91,7 @@ class TestIndices(unittest.TestCase):
         indices.reindex_to_temp(hashid, index_name)
 
         APIClientMock.return_value.post.assert_called_with(
-            '/api/v2/search_engines/aab32d8/indices/product/_reindex_to_temp',
-            query_params={}
+            '/api/v2/search_engines/aab32d8/indices/product/_reindex_to_temp'
         )
 
     @mock.patch('pydoof.management_api.indices.ManagementAPIClient')
@@ -104,8 +102,7 @@ class TestIndices(unittest.TestCase):
         indices.get_reindex_status(hashid, index_name)
 
         APIClientMock.return_value.get.assert_called_with(
-            '/api/v2/search_engines/aab32d8/indices/product/_reindex_to_temp',
-            query_params={}
+            '/api/v2/search_engines/aab32d8/indices/product/_reindex_to_temp'
         )
 
     @mock.patch('pydoof.management_api.indices.ManagementAPIClient')
@@ -116,6 +113,5 @@ class TestIndices(unittest.TestCase):
         indices.replace_by_temp(hashid, index_name)
 
         APIClientMock.return_value.post.assert_called_with(
-            '/api/v2/search_engines/aab32d8/indices/product/_replace_by_temp',
-            query_params={}
+            '/api/v2/search_engines/aab32d8/indices/product/_replace_by_temp'
         )

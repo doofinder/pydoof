@@ -277,6 +277,25 @@ def click_searches(from_, to, dfid, hashids=None, device=None,
     )
 
 
+def sales(from_, to, hashids=None, tz=None, format_=None, **opts):
+    """
+    Returns the total price for sales checkouts in a period, where session_id
+    identifies every sale.
+    """
+    query_params = parse_query_params({
+        'from': from_,
+        'to': to,
+        'hashid': hashids,
+        'tz': tz,
+        'format': format_
+    })
+    api_client = ManagementAPIClient(**opts)
+    return api_client.get(
+        '/api/v2/stats/sales',
+        query_params
+    )
+
+
 def searches(from_, to, hashids=None, device=None, query_name=None,
              source=None, total_hits=None, tz=None, interval=None,
              format_=None, **opts):

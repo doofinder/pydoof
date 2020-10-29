@@ -84,13 +84,6 @@ def _get_bulk_url(hashid, name, temp=False):
     return url + '/items/_bulk'
 
 
-def _get_query_params(**opts):
-    params = {}
-    if 'destination_server' in opts:
-        params['destination_server'] = opts['destination_server']
-    return params
-
-
 def scroll(hashid, name, rpp=None, **opts):
     return Scroll(hashid, name, rpp, **opts)
 
@@ -99,16 +92,14 @@ def create(hashid, name, item, temp=False, **opts):
     api_client = ManagementAPIClient(**opts)
     return api_client.post(
         _get_items_url(hashid, name, temp),
-        item,
-        _get_query_params(**opts)
+        item
     )
 
 
 def get(hashid, name, item_id, temp=False, **opts):
     api_client = ManagementAPIClient(**opts)
     return api_client.get(
-        _get_item_url(hashid, name, item_id, temp),
-        _get_query_params(**opts)
+        _get_item_url(hashid, name, item_id, temp)
     )
 
 
@@ -116,16 +107,14 @@ def update(hashid, name, item_id, item, temp=False, **opts):
     api_client = ManagementAPIClient(**opts)
     return api_client.patch(
         _get_item_url(hashid, name, item_id, temp),
-        item,
-        _get_query_params(**opts)
+        item
     )
 
 
 def delete(hashid, name, item_id, temp=False, **opts):
     api_client = ManagementAPIClient(**opts)
     api_client.delete(
-        _get_item_url(hashid, name, item_id, temp),
-        _get_query_params(**opts)
+        _get_item_url(hashid, name, item_id, temp)
     )
 
 
@@ -133,8 +122,7 @@ def find(hashid, name, items_ids, temp=False, **opts):
     api_client = ManagementAPIClient(**opts)
     return api_client.post(
         _get_items_url(hashid, name, temp) + '/_mget',
-        items_ids,
-        _get_query_params(**opts)
+        items_ids
     )
 
 
@@ -142,8 +130,7 @@ def bulk_create(hashid, name, items, temp=False, **opts):
     api_client = ManagementAPIClient(**opts)
     return api_client.post(
         _get_bulk_url(hashid, name, temp),
-        items,
-        _get_query_params(**opts)
+        items
     )
 
 
@@ -151,8 +138,7 @@ def bulk_update(hashid, name, items, temp=False, **opts):
     api_client = ManagementAPIClient(**opts)
     return api_client.patch(
         _get_bulk_url(hashid, name, temp),
-        items,
-        _get_query_params(**opts)
+        items
     )
 
 
@@ -160,6 +146,5 @@ def bulk_delete(hashid, name, items, temp=False, **opts):
     api_client = ManagementAPIClient(**opts)
     return api_client.delete(
         _get_bulk_url(hashid, name, temp),
-        items,
-        _get_query_params(**opts)
+        items
     )

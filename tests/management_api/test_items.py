@@ -84,7 +84,7 @@ class TestItems(unittest.TestCase):
 
         APIClientMock.return_value.post.assert_called_with(
             '/api/v2/search_engines/aab32d8/indices/product/items',
-            item, {}
+            item
         )
 
     @mock.patch('pydoof.management_api.items.ManagementAPIClient')
@@ -97,7 +97,7 @@ class TestItems(unittest.TestCase):
 
         APIClientMock.return_value.post.assert_called_with(
             '/api/v2/search_engines/aab32d8/indices/product/temp/items',
-            item, {}
+            item
         )
 
     @mock.patch('pydoof.management_api.items.ManagementAPIClient')
@@ -110,7 +110,6 @@ class TestItems(unittest.TestCase):
 
         APIClientMock.return_value.get.assert_called_with(
             f'/api/v2/search_engines/aab32d8/indices/product/items/{item_id}',
-            {}
         )
 
     @mock.patch('pydoof.management_api.items.ManagementAPIClient')
@@ -122,8 +121,7 @@ class TestItems(unittest.TestCase):
         items.get(hashid, index_name, item_id, temp=True)
 
         APIClientMock.return_value.get.assert_called_with(
-            f'/api/v2/search_engines/aab32d8/indices/product/temp/items/{item_id}',
-            {}
+            f'/api/v2/search_engines/aab32d8/indices/product/temp/items/{item_id}'
         )
 
     @mock.patch('pydoof.management_api.items.ManagementAPIClient')
@@ -137,8 +135,7 @@ class TestItems(unittest.TestCase):
 
         APIClientMock.return_value.patch.assert_called_with(
             f'/api/v2/search_engines/aab32d8/indices/product/items/{item_id}',
-            item,
-            {}
+            item
         )
 
     @mock.patch('pydoof.management_api.items.ManagementAPIClient')
@@ -152,8 +149,7 @@ class TestItems(unittest.TestCase):
 
         APIClientMock.return_value.patch.assert_called_with(
             f'/api/v2/search_engines/aab32d8/indices/product/temp/items/{item_id}',
-            item,
-            {}
+            item
         )
 
     @mock.patch('pydoof.management_api.items.ManagementAPIClient')
@@ -165,8 +161,7 @@ class TestItems(unittest.TestCase):
         items.delete(hashid, index_name, item_id)
 
         APIClientMock.return_value.delete.assert_called_with(
-            f'/api/v2/search_engines/aab32d8/indices/product/items/{item_id}',
-            {}
+            f'/api/v2/search_engines/aab32d8/indices/product/items/{item_id}'
         )
 
     @mock.patch('pydoof.management_api.items.ManagementAPIClient')
@@ -178,8 +173,7 @@ class TestItems(unittest.TestCase):
         items.delete(hashid, index_name, item_id, temp=True)
 
         APIClientMock.return_value.delete.assert_called_with(
-            f'/api/v2/search_engines/aab32d8/indices/product/temp/items/{item_id}',
-            {}
+            f'/api/v2/search_engines/aab32d8/indices/product/temp/items/{item_id}'
         )
 
     @mock.patch('pydoof.management_api.items.ManagementAPIClient')
@@ -192,8 +186,7 @@ class TestItems(unittest.TestCase):
 
         APIClientMock.return_value.post.assert_called_with(
             '/api/v2/search_engines/aab32d8/indices/product/items/_mget',
-            items_ids,
-            {}
+            items_ids
         )
 
     @mock.patch('pydoof.management_api.items.ManagementAPIClient')
@@ -206,8 +199,7 @@ class TestItems(unittest.TestCase):
 
         APIClientMock.return_value.post.assert_called_with(
             '/api/v2/search_engines/aab32d8/indices/product/temp/items/_mget',
-            items_ids,
-            {}
+            items_ids
         )
 
     @mock.patch('pydoof.management_api.items.ManagementAPIClient')
@@ -220,8 +212,7 @@ class TestItems(unittest.TestCase):
 
         APIClientMock.return_value.post.assert_called_with(
             '/api/v2/search_engines/aab32d8/indices/product/items/_bulk',
-            items_data,
-            {}
+            items_data
         )
 
     @mock.patch('pydoof.management_api.items.ManagementAPIClient')
@@ -234,8 +225,7 @@ class TestItems(unittest.TestCase):
 
         APIClientMock.return_value.post.assert_called_with(
             '/api/v2/search_engines/aab32d8/indices/product/temp/items/_bulk',
-            items_data,
-            {}
+            items_data
         )
 
     @mock.patch('pydoof.management_api.items.ManagementAPIClient')
@@ -248,8 +238,7 @@ class TestItems(unittest.TestCase):
 
         APIClientMock.return_value.patch.assert_called_with(
             '/api/v2/search_engines/aab32d8/indices/product/items/_bulk',
-            items_data,
-            {}
+            items_data
         )
 
     @mock.patch('pydoof.management_api.items.ManagementAPIClient')
@@ -262,8 +251,7 @@ class TestItems(unittest.TestCase):
 
         APIClientMock.return_value.patch.assert_called_with(
             '/api/v2/search_engines/aab32d8/indices/product/temp/items/_bulk',
-            items_data,
-            {}
+            items_data
         )
 
     @mock.patch('pydoof.management_api.items.ManagementAPIClient')
@@ -276,8 +264,7 @@ class TestItems(unittest.TestCase):
 
         APIClientMock.return_value.delete.assert_called_with(
             '/api/v2/search_engines/aab32d8/indices/product/items/_bulk',
-            items_data,
-            {}
+            items_data
         )
 
     @mock.patch('pydoof.management_api.items.ManagementAPIClient')
@@ -290,6 +277,5 @@ class TestItems(unittest.TestCase):
 
         APIClientMock.return_value.delete.assert_called_with(
             '/api/v2/search_engines/aab32d8/indices/product/temp/items/_bulk',
-            items_data,
-            {}
+            items_data
         )
