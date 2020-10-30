@@ -23,7 +23,7 @@ class TestStats(unittest.TestCase):
         APIClientMock.return_value.get.assert_called_once_with(
             '/5/stats/add-to-cart',
             {'hashid': hashid, 'datatype': index_name,
-             'session_id': session_id, 'item': item_id, 'amount': amount,
+             'session_id': session_id, 'item_id': item_id, 'amount': amount,
              'title': title, 'price': price}
         )
 
@@ -34,18 +34,15 @@ class TestStats(unittest.TestCase):
         session_id = '4affa6'
         amount = 2
         item_id = 1235
-        title = 'Product'
-        price = 12.99
 
         stats.remove_from_cart(
-            hashid, index_name, session_id, item_id, amount, title, price
+            hashid, index_name, session_id, item_id, amount
         )
 
         APIClientMock.return_value.get.assert_called_once_with(
             '/5/stats/remove-from-cart',
             {'hashid': hashid, 'datatype': index_name,
-             'session_id': session_id, 'item': item_id, 'amount': amount,
-             'title': title, 'price': price}
+             'session_id': session_id, 'item_id': item_id, 'amount': amount}
         )
 
     @mock.patch('pydoof.search_api.stats.SearchAPIClient')

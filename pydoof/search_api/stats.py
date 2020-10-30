@@ -7,7 +7,7 @@ def add_to_cart(hashid, index_name, session_id, item_id, amount, title, price,
         'hashid': hashid,
         'datatype': index_name,
         'session_id': session_id,
-        'item': item_id,
+        'item_id': item_id,
         'amount': amount,
         'title': title,
         'price': price
@@ -20,16 +20,13 @@ def add_to_cart(hashid, index_name, session_id, item_id, amount, title, price,
     )
 
 
-def remove_from_cart(hashid, index_name, session_id, item_id, amount, title,
-                     price, **opts):
+def remove_from_cart(hashid, index_name, session_id, item_id, amount, **opts):
     query_params = {
         'hashid': hashid,
         'datatype': index_name,
         'session_id': session_id,
-        'item': item_id,
-        'amount': amount,
-        'title': title,
-        'price': price
+        'item_id': item_id,
+        'amount': amount
     }
 
     api_client = SearchAPIClient(**opts)
