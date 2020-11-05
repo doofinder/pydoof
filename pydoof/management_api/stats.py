@@ -27,8 +27,8 @@ class Types(Enum):
     QUERY = 'query_counters'
 
 
-def banners(from_, to, hashids=None, banner_id=None, tz=None,
-            format_=None, **opts):
+def banners(from_, to, hashids=None, banner_id=None, tz=None, format_=None,
+            **opts):
     """
     Returns how many times banners have been displayed and clicked in a period,
     grouped by banner id.
@@ -48,8 +48,8 @@ def banners(from_, to, hashids=None, banner_id=None, tz=None,
     )
 
 
-def checkouts(from_, to, hashids=None, device=None, tz=None,
-              interval=None, format_=None, **opts):
+def checkouts(from_, to, hashids=None, device=None, tz=None, format_=None,
+              **opts):
     """
     Returns number of users checkouts in a period grouped by date.
     """
@@ -59,7 +59,6 @@ def checkouts(from_, to, hashids=None, device=None, tz=None,
         'hashid': hashids,
         'device': device,
         'tz': tz,
-        'interval': interval,
         'format': format_
     })
     api_client = ManagementAPIClient(**opts)
@@ -69,8 +68,8 @@ def checkouts(from_, to, hashids=None, device=None, tz=None,
     )
 
 
-def clicks(from_, to, hashids=None, device=None, tz=None,
-           interval=None, format_=None, **opts):
+def clicks(from_, to, hashids=None, device=None, tz=None, format_=None,
+           **opts):
     """
     Returns number of times a user clicked an item in a period grouped by date.
     """
@@ -80,7 +79,6 @@ def clicks(from_, to, hashids=None, device=None, tz=None,
         'hashid': hashids,
         'device': device,
         'tz': tz,
-        'interval': interval,
         'format': format_
     })
     api_client = ManagementAPIClient(**opts)
@@ -90,29 +88,8 @@ def clicks(from_, to, hashids=None, device=None, tz=None,
     )
 
 
-def clicks_by_query(query, from_, to, hashids=None, device=None,
-                    tz=None, interval=None, format_=None, **opts):
-    """
-    Returns most commonly clicked items for a search query in a period.
-    """
-    query_params = parse_query_params({
-        'from': from_,
-        'to': to,
-        'hashid': hashids,
-        'device': device,
-        'tz': tz,
-        'interval': interval,
-        'format': format_
-    })
-    api_client = ManagementAPIClient(**opts)
-    return api_client.get(
-        f'/api/v2/stats/clicks/by-query/{query}',
-        query_params
-    )
-
-
-def clicks_top(from_, to, hashids=None, query=None, device=None,
-               tz=None, interval=None, format_=None, **opts):
+def clicked_items(from_, to, hashids=None, query=None, device=None, tz=None,
+                  format_=None, **opts):
     """
     Returns most commonly clicked items in a period.
     """
@@ -123,18 +100,39 @@ def clicks_top(from_, to, hashids=None, query=None, device=None,
         'query': query,
         'device': device,
         'tz': tz,
-        'interval': interval,
         'format': format_
     })
     api_client = ManagementAPIClient(**opts)
     return api_client.get(
-        '/api/v2/stats/clicks/top',
+        '/api/v2/stats/clicked_items',
         query_params
     )
 
 
-def custom_results(from_, to, hashids=None, custom_result_id=None,
-                   tz=None, format_=None, **opts):
+def clicked_items_searches(from_, to, dfid, hashids=None, device=None, tz=None,
+                           format_=None, **opts):
+    """
+    Returns the most common searched for a clicked item, and how many times it
+    has been clicked from those searches.
+    """
+    query_params = parse_query_params({
+        'from': from_,
+        'to': to,
+        'dfid': dfid,
+        'hashid': hashids,
+        'device': device,
+        'tz': tz,
+        'format': format_
+    })
+    api_client = ManagementAPIClient(**opts)
+    return api_client.get(
+        '/api/v2/stats/clicked_items/searches',
+        query_params
+    )
+
+
+def custom_results(from_, to, hashids=None, custom_result_id=None, tz=None,
+                   format_=None, **opts):
     """
     Returns how many times custom results have been displayed and clicked in a
     period, grouped by custom result id.
@@ -173,8 +171,7 @@ def facets(from_, to, hashids=None, tz=None, format_=None, **opts):
     )
 
 
-def facets_top(from_, to, hashids=None, tz=None, format_=None,
-               **opts):
+def facets_top(from_, to, hashids=None, tz=None, format_=None, **opts):
     """
     Returns most common facets filters used, how many times they have been
     used, and which filter has been applied in a period.
@@ -193,8 +190,7 @@ def facets_top(from_, to, hashids=None, tz=None, format_=None,
     )
 
 
-def inits(from_, to, hashids=None, device=None, tz=None,
-          interval=None, format_=None, **opts):
+def inits(from_, to, hashids=None, device=None, tz=None, format_=None, **opts):
     """
     Returns number of total unique search sessions in a period group by date.
     """
@@ -204,7 +200,6 @@ def inits(from_, to, hashids=None, device=None, tz=None,
         'hashid': hashids,
         'device': device,
         'tz': tz,
-        'interval': interval,
         'format': format_
     })
     api_client = ManagementAPIClient(**opts)
@@ -235,8 +230,8 @@ def inits_locations(from_, to, hashids=None, device=None, tz=None,
     )
 
 
-def redirects(from_, to, hashids=None, redirect_id=None, tz=None,
-              format_=None, **opts):
+def redirects(from_, to, hashids=None, redirect_id=None, tz=None, format_=None,
+              **opts):
     """
     Returns how many times users have been redirected by a custom redirections,
     and to which url in a period.
@@ -252,27 +247,6 @@ def redirects(from_, to, hashids=None, redirect_id=None, tz=None,
     api_client = ManagementAPIClient(**opts)
     return api_client.get(
         '/api/v2/stats/redirects',
-        query_params
-    )
-
-
-def click_searches(from_, to, dfid, hashids=None, device=None,
-                   tz=None, format_=None, **opts):
-    """
-    Returns most common searches that got a click for a product, and how many
-    times that product has been clicked from those searches.
-    """
-    query_params = parse_query_params({
-        'from': from_,
-        'to': to,
-        'hashid': hashids,
-        'tz': tz,
-        'device': device,
-        'format': format_
-    })
-    api_client = ManagementAPIClient(**opts)
-    return api_client.get(
-        f'/api/v2/stats/clicks/{dfid}/searches/top',
         query_params
     )
 
@@ -297,8 +271,7 @@ def sales(from_, to, hashids=None, tz=None, format_=None, **opts):
 
 
 def searches(from_, to, hashids=None, device=None, query_name=None,
-             source=None, total_hits=None, tz=None, interval=None,
-             format_=None, **opts):
+             source=None, total_hits=None, tz=None, format_=None, **opts):
     """
     Return number of searches in a period grouped by date.
     """
@@ -311,7 +284,6 @@ def searches(from_, to, hashids=None, device=None, query_name=None,
         'source': source,
         'total_hits': total_hits,
         'tz': tz,
-        'interval': interval,
         'format': format_
     })
     api_client = ManagementAPIClient(**opts)
@@ -321,9 +293,8 @@ def searches(from_, to, hashids=None, device=None, query_name=None,
     )
 
 
-def searches_top(from_, to, hashids=None, device=None,
-                 query_name=None, exclude=None, total_hits=None,
-                 tz=None, interval=None, format_=None, **opts):
+def searches_top(from_, to, hashids=None, device=None, query_name=None,
+                 exclude=None, total_hits=None, tz=None, format_=None, **opts):
     """
     Returns list of most common searches in a period.
     """
@@ -336,7 +307,6 @@ def searches_top(from_, to, hashids=None, device=None,
         'exclude': exclude,
         'total_hits': total_hits,
         'tz': tz,
-        'interval': interval,
         'format': format_
     })
     api_client = ManagementAPIClient(**opts)

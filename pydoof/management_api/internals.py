@@ -24,6 +24,14 @@ def searchengine_refresh(searchengine_hashid, **opts):
     )
 
 
+def set_searchengine_replicas(searchengine_hashid, replicas, **opts):
+    api_client = ManagementAPIClient(**opts)
+    api_client.post(
+        _get_searchengine_url(searchengine_hashid) + '/replicas',
+        json={'replicas': replicas}
+    )
+
+
 def searchengine_mappings(searchengine_hashid, indices=None, **opts):
     api_client = ManagementAPIClient(**opts)
     return api_client.get(
