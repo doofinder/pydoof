@@ -40,6 +40,14 @@ def searchengine_mappings(searchengine_hashid, indices=None, **opts):
     )
 
 
+def facets_terms(searchengine_hashid, fields, **opts):
+    api_client = ManagementAPIClient(**opts)
+    return api_client.get(
+        _get_searchengine_url(searchengine_hashid) + '/facets_terms',
+        query_params=parse_query_params({'fields': fields})
+    )
+
+
 def searchengine_stats_blocked_ips(searchengine_hashid, **opts):
     api_client = ManagementAPIClient(**opts)
     return api_client.get(
