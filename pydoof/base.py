@@ -12,7 +12,6 @@ import pydoof
 
 class PyDoofError(Exception):
     """Generic Doofinder API Error."""
-    pass
 
 
 class APIConnectionError(PyDoofError):
