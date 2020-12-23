@@ -51,5 +51,5 @@ def facets_terms(searchengine_hashid, fields, **opts):
 def searchengine_stats_blocked_ips(searchengine_hashid, **opts):
     api_client = ManagementAPIClient(**opts)
     return api_client.get(
-        _get_searchengine_url(searchengine_hashid) + '/stats_blocked_ips',
+        _get_searchengine_url(searchengine_hashid) + '/stats_blocked_ips'
     )

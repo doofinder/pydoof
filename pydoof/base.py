@@ -59,6 +59,9 @@ class APIClient():
     child API Client should implement `_handle_response_error`. That method
     takes the response error and raises the corresponding exception.
     """
+    ALLOWED_REQUEST_OPTS = ('timeout', 'allow_redirects', 'proxies', 'verify',
+                            'cert')
+
     def __init__(self, **kwargs):
         dfmaster_token = (
             kwargs.get('_dfmaster_token') or pydoof._dfmaster_token
@@ -69,9 +72,11 @@ class APIClient():
             token=token, dfmaster_token=dfmaster_token
         )
         self.headers = {'User-Agent': 'doofinder-api-client/python'}
+        self.request_opts = {
+            k: v for k, v in kwargs.items() if k in self.ALLOWED_REQUEST_OPTS
+        }
 
-    def request(self, method, url, query_params=None, json=None,
-                **request_opts):
+    def request(self, method, url, query_params=None, json=None):
         try:
             response = requests.request(
                 method,
@@ -80,7 +85,7 @@ class APIClient():
                 json=json,
                 headers=self.headers,
                 auth=self.authentication,
-                **request_opts
+                **self.request_opts
             )
         except Exception as exc:
             raise APIConnectionError(
@@ -92,7 +97,7 @@ class APIClient():
             err = self._handle_response_error(response)
             raise err
 
-        if request_opts.get('stream', False):
+        if self.request_opts.get('stream', False):
             response_body = response.iter_content(chunk_size=None)
         else:
             try:

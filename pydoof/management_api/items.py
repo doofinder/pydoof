@@ -17,8 +17,7 @@ class Scroll():
         self.hashid = hashid
         self.name = name
 
-        self.opts = opts
-        self.api_client = ManagementAPIClient(**self.opts)
+        self.api_client = ManagementAPIClient(**opts)
 
     def __iter__(self):
         scroll_page = self.new()
