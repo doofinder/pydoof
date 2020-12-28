@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-with open('README.txt') as file:
+with open('README.md', 'r', encoding='utf-8') as file:
     long_description = file.read()
 
 
@@ -13,6 +13,7 @@ setup(name='PyDoof', version='3.3.0', author='Doofinder',
       install_requires=['requests >= 1.2.3'],
       tests_require=['parameterized >= 0.7.4'],
       long_description=long_description,
+      long_description_content_type="text/markdown",
       classifiers=[
           'Development Status :: 4 - Beta',
           'Intended Audience :: Developers',
