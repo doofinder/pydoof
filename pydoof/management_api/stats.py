@@ -346,10 +346,9 @@ def query_log_iter(from_, to, hashids=None, **opts):
         'hashid': hashids
     })
 
-    api_client = ManagementAPIClient(**opts)
+    api_client = ManagementAPIClient(stream=True, **opts)
     return api_client.request(
         'GET',
         '/api/v2/stats/query_log',
-        query_params,
-        stream=True
+        query_params
     )

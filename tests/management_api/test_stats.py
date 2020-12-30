@@ -139,10 +139,10 @@ class TestStats(unittest.TestCase):
 
     @mock.patch('pydoof.management_api.stats.ManagementAPIClient')
     def test_stats_query_log_iter(self, APIClientMock):
-        """"""
+        """Can stream query logs"""
         query_log_iter(from_='20200810', to='20200910', hashids=['aab32d8'])
+        APIClientMock.assert_called_once_with(stream=True)
         APIClientMock.return_value.request.assert_called_with(
             'GET', '/api/v2/stats/query_log',
-            {'from': '20200810', 'to': '20200910', 'hashid[]': 'aab32d8'},
-            stream=True
+            {'from': '20200810', 'to': '20200910', 'hashid[]': 'aab32d8'}
         )

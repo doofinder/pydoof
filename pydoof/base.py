@@ -59,8 +59,8 @@ class APIClient():
     child API Client should implement `_handle_response_error`. That method
     takes the response error and raises the corresponding exception.
     """
-    ALLOWED_REQUEST_OPTS = ('timeout', 'allow_redirects', 'proxies', 'verify',
-                            'cert')
+    ALLOWED_REQUEST_OPTS = ('allow_redirects', 'cert', 'proxies', 'stream',
+                            'timeout', 'verify')
 
     def __init__(self, **kwargs):
         dfmaster_token = (
