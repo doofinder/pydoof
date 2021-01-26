@@ -88,8 +88,8 @@ def clicks(from_, to, hashids=None, device=None, tz=None, format_=None,
     )
 
 
-def clicked_items(from_, to, hashids=None, query=None, device=None, tz=None,
-                  format_=None, **opts):
+def clicked_items(from_, to, hashids=None, query=None, device=None, limit=None,
+                  tz=None, format_=None, **opts):
     """
     Returns most commonly clicked items in a period.
     """
@@ -99,6 +99,7 @@ def clicked_items(from_, to, hashids=None, query=None, device=None, tz=None,
         'hashid': hashids,
         'query': query,
         'device': device,
+        'limit': limit,
         'tz': tz,
         'format': format_
     })
