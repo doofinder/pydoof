@@ -60,7 +60,9 @@ class TestAPIClient(unittest.TestCase):
                 'message': 'Message'
             }
         }
-        requests_mock.request.return_value = response_mock
+        session_mock = mock.Mock()
+        session_mock.request.return_value = response_mock
+        requests_mock.Session.return_value = session_mock
 
         api_client = ManagementAPIClient()
         with self.assertRaises(expected_exception) as cm:
@@ -74,13 +76,15 @@ class TestAPIClient(unittest.TestCase):
         response_mock = mock.Mock()
         response_mock.status_code = 200
         response_mock.text = 'OK'
-        requests_mock.request.return_value = response_mock
+        session_mock = mock.Mock()
+        session_mock.request.return_value = response_mock
+        requests_mock.Session.return_value = session_mock
 
         pydoof.management_url = 'https://eu1-api.doofinder.com'
         api_client = ManagementAPIClient()
         api_client.request('GET', url='/')
 
-        requests_mock.request.assert_called_with(
+        session_mock.request.assert_called_with(
             'GET', url='https://eu1-api.doofinder.com/',
             params=mock.ANY, json=mock.ANY, headers=mock.ANY, auth=mock.ANY
         )
@@ -90,7 +94,9 @@ class TestAPIClient(unittest.TestCase):
         response_mock = mock.Mock()
         response_mock.status_code = 200
         response_mock.text = 'OK'
-        requests_mock.request.return_value = response_mock
+        session_mock = mock.Mock()
+        session_mock.request.return_value = response_mock
+        requests_mock.Session.return_value = session_mock
 
         pydoof.management_url = 'https://eu1-api.doofinder.com'
         api_client = ManagementAPIClient(
@@ -98,7 +104,7 @@ class TestAPIClient(unittest.TestCase):
         )
         api_client.request('GET', url='/')
 
-        requests_mock.request.assert_called_with(
+        session_mock.request.assert_called_with(
             'GET', url='http://localhost:8000/',
             params=mock.ANY, json=mock.ANY, headers=mock.ANY, auth=mock.ANY
         )

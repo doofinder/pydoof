@@ -75,10 +75,11 @@ class APIClient():
         self.request_opts = {
             k: v for k, v in kwargs.items() if k in self.ALLOWED_REQUEST_OPTS
         }
+        self.session = requests.Session()
 
     def request(self, method, url, query_params=None, json=None):
         try:
-            response = requests.request(
+            response = self.session.request(
                 method,
                 url=f'{self.host}{url}',
                 params=query_params,

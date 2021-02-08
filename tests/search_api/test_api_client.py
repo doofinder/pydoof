@@ -44,7 +44,9 @@ class TestAPIClient(unittest.TestCase):
         response_mock.json.return_value = {
             'error': "Error message"
         }
-        requests_mock.request.return_value = response_mock
+        session_mock = mock.Mock()
+        session_mock.request.return_value = response_mock
+        requests_mock.Session.return_value = session_mock
 
         api_client = SearchAPIClient()
         with self.assertRaises(expected_exception) as cm:
@@ -57,13 +59,15 @@ class TestAPIClient(unittest.TestCase):
         response_mock = mock.Mock()
         response_mock.status_code = 200
         response_mock.text = 'OK'
-        requests_mock.request.return_value = response_mock
+        session_mock = mock.Mock()
+        session_mock.request.return_value = response_mock
+        requests_mock.Session.return_value = session_mock
 
         pydoof.search_url = 'https://eu1-search.doofinder.com'
         api_client = SearchAPIClient()
         api_client.request('GET', url='/')
 
-        requests_mock.request.assert_called_with(
+        session_mock.request.assert_called_with(
             'GET', url='https://eu1-search.doofinder.com/',
             params=mock.ANY, json=mock.ANY, headers=mock.ANY, auth=mock.ANY
         )
@@ -73,7 +77,9 @@ class TestAPIClient(unittest.TestCase):
         response_mock = mock.Mock()
         response_mock.status_code = 200
         response_mock.text = 'OK'
-        requests_mock.request.return_value = response_mock
+        session_mock = mock.Mock()
+        session_mock.request.return_value = response_mock
+        requests_mock.Session.return_value = session_mock
 
         pydoof.search_url = 'https://eu1-search.doofinder.com'
         api_client = SearchAPIClient(
@@ -81,7 +87,7 @@ class TestAPIClient(unittest.TestCase):
         )
         api_client.request('GET', url='/')
 
-        requests_mock.request.assert_called_with(
+        session_mock.request.assert_called_with(
             'GET', url='http://localhost:8000/',
             params=mock.ANY, json=mock.ANY, headers=mock.ANY, auth=mock.ANY
         )
