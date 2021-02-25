@@ -66,9 +66,14 @@ def delete_temp(hashid, name, **opts):
 
 
 def reindex_to_temp(hashid, name, **opts):
+    params = {}
+    if 'reset' in opts:
+        params['reset'] = opts['reset']
+
     api_client = ManagementAPIClient(**opts)
     return api_client.post(
-        _get_index_url(hashid, name) + '/_reindex_to_temp'
+        _get_index_url(hashid, name) + '/_reindex_to_temp',
+        query_params=params
     )
 
 

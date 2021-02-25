@@ -91,7 +91,8 @@ class TestIndices(unittest.TestCase):
         indices.reindex_to_temp(hashid, index_name)
 
         APIClientMock.return_value.post.assert_called_with(
-            '/api/v2/search_engines/aab32d8/indices/product/_reindex_to_temp'
+            '/api/v2/search_engines/aab32d8/indices/product/_reindex_to_temp',
+            query_params={}
         )
 
     @mock.patch('pydoof.management_api.indices.ManagementAPIClient')
