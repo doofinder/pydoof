@@ -101,6 +101,18 @@ class TestItems(unittest.TestCase):
         )
 
     @mock.patch('pydoof.management_api.items.ManagementAPIClient')
+    def test_item_id_encode(self, APIClientMock):
+        hashid = 'aab32d8'
+        index_name = 'product'
+        item_id = '123/5'
+
+        items.get(hashid, index_name, item_id)
+
+        APIClientMock.return_value.get.assert_called_with(
+            '/api/v2/search_engines/aab32d8/indices/product/items/123%2F5',
+        )
+
+    @mock.patch('pydoof.management_api.items.ManagementAPIClient')
     def test_get(self, APIClientMock):
         hashid = 'aab32d8'
         index_name = 'product'
