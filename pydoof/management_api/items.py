@@ -1,5 +1,6 @@
 from pydoof.management_api.api_client import ManagementAPIClient
 from pydoof.management_api.exceptions import TooManyRequestsError
+from urllib.parse import quote_plus
 from time import sleep
 
 
@@ -73,7 +74,7 @@ def _get_item_url(hashid, name, item_id, temp=False):
     url = f'/api/v2/search_engines/{hashid}/indices/{name}'
     if temp:
         url += '/temp'
-    return url + f'/items/{item_id}'
+    return url + f'/items/{quote_plus(item_id)}'
 
 
 def _get_bulk_url(hashid, name, temp=False):
