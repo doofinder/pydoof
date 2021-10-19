@@ -19,6 +19,7 @@ def _exceptions_test_cases():
         (404, '', exceptions.NotFoundError),
         (408, '', exceptions.APITimeoutError),
         (409, 'searchengine_locked', exceptions.SearchEngineLockedError),
+        (409, 'searchengine_inactive', exceptions.SearchEngineInactiveError),
         (409, 'too_many_temporary', exceptions.TooManyTemporaryError),
         (409, '', exceptions.ConflictError),
         (413, '', exceptions.TooManyItemsError),

@@ -6,6 +6,7 @@ from pydoof.base import APIConnectionError, PyDoofError
 
 class ManagementAPIError(PyDoofError):
     """Generic Management API Error."""
+
     def __init__(self, code=None, message=None, details=None, http_body=None,
                  http_status=None, **_kwargs):
         self.code = code
@@ -31,6 +32,7 @@ class ManagementAPIError(PyDoofError):
 
 class BadGatewayError(ManagementAPIError):
     """Bad Gateway Error connecting to Doofinder."""
+
     def __init__(self, **kwargs):
         super(BadGatewayError, self).__init__(**kwargs)
         if self.message is None:
@@ -88,7 +90,11 @@ class ConflictError(ManagementAPIError):
 
 
 class SearchEngineLockedError(ConflictError):
-    """The request search engine is locked by another  operation."""
+    """The request search engine is locked by another operation."""
+
+
+class SearchEngineInactiveError(ConflictError):
+    """The request search engine is inactive."""
 
 
 class TooManyTemporaryError(ConflictError):

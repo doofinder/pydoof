@@ -22,6 +22,7 @@ class ManagementAPIClient(APIClient):
         )
         response = api_client.get('/api/v2/search_engines')
     """
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.host = kwargs.get('management_url') or pydoof.management_url
@@ -69,6 +70,7 @@ class ManagementAPIClient(APIClient):
     def __get_409_error(self, error_code):
         errors_map = {
             'searchengine_locked': exceptions.SearchEngineLockedError,
+            'searchengine_inactive': exceptions.SearchEngineInactiveError,
             'too_many_temporary': exceptions.TooManyTemporaryError
         }
         return errors_map.get(error_code, exceptions.ConflictError)
