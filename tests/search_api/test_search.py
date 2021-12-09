@@ -35,25 +35,16 @@ class TestSearch(unittest.TestCase):
         )
 
     @mock.patch('pydoof.search_api.search.SearchAPIClient')
-    def test_sugges(self, APIClientMock):
+    def test_suggest(self, APIClientMock):
         hashid = 'aab32d8'
-        page = 1
-        rpp = 10
-
+        indices = ['product', 'another_index']
         suggest(
-            hashid, 'QUERY', filter_={'color': 'red'},
-            exclude={'color': 'blue'}, sort=[{'brand': 'asc'}],
-            page=page, rpp=rpp, transformer=Transformers.BASIC, no_stats=True
+            hashid, 'QUERY', indices, stats=False
         )
 
         APIClientMock.return_value.get.assert_called_once_with(
-            '/5/suggest',
-            query_params={'hashid': hashid, 'query': 'QUERY',
-                          'filter[color]': 'red',
-                          'exclude[color]': 'blue',
-                          'sort[][brand]': 'asc',
-                          'page': page,
-                          'rpp': rpp,
-                          'transformer': 'basic',
-                          'nostats': True}
+            '/6/{}/_suggest'.format(hashid),
+            query_params={'query': 'QUERY',
+                          'indices[]': indices,
+                          'stats': False}
         )
