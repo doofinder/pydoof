@@ -5,7 +5,7 @@ with open('README.md', 'r', encoding='utf-8') as file:
 
 
 setup(name='PyDoof', version='4.0.0', author='Doofinder',
-      python_requires='>=3.6.15',
+      python_requires='>=3.6.7',
       author_email='support@doofinder.com',
       description="Doofinder's search & management API client",
       url='https://github.com/doofinder/pydoof',
@@ -19,6 +19,6 @@ setup(name='PyDoof', version='4.0.0', author='Doofinder',
           'Development Status :: 5 - Production/Stable',
           'Intended Audience :: Developers',
           'License :: OSI Approved :: MIT License',
-          'Programming Language :: Python :: 3.6', # On Python >= 3.7 this displays a warning
+          'Programming Language :: Python :: 3.6.7', # On Python >= 3.7 this displays a warning
           'Topic :: Internet :: WWW/HTTP :: Indexing/Search'
       ])
