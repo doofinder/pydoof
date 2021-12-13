@@ -1,4 +1,5 @@
 from enum import Enum, unique
+from typing import Any, Dict, List
 
 from pydoof.search_api.api_client import SearchAPIClient
 from pydoof.helpers import parse_query_params
@@ -18,9 +19,9 @@ class Transformers(Enum):
     ONLY_IDS = "onlyid"
 
 
-def query(hashid, query, filter_=None, exclude=None, index_name=None,
-          query_name=None, sort=None, page=None, rpp=None, transformer=None,
-          no_stats=None, **opts):
+def query(hashid: str, query: str, filter_: Dict[str, Any]=None, exclude: Dict[str, Any]=None,
+          index_name: str=None, query_name: str=None, sort: List[Dict[str, str]]=None,
+          page: int=None, rpp: int=None, transformer: str=None, no_stats: bool=None, **opts):
     """
     Queries items indexed in a search engine.
 
@@ -81,9 +82,7 @@ def query(hashid, query, filter_=None, exclude=None, index_name=None,
     )
 
 
-from typing import List
-# ...
-def suggest(hashid: str, query: str, indices: List[str]=None, stats: bool=None, session_id=None, **opts):
+def suggest(hashid: str, query: str, indices: List[str]=None, stats: bool=None, session_id: str=None, **opts):
     """
     Fetch suggestions for terms based on the items indexed in a search engine.
 
