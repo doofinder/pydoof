@@ -81,7 +81,9 @@ def query(hashid, query, filter_=None, exclude=None, index_name=None,
     )
 
 
-def suggest(hashid, query, indices=None, stats=None, session_id=None, **opts):
+from typing import List
+# ...
+def suggest(hashid: str, query: str, indices: List[str]=None, stats: bool=None, session_id=None, **opts):
     """
     Fetch suggestions for terms based on the items indexed in a search engine.
 
