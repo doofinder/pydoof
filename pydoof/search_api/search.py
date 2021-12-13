@@ -106,6 +106,6 @@ def suggest(hashid: str, query: str, indices: List[str]=None, stats: bool=None, 
     })
     api_client = SearchAPIClient(**opts)
     return api_client.get(
-        '/6/{}/_suggest'.format(hashid),
+        f'/6/{hashid}/_suggest',
         query_params=query_params
     )

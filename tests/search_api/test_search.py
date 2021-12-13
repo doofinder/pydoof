@@ -43,7 +43,7 @@ class TestSearch(unittest.TestCase):
         )
 
         APIClientMock.return_value.get.assert_called_once_with(
-            '/6/{}/_suggest'.format(hashid),
+            f'/6/{hashid}/_suggest',
             query_params={'query': 'QUERY',
                           'indices[]': indices,
                           'stats': False}
