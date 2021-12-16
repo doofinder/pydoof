@@ -4,6 +4,7 @@ Collection of functions to assist PyDoof modules.
 from collections import Iterable
 from datetime import date
 from enum import Enum
+from typing import Any
 
 
 def parse_query_params(params):
@@ -28,7 +29,7 @@ def parse_query_params(params):
     return query_params
 
 
-def _parse_param(param, value):
+def _parse_param(param: str, value: Any, counter: int = 0):
     query_params = {}
 
     if isinstance(value, date):
@@ -42,7 +43,9 @@ def _parse_param(param, value):
         query_params[param] = value.value
     elif not isinstance(value, str) and isinstance(value, Iterable):
         query_params.update(
-            _dicts_appends(_parse_param(f'{param}[]', v) for v in value)
+            _dicts_appends(_parse_param(
+                f'{param}[{i}]' if 'facets' in param else f'{param}[]',
+                v, i) for i, v in enumerate(value))
         )
     elif value is not None:
         query_params[param] = value

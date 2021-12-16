@@ -1,27 +1,18 @@
-from enum import Enum, unique
 from typing import Any, Dict, List
 
 from pydoof.search_api.api_client import SearchAPIClient
 from pydoof.helpers import parse_query_params
+from pydoof.search_api.enums import QueryNames
 
 
-@unique
-class QueryNames(Enum):
-    MATCH_AND = "match_and"
-    MATCH_OR = "match_or"
-    FUZZY = "fuzzy"
-    PHONETIC = "phonetic_text"
-
-
-@unique
-class Transformers(Enum):
-    BASIC = "basic"
-    ONLY_IDS = "onlyid"
-
-
-def query(hashid: str, query: str, filter_: Dict[str, Any]=None, exclude: Dict[str, Any]=None,
-          index_name: str=None, query_name: str=None, sort: List[Dict[str, str]]=None,
-          page: int=None, rpp: int=None, transformer: str=None, no_stats: bool=None, **opts):
+def query(hashid: str, query: str, auto_filters: bool = None, custom_results: bool = None,
+          excluded_results: bool = None, filter: Dict[str, Any] = None,
+          exclude: Dict[str, Any] = None,
+          indices: List[str] = None, query_name: str = None,
+          sort: List[Dict[str, str]] = None, page: int = None, rpp: int = None,
+          facets: List[Dict[str, Any]] = None, filter_execution: QueryNames = None,
+          session_id: str = None, stats: bool = None, skip_auto_filters: List[str] = None,
+          skip_top_facet: List[str] = None, title_facet: bool = None, top_facet: bool = None, **opts):
     """
     Queries items indexed in a search engine.
 
@@ -30,14 +21,20 @@ def query(hashid: str, query: str, filter_: Dict[str, Any]=None, exclude: Dict[s
             we are doing the query.
         query (str): The terms we are looking for in the items of the search
             engine.
-        filter_ (dict, optional): A dictionary that indicates a filter for
-            items. For instance, look for those items of color "blue". Default
-            to None.
+        auto_filters (boolean, optional): Enable/Disable the automatic filters in search.
+            Default: false.
+        custom_results (boolean, optional): Enable/Disable the custom results in search.
+            Default: true.
+        excluded_results (boolean, optional): Enable/Disable the excluded results in search.
+            Default: true.
+        filter (dict, optional): A dictionary that indicates a filter for
+            items. For instance, look for those items of color "blue".
+            Default to None.
         exclude (dict, optional): A dictionary that indicates an exclude rule
             for items. For instance, exclude those items that belong to `Foo`
             category. Default to None
-        index_name (str, optional): A unique name for a search engine index.
-            If provided, it will limit result to that index.
+        indices (list, optional): With the indices parameter you can specify to search within one specific Index.
+            Default: All indices
         query_name (str, optional): Indicates a query name to used. It could be
             one of "match_and", "match_or", "fuzzy", or "phonetic_text". If you
             do not provide one, search API will select the best one. Default to
@@ -54,35 +51,50 @@ def query(hashid: str, query: str, filter_: Dict[str, Any]=None, exclude: Dict[s
             None.
         rpp (int, optional): Indicates how many results to fetch by page,
             minimum 1, maximum 100. Default to 10.
-        transformer (str, optional): Indicates a transformation to apply to
-            items in result. It could be one of "basic" or "onlyid". If none is
-            set, items will not be transformed. Default to None.
-        no_stats (bool, optional): Indicates if the query should be recorded
-            in search stats. If it is true, it will not be recorded. Default to
-            False.
+        facets (list, optional): Indicates a list with dicts of facets to fetch.
+            An object with field is required, size is optional (max 100).
+        filter_execution (SearchQueryName, optional): If you want you can change it to "or".
+            Default to "and".
+        stats (bool, optional): Enable/Disable this search in stats reports.
+            Default: true
+        skip_auto_filters (list, optional): A list of fields to be skipped from auto_filters feature.
+        skip_top_facet (list, optional): A list of fields to be skipped from top_facet feature.
+        title_facet (bool, optional): Enable/Disable title_facet feature.
+            Default: false.
+        top_facet (bool, optional): Enable/Disable top_facet feature.
+            Default: false.
     """
     query_params = parse_query_params({
         'hashid': hashid,
         'query': query,
-        'filter': filter_,
+        'auto_filters': auto_filters,
+        'custom_results': custom_results,
+        'excluded_results': excluded_results,
+        'filter': filter,
         'exclude': exclude,
-        'type': index_name,
         'query_name': query_name,
+        'indices': indices,
         'sort': sort,
         'page': page,
         'rpp': rpp,
-        'transformer': transformer,
-        'nostats': no_stats
+        'facets': facets,
+        'filter_execution': filter_execution,
+        'session_id': session_id,
+        'stats': stats,
+        'skip_auto_filters': skip_auto_filters,
+        'skip_top_facet': skip_top_facet,
+        'title_facet': title_facet,
+        'top_facet': top_facet
     })
 
     api_client = SearchAPIClient(**opts)
     return api_client.get(
-        '/5/search',
+        f'/6/{hashid}/_search',
         query_params=query_params
     )
 
 
-def suggest(hashid: str, query: str, indices: List[str]=None, stats: bool=None, session_id: str=None, **opts):
+def suggest(hashid: str, query: str, indices: List[str] = None, stats: bool = None, session_id: str = None, **opts):
     """
     Fetch suggestions for terms based on the items indexed in a search engine.
 
@@ -96,6 +108,7 @@ def suggest(hashid: str, query: str, indices: List[str]=None, stats: bool=None, 
             Note that [ and ] characters should be escaped (%5B and %5D) in all cases.
             Example: indices[]=product&indices[]=page; indices=products
         stats (boolean, optional): Enable/Disable this search in stats reports.
+            Default: true.
         session_id (str, optional, <= 32 characters): The current session ID, must be unique for each user.
     """
     query_params = parse_query_params({
