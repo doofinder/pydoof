@@ -29,7 +29,7 @@ def parse_query_params(params):
     return query_params
 
 
-def _parse_param(param: str, value: Any, counter: int = 0):
+def _parse_param(param: str, value: Any):
     query_params = {}
 
     if isinstance(value, date):
@@ -45,7 +45,7 @@ def _parse_param(param: str, value: Any, counter: int = 0):
         query_params.update(
             _dicts_appends(_parse_param(
                 f'{param}[{i}]' if 'facets' in param else f'{param}[]',
-                v, i) for i, v in enumerate(value))
+                v) for i, v in enumerate(value))
         )
     elif value is not None:
         query_params[param] = value
