@@ -4,7 +4,18 @@ Collection of functions to assist PyDoof modules.
 from collections import Iterable
 from datetime import date
 from enum import Enum
-from typing import Any
+from typing import Any, List
+
+
+def _has_dicts(values: List[Any]):
+    """
+    This function checks if a list of values contains dictionaries.
+
+    * Performance improvement:
+
+    Could be possible to check only the first element. Is used on facets and sort, for example.
+    """
+    return any(isinstance(value, dict) for value in values)
 
 
 def parse_query_params(params):
@@ -42,10 +53,13 @@ def _parse_param(param: str, value: Any):
     elif isinstance(value, Enum):
         query_params[param] = value.value
     elif not isinstance(value, str) and isinstance(value, Iterable):
+        if _has_dicts(value):
+            params = (_parse_param(f'{param}[{i}]', v)
+                      for i, v in enumerate(value))
+        else:
+            params = (_parse_param(f'{param}[]', v) for v in value)
         query_params.update(
-            _dicts_appends(_parse_param(
-                f'{param}[{i}]' if 'facets' in param else f'{param}[]',
-                v) for i, v in enumerate(value))
+            _dicts_appends(params)
         )
     elif value is not None:
         query_params[param] = value

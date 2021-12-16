@@ -57,7 +57,7 @@ class TestSearch(unittest.TestCase):
                           'indices[]': indices,
                           'session_id': session_id,
                           'query_name': 'match_and',
-                          'sort[][brand]': 'asc',
+                          'sort[0][brand]': 'asc',
                           'page': page, 'rpp': rpp,
                           'stats': True,
                           'filter_execution': 'or',
