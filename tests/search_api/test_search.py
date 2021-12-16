@@ -25,7 +25,7 @@ class TestSearch(unittest.TestCase):
     def test_query(self, APIClientMock):
         hashid = 'aab32d8'
         indices = ['product', 'another_index']
-        facets = [{'field': 'brand'}, {'field': 'price', 'size': 10}]
+        facets = [{'field': 'brand', 'size': 10}, {'field': 'price'}]
         session_id = 'SESSION_ID'
         skip_to_facet = ['TOP_FACET0', 'TOP_FACET1']
         skip_auto_filters = ['AUTO_FILTER0', 'AUTO_FILTER1']
@@ -49,8 +49,9 @@ class TestSearch(unittest.TestCase):
                           'exclude[size]': 'M',
                           'exclude[price][gte]': 4.36,
                           'exclude[price][lt]': 99,
-                          'facets[][field]': ['brand', 'price'],
-                          'facets[][size]': 10,
+                          'facets[0][field]': 'brand',
+                          'facets[0][size]': 10,
+                          'facets[1][field]': 'price',
                           'indices[]': indices,
                           'session_id': session_id,
                           'query_name': 'match_and',
