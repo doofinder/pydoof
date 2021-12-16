@@ -1,16 +1,29 @@
+from enum import Enum, unique
 from typing import Any, Dict, List
 
 from pydoof.search_api.api_client import SearchAPIClient
 from pydoof.helpers import parse_query_params
-from pydoof.search_api.enums import QueryNames
+
+
+@unique
+class QueryNames(Enum):
+    MATCH_AND = "match_and"
+    MATCH_OR = "match_or"
+    FUZZY = "fuzzy"
+
+
+@unique
+class SearchFilterExecution(Enum):
+    AND = "and"
+    OR = "or"
 
 
 def query(hashid: str, query: str, auto_filters: bool = None, custom_results: bool = None,
           excluded_results: bool = None, filter: Dict[str, Any] = None,
           exclude: Dict[str, Any] = None,
-          indices: List[str] = None, query_name: str = None,
+          indices: List[str] = None, query_name: QueryNames = None,
           sort: List[Dict[str, str]] = None, page: int = None, rpp: int = None,
-          facets: List[Dict[str, Any]] = None, filter_execution: QueryNames = None,
+          facets: List[Dict[str, Any]] = None, filter_execution: SearchFilterExecution = None,
           session_id: str = None, stats: bool = None, skip_auto_filters: List[str] = None,
           skip_top_facet: List[str] = None, title_facet: bool = None, top_facet: bool = None, **opts):
     """

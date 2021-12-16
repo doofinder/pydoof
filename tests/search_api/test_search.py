@@ -2,10 +2,11 @@ from unittest import mock
 import unittest
 
 from requests.sessions import session
+from pydoof.search_api.api_client import SearchAPIClient
 
 from pydoof.search_api.search import query, suggest
 
-from pydoof.search_api.enums import QueryNames
+from pydoof.search_api.search import QueryNames, SearchFilterExecution
 
 
 class TestSearch(unittest.TestCase):
@@ -37,7 +38,8 @@ class TestSearch(unittest.TestCase):
             exclude={'color': ['blue', 'red'], 'size': 'M',
                      'price': {'gte': 4.36, 'lt': 99}},
             facets=facets, session_id=session_id, indices=indices, query_name=QueryNames.MATCH_AND,
-            sort=[{'brand': 'asc'}], page=page, rpp=rpp, stats=True, skip_top_facet=skip_to_facet,
+            sort=[{'brand': 'asc'}], page=page, rpp=rpp, stats=True, filter_execution=SearchFilterExecution.OR,
+            skip_top_facet=skip_to_facet,
             skip_auto_filters=skip_auto_filters
         )
 
@@ -58,6 +60,7 @@ class TestSearch(unittest.TestCase):
                           'sort[][brand]': 'asc',
                           'page': page, 'rpp': rpp,
                           'stats': True,
+                          'filter_execution': 'or',
                           'skip_top_facet[]': skip_to_facet,
                           'skip_auto_filters[]': skip_auto_filters}
         )
