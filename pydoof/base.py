@@ -116,5 +116,8 @@ class APIClient():
     def post(self, url, json=None, query_params=None):
         return self.request('POST', url, query_params, json)
 
+    def put(self, url, json=None, query_params=None):
+        return self.request('PUT', url, query_params, json)
+
     def patch(self, url, json=None, query_params=None):
         return self.request('PATCH', url, query_params, json)
