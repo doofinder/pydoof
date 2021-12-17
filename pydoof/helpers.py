@@ -7,17 +7,6 @@ from enum import Enum
 from typing import Any, List
 
 
-def _has_dicts(values: List[Any]):
-    """
-    This function checks if a list of values contains dictionaries.
-
-    * Performance improvement:
-
-    Could be possible to check only the first element. Is used on facets and sort, for example.
-    """
-    return any(isinstance(value, dict) for value in values)
-
-
 def parse_query_params(params):
     """
     Parses a query-parameters dictionary into their proper parameters schema.
@@ -38,6 +27,12 @@ def parse_query_params(params):
             _parse_param(param, value)
         )
     return query_params
+
+
+def _has_dicts(values: List[Any]):
+    # Could be possible to check only the first element.
+    # Is used on facets and sort, for example.
+    return any(isinstance(value, dict) for value in values)
 
 
 def _parse_param(param: str, value: Any):
