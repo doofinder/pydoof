@@ -29,8 +29,8 @@ class TestParseQueryParams(unittest.TestCase):
             {
                 'dict0[dict1][a]': 'a',
                 'dict0[dict1][b]': 'b',
-                'dict0[list][][a]': 'a',
-                'dict0[list][][b]': 'b',
+                'dict0[list][0][a]': 'a',
+                'dict0[list][1][b]': 'b',
                 'dict0[string]': 'String'
             }
         )
