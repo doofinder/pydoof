@@ -65,6 +65,40 @@ class TestStats(unittest.TestCase):
         )
 
     @mock.patch('pydoof.search_api.stats.SearchAPIClient')
+    def test_click_stats_minimum_requirements(self, APIClientMock):
+        hashid = 'aab32d8'
+        dfid = 'ID'
+        session_id = 'SESSION_ID'
+
+        stats.click_stats(hashid, dfid, session_id)
+
+        APIClientMock.return_value.put.assert_called_once_with(
+            f'/6/{hashid}/stats/click',
+            query_params={
+                'dfid': dfid,
+                'session_id': session_id
+            }
+        )
+
+    @mock.patch('pydoof.search_api.stats.SearchAPIClient')
+    def test_click_stats(self, APIClientMock):
+        hashid = 'aab32d8'
+        dfid = 'ID'
+        session_id = 'SESSION_ID'
+        query = 'QUERY'
+
+        stats.click_stats(hashid, dfid, session_id, query)
+
+        APIClientMock.return_value.put.assert_called_once_with(
+            f'/6/{hashid}/stats/click',
+            query_params={
+                'dfid': dfid,
+                'session_id': session_id,
+                'query': query
+            }
+        )
+
+    @mock.patch('pydoof.search_api.stats.SearchAPIClient')
     def test_add_to_cart(self, APIClientMock):
         hashid = 'aab32d8'
         index_name = 'product'
