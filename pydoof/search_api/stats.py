@@ -19,15 +19,66 @@ def init_session(hashid: str, session_id: str, **opts):
 
 def log_checkout(hashid: str, session_id: str, **opts):
     """
-    Register the content of the cart at this moment for stats.
+    That is the event for when a customer complete a checkout.
+    The info of the items that were in her session when she completes the checkout are logged in the event.
+
+    Args:
+        hashid: Unique search engine id. Indicates to which search engine we are doing the query.
+        session_id (<= 32 characters): The current session ID, must be unique for each user.
     """
-    query_params = {
+    query_params = parse_query_params({
         'session_id': session_id
-    }
+    })
 
     api_client = SearchAPIClient(**opts)
     return api_client.put(
         f'/6/{hashid}/stats/checkout',
+        query_params=query_params
+    )
+
+
+def log_redirect(hashid: str, redirection_id: str, session_id: str, query: Optional[str] = None, ** opts):
+    """
+    Logs a "redirection triggered" event in stats logs.
+
+    Args:
+        hashid: Unique search engine id. Indicates to which search engine we are doing the query.
+        redirection_id: Id of redirection. This id is obtained in the search response that has redirect information.
+        session_id (<= 32 characters): The current session ID, must be unique for each user.
+        query (<= 200 characters): The search term. It must be escaped.
+    """
+    query_params = parse_query_params({
+        'id': redirection_id,
+        'session_id': session_id,
+        'query': query
+    })
+
+    api_client = SearchAPIClient(**opts)
+    return api_client.put(
+        f'/6/{hashid}/stats/redirect',
+        query_params=query_params
+    )
+
+
+def log_banner_image_click(hashid: str, id: str, session_id: str, query: Optional[str] = None, ** opts):
+    """
+    Logs a "click on banner image" event in stats logs.
+
+    Args:
+        hashid: Unique search engine id. Indicates to which search engine we are doing the query.
+        id: d of image displayed in banner. This id is obtained in the search response that has banner information.
+        session_id (<= 32 characters): The current session ID, must be unique for each user.
+        query (<= 200 characters): The search term. It must be escaped.
+    """
+    query_params = parse_query_params({
+        'id': id,
+        'session_id': session_id,
+        'query': query
+    })
+
+    api_client = SearchAPIClient(**opts)
+    return api_client.put(
+        f'/6/{hashid}/stats/image',
         query_params=query_params
     )
 
