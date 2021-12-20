@@ -5,6 +5,10 @@ from pydoof.search_api.api_client import SearchAPIClient
 def init_session(hashid: str, session_id: str, **opts):
     """
     Returns number of total unique search sessions in a period group by date.
+
+    Args:
+        hashid: Unique search engine id. Indicates to which search engine we are doing the query.
+        session_id (<= 32 characters): The current session ID, must be unique for each user.
     """
     query_params = parse_query_params({
         'session_id': session_id,
@@ -19,7 +23,12 @@ def init_session(hashid: str, session_id: str, **opts):
 
 def log_checkout(hashid: str, session_id: str, **opts):
     """
-    Register the content of the cart at this moment for stats.
+    That is the event for when a customer complete a checkout.
+    The info of the items that were in her session when she completes the checkout are logged in the event.
+
+    Args:
+        hashid: Unique search engine id. Indicates to which search engine we are doing the query.
+        session_id (<= 32 characters): The current session ID, must be unique for each user.
     """
     query_params = {
         'session_id': session_id
