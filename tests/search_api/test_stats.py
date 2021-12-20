@@ -80,15 +80,3 @@ class TestStats(unittest.TestCase):
             '/5/stats/clear-cart',
             {'hashid': hashid, 'session_id': session_id}
         )
-
-    @mock.patch('pydoof.search_api.stats.SearchAPIClient')
-    def test_checkout(self, APIClientMock):
-        hashid = 'aab32d8'
-        session_id = '4affa6'
-
-        stats.checkout(hashid, session_id)
-
-        APIClientMock.return_value.get.assert_called_once_with(
-            '/5/stats/checkout',
-            {'hashid': hashid, 'session_id': session_id}
-        )

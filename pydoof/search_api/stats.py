@@ -88,19 +88,3 @@ def clear_cart(hashid, session_id, **opts):
         '/5/stats/clear-cart',
         query_params
     )
-
-
-def checkout(hashid, session_id, **opts):
-    """
-    Register the content of the cart at this moment for stats.
-    """
-    query_params = {
-        'hashid': hashid,
-        'session_id': session_id
-    }
-
-    api_client = SearchAPIClient(**opts)
-    api_client.get(
-        '/5/stats/checkout',
-        query_params
-    )
