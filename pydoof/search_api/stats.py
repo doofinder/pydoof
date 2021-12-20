@@ -1,3 +1,4 @@
+from typing import Optional
 from pydoof.helpers import parse_query_params
 from pydoof.search_api.api_client import SearchAPIClient
 
@@ -30,9 +31,9 @@ def log_checkout(hashid: str, session_id: str, **opts):
         hashid: Unique search engine id. Indicates to which search engine we are doing the query.
         session_id (<= 32 characters): The current session ID, must be unique for each user.
     """
-    query_params = {
+    query_params = parse_query_params({
         'session_id': session_id
-    }
+    })
 
     api_client = SearchAPIClient(**opts)
     return api_client.put(
@@ -41,13 +42,27 @@ def log_checkout(hashid: str, session_id: str, **opts):
     )
 
 
-def log_redirect(hashid: str, id: str, session_id: str, query: str = None, ** opts):
+def log_redirect(hashid: str, redirection_id: str, session_id: str, query: Optional[str] = None, ** opts):
     """
     Logs a "redirection triggered" event in stats logs.
 
     Args:
         hashid: Unique search engine id. Indicates to which search engine we are doing the query.
-        id: Id of redirection. This id is obtained in the search response that has redirect information.
+        redirection_id: Id of redirection. This id is obtained in the search response that has redirect information.
+        session_id (<= 32 characters): The current session ID, must be unique for each user.
+        query (<= 200 characters): The search term. It must be escaped.
+    """
+    query_params = parse_query_params({
+        'id': redirection_id,
+        'session_id': session_id,
+        'query': query
+    })
+
+    api_client = SearchAPIClient(**opts)
+    return api_client.put(
+        f'/6/{hashid}/stats/redirect',
+        query_params=query_params
+    )
         session_id (<= 32 characters): The current session ID, must be unique for each user.
         query (<= 200 characters): The search term. It must be escaped.
     """
