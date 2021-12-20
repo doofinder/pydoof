@@ -19,6 +19,18 @@ class TestStats(unittest.TestCase):
         )
 
     @mock.patch('pydoof.search_api.stats.SearchAPIClient')
+    def test_log_checkout(self, APIClientMock):
+        hashid = 'aab32d8'
+        session_id = 'SESSION_ID'
+
+        stats.log_checkout(hashid, session_id)
+
+        APIClientMock.return_value.put.assert_called_once_with(
+            f'/6/{hashid}/stats/checkout',
+            query_params={'session_id': session_id}
+        )
+
+    @mock.patch('pydoof.search_api.stats.SearchAPIClient')
     def test_add_to_cart(self, APIClientMock):
         hashid = 'aab32d8'
         index_name = 'product'

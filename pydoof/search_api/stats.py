@@ -17,6 +17,21 @@ def init_session(hashid: str, session_id: str, **opts):
     )
 
 
+def log_checkout(hashid: str, session_id: str, **opts):
+    """
+    Register the content of the cart at this moment for stats.
+    """
+    query_params = {
+        'session_id': session_id
+    }
+
+    api_client = SearchAPIClient(**opts)
+    return api_client.put(
+        f'/6/{hashid}/stats/checkout',
+        query_params=query_params
+    )
+
+
 def add_to_cart(hashid, index_name, session_id, item_id, amount, title, price,
                 **opts):
     """

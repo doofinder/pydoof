@@ -21,6 +21,7 @@ class APIConnectionError(PyDoofError):
     These are not errors coming from Doofinder. But for instance, errors
     establishing the connection or parsing the response.
     """
+
     def __init__(self, message=None, original_exc=None):
         self.message = message
         self.original_exc = original_exc
@@ -38,6 +39,7 @@ class APIConnectionError(PyDoofError):
 
 class DoofinderAuth(requests.auth.AuthBase):
     """Authenticator for Doofinder APIs."""
+
     def __init__(self, token=None, dfmaster_token=None):
         self.token = token
         self.dfmaster_token = dfmaster_token
