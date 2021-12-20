@@ -63,19 +63,6 @@ def log_redirect(hashid: str, redirection_id: str, session_id: str, query: Optio
         f'/6/{hashid}/stats/redirect',
         query_params=query_params
     )
-        session_id (<= 32 characters): The current session ID, must be unique for each user.
-        query (<= 200 characters): The search term. It must be escaped.
-    """
-    query_params = {
-        'id': id,
-        'session_id': session_id
-    }
-
-    api_client = SearchAPIClient(**opts)
-    return api_client.put(
-        f'/6/{hashid}/stats/redirect',
-        query_params=query_params
-    )
 
 
 def add_to_cart(hashid, index_name, session_id, item_id, amount, title, price,
