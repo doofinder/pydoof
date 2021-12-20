@@ -1,3 +1,4 @@
+from typing import Optional
 from pydoof.helpers import parse_query_params
 from pydoof.search_api.api_client import SearchAPIClient
 
@@ -5,6 +6,10 @@ from pydoof.search_api.api_client import SearchAPIClient
 def init_session(hashid: str, session_id: str, **opts):
     """
     Returns number of total unique search sessions in a period group by date.
+
+    Args:
+        hashid: Unique search engine id. Indicates to which search engine we are doing the query.
+        session_id (<= 32 characters): The current session ID, must be unique for each user.
     """
     query_params = parse_query_params({
         'session_id': session_id,
@@ -19,15 +24,43 @@ def init_session(hashid: str, session_id: str, **opts):
 
 def log_checkout(hashid: str, session_id: str, **opts):
     """
-    Register the content of the cart at this moment for stats.
+    That is the event for when a customer complete a checkout.
+    The info of the items that were in her session when she completes the checkout are logged in the event.
+
+    Args:
+        hashid: Unique search engine id. Indicates to which search engine we are doing the query.
+        session_id (<= 32 characters): The current session ID, must be unique for each user.
     """
-    query_params = {
+    query_params = parse_query_params({
         'session_id': session_id
-    }
+    })
 
     api_client = SearchAPIClient(**opts)
     return api_client.put(
         f'/6/{hashid}/stats/checkout',
+        query_params=query_params
+    )
+
+
+def log_redirect(hashid: str, redirection_id: str, session_id: str, query: Optional[str] = None, ** opts):
+    """
+    Logs a "redirection triggered" event in stats logs.
+
+    Args:
+        hashid: Unique search engine id. Indicates to which search engine we are doing the query.
+        redirection_id: Id of redirection. This id is obtained in the search response that has redirect information.
+        session_id (<= 32 characters): The current session ID, must be unique for each user.
+        query (<= 200 characters): The search term. It must be escaped.
+    """
+    query_params = parse_query_params({
+        'id': redirection_id,
+        'session_id': session_id,
+        'query': query
+    })
+
+    api_client = SearchAPIClient(**opts)
+    return api_client.put(
+        f'/6/{hashid}/stats/redirect',
         query_params=query_params
     )
 
@@ -86,21 +119,5 @@ def clear_cart(hashid, session_id, **opts):
     api_client = SearchAPIClient(**opts)
     api_client.get(
         '/5/stats/clear-cart',
-        query_params
-    )
-
-
-def checkout(hashid, session_id, **opts):
-    """
-    Register the content of the cart at this moment for stats.
-    """
-    query_params = {
-        'hashid': hashid,
-        'session_id': session_id
-    }
-
-    api_client = SearchAPIClient(**opts)
-    api_client.get(
-        '/5/stats/checkout',
         query_params
     )

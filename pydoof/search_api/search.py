@@ -18,7 +18,7 @@ class SearchFilterExecution(Enum):
     OR = "or"
 
 
-def query(hashid: str, query: str, auto_filters: bool = None, custom_results: bool = None,
+def query(hashid: str, query: str = '', auto_filters: bool = None, custom_results: bool = None,
           excluded_results: bool = None, filter: Dict[str, Any] = None,
           exclude: Dict[str, Any] = None,
           indices: List[str] = None, query_name: QueryNames = None,
@@ -32,8 +32,7 @@ def query(hashid: str, query: str, auto_filters: bool = None, custom_results: bo
     Args:
         hashid (str): Unique search engine id. Indicates to which search engine
             we are doing the query.
-        query (str): The terms we are looking for in the items of the search
-            engine.
+        query (str): The terms we are looking for in the items of the search engine. Default to ''
         auto_filters (boolean, optional): Enable/Disable the automatic filters in search.
             Default: None.
         custom_results (boolean, optional): Enable/Disable the custom results in search.
@@ -107,15 +106,14 @@ def query(hashid: str, query: str, auto_filters: bool = None, custom_results: bo
     )
 
 
-def suggest(hashid: str, query: str, indices: List[str] = None, stats: bool = None, session_id: str = None, **opts):
+def suggest(hashid: str, query: str = '', indices: List[str] = None, stats: bool = None, session_id: str = None, **opts):
     """
     Fetch suggestions for terms based on the items indexed in a search engine.
 
     Args:
         hashid (str): Unique search engine id. Indicates to which search engine
             we are doing the query.
-        query (str): The terms we are looking for in the items of the search
-            engine.
+        query (str): The terms we are looking for in the items of the search engine. Default to ''.
         indices (List[str], optional): With the indices parameter you can specify to search within one specific Index.
             If this parameter is not provided, the search will work with all Indices.
             Note that [ and ] characters should be escaped (%5B and %5D) in all cases.
