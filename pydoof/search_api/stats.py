@@ -41,6 +41,28 @@ def log_checkout(hashid: str, session_id: str, **opts):
     )
 
 
+def log_redirect(hashid: str, id: str, session_id: str, query: str = None, ** opts):
+    """
+    Logs a "redirection triggered" event in stats logs.
+
+    Args:
+        hashid: Unique search engine id. Indicates to which search engine we are doing the query.
+        id: Id of redirection. This id is obtained in the search response that has redirect information.
+        session_id (<= 32 characters): The current session ID, must be unique for each user.
+        query (<= 200 characters): The search term. It must be escaped.
+    """
+    query_params = {
+        'id': id,
+        'session_id': session_id
+    }
+
+    api_client = SearchAPIClient(**opts)
+    return api_client.put(
+        f'/6/{hashid}/stats/redirect',
+        query_params=query_params
+    )
+
+
 def add_to_cart(hashid, index_name, session_id, item_id, amount, title, price,
                 **opts):
     """
