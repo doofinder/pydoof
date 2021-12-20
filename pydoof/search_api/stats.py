@@ -71,7 +71,7 @@ def log_banner_image_click(hashid: str, id: str, session_id: str, query: Optiona
 
     Args:
         hashid: Unique search engine id. Indicates to which search engine we are doing the query.
-        id: d of image displayed in banner. This id is obtained in the search response that has banner information.
+        id: id of image displayed in banner. This id is obtained in the search response that has banner information.
         session_id (<= 32 characters): The current session ID, must be unique for each user.
         query (<= 200 characters): The search term. It must be escaped.
     """
