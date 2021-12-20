@@ -31,6 +31,40 @@ class TestStats(unittest.TestCase):
         )
 
     @mock.patch('pydoof.search_api.stats.SearchAPIClient')
+    def test_log_redirect_minimum_requirements(self, APIClientMock):
+        hashid = 'aab32d8'
+        redirection_id = 'ID'
+        session_id = 'SESSION_ID'
+
+        stats.log_redirect(hashid, redirection_id, session_id)
+
+        APIClientMock.return_value.put.assert_called_once_with(
+            f'/6/{hashid}/stats/redirect',
+            query_params={
+                'id': redirection_id,
+                'session_id': session_id
+            }
+        )
+
+    @mock.patch('pydoof.search_api.stats.SearchAPIClient')
+    def test_log_redirect(self, APIClientMock):
+        hashid = 'aab32d8'
+        redirection_id = 'ID'
+        session_id = 'SESSION_ID'
+        query = 'QUERY'
+
+        stats.log_redirect(hashid, redirection_id, session_id, query)
+
+        APIClientMock.return_value.put.assert_called_once_with(
+            f'/6/{hashid}/stats/redirect',
+            query_params={
+                'id': redirection_id,
+                'session_id': session_id,
+                'query': query
+            }
+        )
+
+    @mock.patch('pydoof.search_api.stats.SearchAPIClient')
     def test_log_banner_image_click_minimum_requirements(self, APIClientMock):
         hashid = 'aab32d8'
         redirection_id = 'ID'
@@ -112,17 +146,5 @@ class TestStats(unittest.TestCase):
 
         APIClientMock.return_value.get.assert_called_once_with(
             '/5/stats/clear-cart',
-            {'hashid': hashid, 'session_id': session_id}
-        )
-
-    @mock.patch('pydoof.search_api.stats.SearchAPIClient')
-    def test_checkout(self, APIClientMock):
-        hashid = 'aab32d8'
-        session_id = '4affa6'
-
-        stats.checkout(hashid, session_id)
-
-        APIClientMock.return_value.get.assert_called_once_with(
-            '/5/stats/checkout',
             {'hashid': hashid, 'session_id': session_id}
         )
