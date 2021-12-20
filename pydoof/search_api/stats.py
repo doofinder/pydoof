@@ -1,3 +1,4 @@
+from typing import Optional
 from pydoof.helpers import parse_query_params
 from pydoof.search_api.api_client import SearchAPIClient
 
