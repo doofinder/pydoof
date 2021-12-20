@@ -2,13 +2,28 @@ from pydoof.helpers import parse_query_params
 from pydoof.search_api.api_client import SearchAPIClient
 
 
-def log_checkout(hashid: str, session_id: str, **opts):
+def init_session(hashid: str, session_id: str, **opts):
     """
     Returns number of total unique search sessions in a period group by date.
     """
     query_params = parse_query_params({
         'session_id': session_id,
     })
+
+    api_client = SearchAPIClient(**opts)
+    return api_client.put(
+        f'/6/{hashid}/stats/init',
+        query_params=query_params
+    )
+
+
+def log_checkout(hashid: str, session_id: str, **opts):
+    """
+    Register the content of the cart at this moment for stats.
+    """
+    query_params = {
+        'session_id': session_id
+    }
 
     api_client = SearchAPIClient(**opts)
     return api_client.put(

@@ -7,6 +7,18 @@ from pydoof.search_api import stats
 class TestStats(unittest.TestCase):
 
     @mock.patch('pydoof.search_api.stats.SearchAPIClient')
+    def test_init_session(self, APIClientMock):
+        hashid = 'aab32d8'
+        session_id = 'SESSION_ID'
+
+        stats.init_session(hashid, session_id)
+
+        APIClientMock.return_value.put.assert_called_once_with(
+            f'/6/{hashid}/stats/init',
+            query_params={'session_id': session_id}
+        )
+
+    @mock.patch('pydoof.search_api.stats.SearchAPIClient')
     def test_log_checkout(self, APIClientMock):
         hashid = 'aab32d8'
         session_id = 'SESSION_ID'
