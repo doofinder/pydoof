@@ -17,6 +17,7 @@ develop-eggs
 .installed.cfg
 lib
 lib64
+__py_cache__
 
 # Installer logs
 pip-log.txt
@@ -39,3 +40,7 @@ nosetests.xml
 
 # python distutils
 MANIFEST
+
+# IDE
+.idea
+.vscode

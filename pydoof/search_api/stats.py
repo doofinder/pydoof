@@ -91,6 +91,29 @@ def click_stats(hashid: str, dfid: str, session_id: str, query: Optional[str] = 
     )
 
 
+def log_banner_image_click(hashid: str, id: str, session_id: str, query: Optional[str] = None, ** opts):
+    """
+    Logs a "click on banner image" event in stats logs.
+
+    Args:
+        hashid: Unique search engine id. Indicates to which search engine we are doing the query.
+        id: id of image displayed in banner. This id is obtained in the search response that has banner information.
+        session_id (<= 32 characters): The current session ID, must be unique for each user.
+        query (<= 200 characters): The search term. It must be escaped.
+    """
+    query_params = parse_query_params({
+        'id': id,
+        'session_id': session_id,
+        'query': query
+    })
+
+    api_client = SearchAPIClient(**opts)
+    return api_client.put(
+        f'/6/{hashid}/stats/image',
+        query_params=query_params
+    )
+
+
 def add_to_cart(hashid, index_name, session_id, item_id, amount, title, price,
                 **opts):
     """
