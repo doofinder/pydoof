@@ -156,17 +156,15 @@ def remove_from_cart(hashid, index_name, session_id, item_id, amount, **opts):
     )
 
 
-def clear_cart(hashid, session_id, **opts):
+def clear_cart(hashid: str, session_id: str, **opts):
     """
     Deletes the cart with all its content.
-    """
-    query_params = {
-        'hashid': hashid,
-        'session_id': session_id
-    }
 
+    Args:
+        hashid: Unique search engine id. Indicates to which search engine we are doing the query.
+        session_id (<= 32 characters): The current session ID, must be unique for each user.
+    """
     api_client = SearchAPIClient(**opts)
-    api_client.get(
-        '/5/stats/clear-cart',
-        query_params
+    return api_client.delete(
+        f'/6/{hashid}/stats/cart/{session_id}'
     )

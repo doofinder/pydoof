@@ -178,7 +178,6 @@ class TestStats(unittest.TestCase):
 
         stats.clear_cart(hashid, session_id)
 
-        APIClientMock.return_value.get.assert_called_once_with(
-            '/5/stats/clear-cart',
-            {'hashid': hashid, 'session_id': session_id}
+        APIClientMock.return_value.delete.assert_called_once_with(
+            f'/6/{hashid}/stats/cart/{session_id}'
         )
