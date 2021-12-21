@@ -156,7 +156,7 @@ def remove_from_cart(hashid: str, index_name: str, session_id: str, item_id: str
 
     api_client = SearchAPIClient(**opts)
     return api_client.patch(
-        f'/6/{hashid}/stats/{session_id}',
+        f'/6/{hashid}/stats/cart/{session_id}',
         query_params=query_params
     )
 
