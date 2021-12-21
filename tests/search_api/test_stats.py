@@ -166,7 +166,7 @@ class TestStats(unittest.TestCase):
         )
 
         APIClientMock.return_value.patch.assert_called_once_with(
-            f'/6/{hashid}/stats/{session_id}',
+            f'/6/{hashid}/stats/cart/{session_id}',
             query_params={'index': index_name, 'id': item_id, 'amount': amount}
         )
 
