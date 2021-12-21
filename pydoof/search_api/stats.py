@@ -65,6 +65,32 @@ def log_redirect(hashid: str, redirection_id: str, session_id: str, query: Optio
     )
 
 
+def click_stats(hashid: str, dfid: str, session_id: str, query: Optional[str] = None, ** opts):
+    """
+    Save click event on Doofinder statistics
+
+    Args:
+        hashid: Unique search engine id. Indicates to which search engine we are doing the query.
+        dfid: Doofinder item id. It comes in every Doofinder results for every item.
+            It has the form {hashid}@{index}@{md5id}
+            i.e. 6a96504dc173514cab1e0198af92e6e9@product@e19347e1c3ca0c0b97de5fb3b690855a
+        session_id (<= 32 characters): The current session ID, must be unique for each user.
+        query (<= 200 characters): The search term. It must be escaped.
+    """
+
+    query_params = parse_query_params({
+        'dfid': dfid,
+        'session_id': session_id,
+        'query': query
+    })
+
+    api_client = SearchAPIClient(**opts)
+    return api_client.put(
+        f'/6/{hashid}/stats/click',
+        query_params=query_params
+    )
+
+
 def log_banner_image_click(hashid: str, id: str, session_id: str, query: Optional[str] = None, ** opts):
     """
     Logs a "click on banner image" event in stats logs.
