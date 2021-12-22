@@ -77,7 +77,6 @@ def query(hashid: str, query: str = '', auto_filters: bool = None, custom_result
             Default: None.
     """
     query_params = parse_query_params({
-        'hashid': hashid,
         'query': query,
         'auto_filters': auto_filters,
         'custom_results': custom_results,

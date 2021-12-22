@@ -42,7 +42,7 @@ class TestSearch(unittest.TestCase):
 
         APIClientMock.return_value.get.assert_called_once_with(
             f'/6/{hashid}/_search',
-            query_params={'hashid': hashid, 'query': 'QUERY',
+            query_params={'query': 'QUERY',
                           'filter[brand]': 'MyBrand',
                           'exclude[color][]': ['blue', 'red'],
                           'exclude[size]': 'M',
