@@ -47,6 +47,18 @@ class TestParseQueryParams(unittest.TestCase):
             {'iterable[]': ['a', 'b', 'c', 'd'], 'string': 'String'}
         )
 
+    def test_can_parse_booleans(self):
+        """Boolean values can be parsed to lower case string."""
+        result = parse_query_params({
+            'stats': False,
+            'another_param': True
+        })
+
+        self.assertEqual(
+            result,
+            {'stats': 'false', 'another_param': 'true'}
+        )
+
     def test_discards_none_values(self):
         """Parameters with 'None' values are discarded."""
         result = parse_query_params({
@@ -55,4 +67,4 @@ class TestParseQueryParams(unittest.TestCase):
             'bar': False
         })
 
-        self.assertEqual(result, {'foo': True, 'bar': False})
+        self.assertEqual(result, {'foo': 'true', 'bar': 'false'})
