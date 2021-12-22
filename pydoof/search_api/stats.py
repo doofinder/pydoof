@@ -114,45 +114,58 @@ def log_banner_image_click(hashid: str, id: str, session_id: str, query: Optiona
     )
 
 
-def add_to_cart(hashid, index_name, session_id, item_id, amount, title, price,
-                **opts):
+def add_to_cart(hashid: str, index_name: str, session_id: str, item_id: str, amount: int, title: str,
+                price: float, **opts):
     """
     Adds an item to the cart, or creates one if it does not exists.
+    If the item is already present in the cart, the amount is added to the item current amount.
+
+    Args:
+        hashid: Unique search engine id. Indicates to which search engine we are doing the query.
+        session_id (<= 32 characters): The current session ID, must be unique for each user.
+        index_name: The index used for this product in Doofinder.
+        item_id: The ID of the item to be added (this refers to the ID in the shop database).
+        amount: Amount of items to add to the cart.
+        title: Item title.
+        price: Item price.
     """
     query_params = {
-        'hashid': hashid,
-        'datatype': index_name,
-        'session_id': session_id,
-        'item_id': item_id,
+        'index': index_name,
+        'id': item_id,
         'amount': amount,
         'title': title,
         'price': price
     }
 
     api_client = SearchAPIClient(**opts)
-    api_client.get(
-        '/5/stats/add-to-cart',
-        query_params
+    return api_client.put(
+        f'/6/{hashid}/stats/cart/{session_id}',
+        query_params=query_params
     )
 
 
-def remove_from_cart(hashid, index_name, session_id, item_id, amount, **opts):
+def remove_from_cart(hashid: str, index_name: str, session_id: str, item_id: str, amount: int, **opts):
     """
     Removes amount from the given item in the cart, and deletes if the result
     is lower than 0.
+
+    Args:
+        hashid: Unique search engine id. Indicates to which search engine we are doing the query.
+        session_id (<= 32 characters): The current session ID, must be unique for each user.
+        index_name: The index used for this product in Doofinder.
+        item_id: The ID of the item to be added (this refers to the ID in the shop database).
+        amount: Amount of items to add to the cart.
     """
     query_params = {
-        'hashid': hashid,
-        'datatype': index_name,
-        'session_id': session_id,
-        'item_id': item_id,
+        'index': index_name,
+        'id': item_id,
         'amount': amount
     }
 
     api_client = SearchAPIClient(**opts)
-    api_client.get(
-        '/5/stats/remove-from-cart',
-        query_params
+    return api_client.patch(
+        f'/6/{hashid}/stats/cart/{session_id}',
+        query_params=query_params
     )
 
 
