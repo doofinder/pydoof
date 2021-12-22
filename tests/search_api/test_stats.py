@@ -146,11 +146,11 @@ class TestStats(unittest.TestCase):
             hashid, index_name, session_id, item_id, amount, title, price
         )
 
-        APIClientMock.return_value.get.assert_called_once_with(
-            '/5/stats/add-to-cart',
-            {'hashid': hashid, 'datatype': index_name,
-             'session_id': session_id, 'item_id': item_id, 'amount': amount,
-             'title': title, 'price': price}
+        APIClientMock.return_value.put.assert_called_once_with(
+            f'/6/{hashid}/stats/cart/{session_id}',
+            query_params={
+                'index': index_name, 'id': item_id, 'amount': amount,
+                'title': title, 'price': price}
         )
 
     @mock.patch('pydoof.search_api.stats.SearchAPIClient')
