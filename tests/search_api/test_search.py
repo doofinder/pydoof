@@ -1,9 +1,6 @@
 from unittest import mock
 import unittest
 
-from requests.sessions import session
-from pydoof.search_api.api_client import SearchAPIClient
-
 from pydoof.search_api.search import query, suggest
 
 from pydoof.search_api.search import QueryNames, SearchFilterExecution
@@ -19,7 +16,7 @@ class TestSearch(unittest.TestCase):
 
         APIClientMock.return_value.get.assert_called_once_with(
             f'/6/{hashid}/_search',
-            query_params={'hashid': hashid, 'query': 'QUERY'}
+            query_params={'query': 'QUERY'}
         )
 
     @mock.patch('pydoof.search_api.search.SearchAPIClient')
@@ -59,7 +56,7 @@ class TestSearch(unittest.TestCase):
                           'query_name': 'match_and',
                           'sort[0][brand]': 'asc',
                           'page': page, 'rpp': rpp,
-                          'stats': True,
+                          'stats': 'true',
                           'filter_execution': 'or',
                           'skip_top_facet[]': skip_to_facet,
                           'skip_auto_filters[]': skip_auto_filters}
@@ -77,5 +74,5 @@ class TestSearch(unittest.TestCase):
             f'/6/{hashid}/_suggest',
             query_params={'query': 'QUERY',
                           'indices[]': indices,
-                          'stats': False}
+                          'stats': 'false'}
         )

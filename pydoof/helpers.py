@@ -56,6 +56,8 @@ def _parse_param(param: str, value: Any):
         query_params.update(
             _dicts_appends(params)
         )
+    elif isinstance(value, bool):
+        query_params[param] = str(value).lower()
     elif value is not None:
         query_params[param] = value
 
