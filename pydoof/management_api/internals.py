@@ -32,6 +32,14 @@ def set_searchengine_replicas(searchengine_hashid, replicas, **opts):
     )
 
 
+def delete_stored_specs(searchengine_hashid, stored_spec_key, **opts):
+    api_client = ManagementAPIClient(**opts)
+    api_client.delete(
+        _get_searchengine_url(searchengine_hashid) + '/stored_specs',
+        query_params=parse_query_params({'stored_spec': stored_spec_key})
+    )
+
+
 def searchengine_mappings(searchengine_hashid, indices=None, **opts):
     api_client = ManagementAPIClient(**opts)
     return api_client.get(
