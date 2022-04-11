@@ -19,6 +19,6 @@ setup(name='PyDoof', version='4.1.0', author='Doofinder',
           'Development Status :: 5 - Production/Stable',
           'Intended Audience :: Developers',
           'License :: OSI Approved :: MIT License',
-          'Programming Language :: Python :: 3.6.7', # On Python >= 3.7 this displays a warning
+          'Programming Language :: Python :: 3.6',
           'Topic :: Internet :: WWW/HTTP :: Indexing/Search'
       ])
