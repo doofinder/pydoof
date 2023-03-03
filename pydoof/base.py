@@ -40,15 +40,18 @@ class APIConnectionError(PyDoofError):
 class DoofinderAuth(requests.auth.AuthBase):
     """Authenticator for Doofinder APIs."""
 
-    def __init__(self, token=None, dfmaster_token=None):
+    def __init__(self, token=None, dfmaster_token=None, dfusername=None):
         self.token = token
         self.dfmaster_token = dfmaster_token
+        self.dfusername = dfusername
 
     def __call__(self, r):
         if self.token is not None:
             r.headers['Authorization'] = f'Token {self.token}'
         if self.dfmaster_token is not None:
             r.headers['dfmastertoken'] = self.dfmaster_token
+        if self.dfusername is not None:
+            r.headers['dfusername'] = self.dfusername
         return r
 
 
@@ -69,9 +72,10 @@ class APIClient():
             kwargs.get('_dfmaster_token') or pydoof._dfmaster_token
         )
         token = kwargs.get('token') or pydoof.token
+        dfusername = kwargs.get('_dfusername')
 
         self.authentication = DoofinderAuth(
-            token=token, dfmaster_token=dfmaster_token
+            token=token, dfmaster_token=dfmaster_token, dfusername=dfusername
         )
         self.headers = {'User-Agent': 'doofinder-api-client/python'}
         self.request_opts = {
