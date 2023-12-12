@@ -1,10 +1,9 @@
 """
 Collection of functions to assist PyDoof modules.
 """
-from collections import Iterable
 from datetime import date
 from enum import Enum
-from typing import Any, List
+from typing import Any, List, Iterable
 
 
 def parse_query_params(params):
