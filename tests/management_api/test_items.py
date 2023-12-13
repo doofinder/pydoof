@@ -270,24 +270,26 @@ class TestItems(unittest.TestCase):
     def test_bulk_delete(self, APIClientMock):
         hashid = 'aab32d8'
         index_name = 'product'
-        items_data = ['item']
+        items_data = [{"id": 1}]
 
         items.bulk_delete(hashid, index_name, items_data)
 
-        APIClientMock.return_value.delete.assert_called_with(
-            '/api/v2/search_engines/aab32d8/indices/product/items/_bulk',
-            items_data
+        APIClientMock.return_value.request.assert_called_with(
+            method="DELETE",
+            url='/api/v2/search_engines/aab32d8/indices/product/items/_bulk',
+            json=items_data
         )
 
     @mock.patch('pydoof.management_api.items.ManagementAPIClient')
     def test_bulk_delete_temp(self, APIClientMock):
         hashid = 'aab32d8'
         index_name = 'product'
-        items_data = ['item']
+        items_data = [{"id": 1}]
 
         items.bulk_delete(hashid, index_name, items_data, temp=True)
 
-        APIClientMock.return_value.delete.assert_called_with(
-            '/api/v2/search_engines/aab32d8/indices/product/temp/items/_bulk',
-            items_data
+        APIClientMock.return_value.request.assert_called_with(
+            method="DELETE",
+            url='/api/v2/search_engines/aab32d8/indices/product/temp/items/_bulk',
+            json=items_data
         )

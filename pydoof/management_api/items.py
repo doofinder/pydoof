@@ -144,7 +144,8 @@ def bulk_update(hashid, name, items, temp=False, **opts):
 
 def bulk_delete(hashid, name, items, temp=False, **opts):
     api_client = ManagementAPIClient(**opts)
-    return api_client.delete(
-        _get_bulk_url(hashid, name, temp),
-        items
+    return api_client.request(
+        method="DELETE", 
+        url=_get_bulk_url(hashid, name, temp), 
+        json=items,
     )
