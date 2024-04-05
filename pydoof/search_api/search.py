@@ -1,8 +1,8 @@
 from enum import Enum, unique
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
-from pydoof.search_api.api_client import SearchAPIClient
 from pydoof.helpers import parse_query_params
+from pydoof.search_api.api_client import SearchAPIClient
 
 
 @unique
@@ -18,14 +18,30 @@ class SearchFilterExecution(Enum):
     OR = "or"
 
 
-def query(hashid: str, query: str = '', auto_filters: bool = None, custom_results: bool = None,
-          excluded_results: bool = None, filter: Dict[str, Any] = None,
-          exclude: Dict[str, Any] = None,
-          indices: List[str] = None, query_name: QueryNames = None,
-          sort: List[Dict[str, str]] = None, page: int = None, rpp: int = None,
-          facets: List[Dict[str, Any]] = None, filter_execution: SearchFilterExecution = None,
-          session_id: str = None, stats: bool = None, skip_auto_filters: List[str] = None,
-          skip_top_facet: List[str] = None, title_facet: bool = None, top_facet: bool = None, **opts):
+def query(
+    hashid: str,
+    query: str = "",
+    auto_filters: Optional[bool] = None,
+    custom_results: Optional[bool] = None,
+    excluded_results: Optional[bool] = None,
+    filter: Dict[str, Any] = {},
+    exclude: Dict[str, Any] = {},
+    indices: List[str] = [],
+    query_name: Optional[QueryNames] = None,
+    sort: List[Dict[str, str]] = [],
+    page: Optional[int] = None,
+    rpp: Optional[int] = None,
+    facets: List[Dict[str, Any]] = [],
+    filter_execution: Optional[SearchFilterExecution] = None,
+    session_id: Optional[str] = None,
+    stats: Optional[bool] = None,
+    skip_auto_filters: List[str] = [],
+    skip_top_facet: List[str] = [],
+    title_facet: Optional[bool] = None,
+    top_facet: Optional[bool] = None,
+    client_cls=SearchAPIClient,
+    **opts,
+):
     """
     Queries items indexed in a search engine.
 
@@ -76,36 +92,42 @@ def query(hashid: str, query: str = '', auto_filters: bool = None, custom_result
         top_facet (bool, optional): Enable/Disable top_facet feature.
             Default: None.
     """
-    query_params = parse_query_params({
-        'query': query,
-        'auto_filters': auto_filters,
-        'custom_results': custom_results,
-        'excluded_results': excluded_results,
-        'filter': filter,
-        'exclude': exclude,
-        'query_name': query_name,
-        'indices': indices,
-        'sort': sort,
-        'page': page,
-        'rpp': rpp,
-        'facets': facets,
-        'filter_execution': filter_execution,
-        'session_id': session_id,
-        'stats': stats,
-        'skip_auto_filters': skip_auto_filters,
-        'skip_top_facet': skip_top_facet,
-        'title_facet': title_facet,
-        'top_facet': top_facet
-    })
-
-    api_client = SearchAPIClient(**opts)
-    return api_client.get(
-        f'/6/{hashid}/_search',
-        query_params=query_params
+    query_params = parse_query_params(
+        {
+            "query": query,
+            "auto_filters": auto_filters,
+            "custom_results": custom_results,
+            "excluded_results": excluded_results,
+            "filter": filter,
+            "exclude": exclude,
+            "query_name": query_name,
+            "indices": indices,
+            "sort": sort,
+            "page": page,
+            "rpp": rpp,
+            "facets": facets,
+            "filter_execution": filter_execution,
+            "session_id": session_id,
+            "stats": stats,
+            "skip_auto_filters": skip_auto_filters,
+            "skip_top_facet": skip_top_facet,
+            "title_facet": title_facet,
+            "top_facet": top_facet,
+        }
     )
 
+    api_client = client_cls(**opts)
+    return api_client.get(f"/6/{hashid}/_search", query_params=query_params)
 
-def suggest(hashid: str, query: str = '', indices: List[str] = None, stats: bool = None, session_id: str = None, **opts):
+
+def suggest(
+    hashid: str,
+    query: str = "",
+    indices: List[str] = [],
+    stats: Optional[bool] = None,
+    session_id: Optional[str] = None,
+    **opts,
+):
     """
     Fetch suggestions for terms based on the items indexed in a search engine.
 
@@ -121,14 +143,8 @@ def suggest(hashid: str, query: str = '', indices: List[str] = None, stats: bool
             Default: None.
         session_id (str, optional, <= 32 characters): The current session ID, must be unique for each user.
     """
-    query_params = parse_query_params({
-        'query': query,
-        'indices': indices,
-        'stats': stats,
-        'session_id': session_id
-    })
-    api_client = SearchAPIClient(**opts)
-    return api_client.get(
-        f'/6/{hashid}/_suggest',
-        query_params=query_params
+    query_params = parse_query_params(
+        {"query": query, "indices": indices, "stats": stats, "session_id": session_id}
     )
+    api_client = SearchAPIClient(**opts)
+    return api_client.get(f"/6/{hashid}/_suggest", query_params=query_params)

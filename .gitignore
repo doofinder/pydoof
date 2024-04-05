@@ -44,3 +44,7 @@ MANIFEST
 # IDE
 .idea
 .vscode
+
+venv/
+env/
+.eggs/
