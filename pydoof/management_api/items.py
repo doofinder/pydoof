@@ -8,9 +8,9 @@ from pydoof.management_api.exceptions import TooManyRequestsError
 class Scroll:
     @staticmethod
     def __get_url(hashid, name):
-        return f'/api/v2/search_engines/{hashid}/indices/{name}/items/'
+        return f"/api/v2/search_engines/{hashid}/indices/{name}/items/"
 
-    def __init__(self, hashid, name, rpp=None, **opts):
+    def __init__(self, hashid, name, rpp=None, client=None, **opts):
         super().__init__()
 
         self.scroll_id = None
@@ -19,12 +19,12 @@ class Scroll:
         self.hashid = hashid
         self.name = name
 
-        self.api_client = ManagementAPIClient(**opts)
+        self.api_client = client or ManagementAPIClient(**opts)
 
     def __iter__(self):
         scroll_page = self.new()
-        while scroll_page['items']:
-            yield from scroll_page['items']
+        while scroll_page["items"]:
+            yield from scroll_page["items"]
             scroll_page = self.__next_with_retry()
 
     def __next_with_retry(self):
@@ -43,108 +43,80 @@ class Scroll:
     def _query_params(self):
         params = {}
         if self.scroll_id:
-            params['scroll_id'] = self.scroll_id
+            params["scroll_id"] = self.scroll_id
         if self.rpp:
-            params['rpp'] = self.rpp
+            params["rpp"] = self.rpp
         return params
 
     def new(self):
-        scroll_page = self.api_client.get(
-            self.__get_url(self.hashid, self.name),
-            self._query_params
-        )
-        self.scroll_id = scroll_page['scroll_id']
+        scroll_page = self.api_client.get(self.__get_url(self.hashid, self.name), self._query_params)
+        self.scroll_id = scroll_page["scroll_id"]
         return scroll_page
 
     def next(self):
-        return self.api_client.get(
-            self.__get_url(self.hashid, self.name),
-            self._query_params
-        )
+        return self.api_client.get(self.__get_url(self.hashid, self.name), self._query_params)
 
 
 def _get_items_url(hashid, name, temp=False):
-    url = f'/api/v2/search_engines/{hashid}/indices/{name}'
+    url = f"/api/v2/search_engines/{hashid}/indices/{name}"
     if temp:
-        url += '/temp'
-    return url + '/items'
+        url += "/temp"
+    return url + "/items"
 
 
 def _get_item_url(hashid, name, item_id, temp=False):
-    url = f'/api/v2/search_engines/{hashid}/indices/{name}'
+    url = f"/api/v2/search_engines/{hashid}/indices/{name}"
     if temp:
-        url += '/temp'
-    return url + f'/items/{quote_plus(item_id)}'
+        url += "/temp"
+    return url + f"/items/{quote_plus(item_id)}"
 
 
 def _get_bulk_url(hashid, name, temp=False):
-    url = f'/api/v2/search_engines/{hashid}/indices/{name}'
+    url = f"/api/v2/search_engines/{hashid}/indices/{name}"
     if temp:
-        url += '/temp'
-    return url + '/items/_bulk'
+        url += "/temp"
+    return url + "/items/_bulk"
 
 
 def scroll(hashid, name, rpp=None, **opts):
     return Scroll(hashid, name, rpp, **opts)
 
 
-def create(hashid, name, item, temp=False, **opts):
-    api_client = ManagementAPIClient(**opts)
-    return api_client.post(
-        _get_items_url(hashid, name, temp),
-        item
-    )
+def create(hashid, name, item, temp=False, client=None, **opts):
+    api_client = client or ManagementAPIClient(**opts)
+    return api_client.post(_get_items_url(hashid, name, temp), item)
 
 
-def get(hashid, name, item_id, temp=False, **opts):
-    api_client = ManagementAPIClient(**opts)
-    return api_client.get(
-        _get_item_url(hashid, name, item_id, temp)
-    )
+def get(hashid, name, item_id, temp=False, client=None, **opts):
+    api_client = client or ManagementAPIClient(**opts)
+    return api_client.get(_get_item_url(hashid, name, item_id, temp))
 
 
-def update(hashid, name, item_id, item, temp=False, **opts):
-    api_client = ManagementAPIClient(**opts)
-    return api_client.patch(
-        _get_item_url(hashid, name, item_id, temp),
-        item
-    )
+def update(hashid, name, item_id, item, temp=False, client=None, **opts):
+    api_client = client or ManagementAPIClient(**opts)
+    return api_client.patch(_get_item_url(hashid, name, item_id, temp), item)
 
 
-def delete(hashid, name, item_id, temp=False, **opts):
-    api_client = ManagementAPIClient(**opts)
-    api_client.delete(
-        _get_item_url(hashid, name, item_id, temp)
-    )
+def delete(hashid, name, item_id, temp=False, client=None, **opts):
+    api_client = client or ManagementAPIClient(**opts)
+    api_client.delete(_get_item_url(hashid, name, item_id, temp))
 
 
-def find(hashid, name, items_ids, temp=False, **opts):
-    api_client = ManagementAPIClient(**opts)
-    return api_client.post(
-        _get_items_url(hashid, name, temp) + '/_mget',
-        items_ids
-    )
+def find(hashid, name, items_ids, temp=False, client=None, **opts):
+    api_client = client or ManagementAPIClient(**opts)
+    return api_client.post(_get_items_url(hashid, name, temp) + "/_mget", items_ids)
 
 
-def bulk_create(hashid, name, items, temp=False, **opts):
-    api_client = ManagementAPIClient(**opts)
-    return api_client.post(
-        _get_bulk_url(hashid, name, temp),
-        items
-    )
+def bulk_create(hashid, name, items, temp=False, client=None, **opts):
+    api_client = client or ManagementAPIClient(**opts)
+    return api_client.post(_get_bulk_url(hashid, name, temp), items)
 
 
-def bulk_update(hashid, name, items, temp=False, **opts):
-    api_client = ManagementAPIClient(**opts)
-    return api_client.patch(
-        _get_bulk_url(hashid, name, temp),
-        items
-    )
+def bulk_update(hashid, name, items, temp=False, client=None, **opts):
+    api_client = client or ManagementAPIClient(**opts)
+    return api_client.patch(_get_bulk_url(hashid, name, temp), items)
 
 
-def bulk_delete(hashid, name, items, temp=False, **opts):
-    api_client = ManagementAPIClient(**opts)
-    return api_client.delete(
-        _get_bulk_url(hashid, name, temp),
-        items
-    )
+def bulk_delete(hashid, name, items, temp=False, client=None, **opts):
+    api_client = client or ManagementAPIClient(**opts)
+    return api_client.delete(_get_bulk_url(hashid, name, temp), items)

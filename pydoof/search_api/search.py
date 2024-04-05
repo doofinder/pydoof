@@ -39,7 +39,7 @@ def query(
     skip_top_facet: List[str] = [],
     title_facet: Optional[bool] = None,
     top_facet: Optional[bool] = None,
-    client_cls=SearchAPIClient,
+    client:Optional[SearchAPIClient]=None,
     **opts,
 ):
     """
@@ -116,7 +116,7 @@ def query(
         }
     )
 
-    api_client = client_cls(**opts)
+    api_client = client or SearchAPIClient(**opts)
     return api_client.get(f"/6/{hashid}/_search", query_params=query_params)
 
 
@@ -126,6 +126,7 @@ def suggest(
     indices: List[str] = [],
     stats: Optional[bool] = None,
     session_id: Optional[str] = None,
+    client: Optional[SearchAPIClient] = None,
     **opts,
 ):
     """
@@ -146,5 +147,5 @@ def suggest(
     query_params = parse_query_params(
         {"query": query, "indices": indices, "stats": stats, "session_id": session_id}
     )
-    api_client = SearchAPIClient(**opts)
+    api_client = client or SearchAPIClient(**opts)
     return api_client.get(f"/6/{hashid}/_suggest", query_params=query_params)
