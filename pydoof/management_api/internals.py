@@ -1,5 +1,5 @@
-from pydoof.management_api.api_client import ManagementAPIClient
 from pydoof.helpers import parse_query_params
+from pydoof.management_api.api_client import ManagementAPIClient
 
 
 def _get_user_url(user_id):

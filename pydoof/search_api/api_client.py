@@ -3,9 +3,9 @@ try:
 except ImportError:
     from json.decoder import JSONDecodeError
 
+import pydoof
 from pydoof.base import APIClient
 from pydoof.search_api import exceptions
-import pydoof
 
 
 class SearchAPIClient(APIClient):

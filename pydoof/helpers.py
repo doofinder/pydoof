@@ -3,7 +3,7 @@ Collection of functions to assist PyDoof modules.
 """
 from datetime import date
 from enum import Enum
-from typing import Any, List, Iterable
+from typing import Any, Iterable, List
 
 
 def parse_query_params(params):

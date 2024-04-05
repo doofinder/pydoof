@@ -1,14 +1,30 @@
-from parameterized import parameterized
-from unittest import mock
 import unittest
+from unittest import mock
 
-from pydoof.management_api.stats import (Devices, Formats, Sources, Types,
-                                         banners, checkouts, clicks,
-                                         clicked_items, clicked_items_searches,
-                                         custom_results, facets, facets_top,
-                                         inits, inits_locations,
-                                         query_log_iter, redirects, sales,
-                                         searches, searches_top, usage)
+from parameterized import parameterized
+
+from pydoof.management_api.stats import (
+    Devices,
+    Formats,
+    Sources,
+    Types,
+    banners,
+    checkouts,
+    clicked_items,
+    clicked_items_searches,
+    clicks,
+    custom_results,
+    facets,
+    facets_top,
+    inits,
+    inits_locations,
+    query_log_iter,
+    redirects,
+    sales,
+    searches,
+    searches_top,
+    usage,
+)
 
 
 def _stats_test_cases():

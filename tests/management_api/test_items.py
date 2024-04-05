@@ -1,5 +1,5 @@
-from unittest import mock
 import unittest
+from unittest import mock
 
 from pydoof.management_api import items
 from pydoof.management_api.exceptions import TooManyRequestsError

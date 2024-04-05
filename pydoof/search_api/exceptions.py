@@ -1,7 +1,7 @@
 """
 Collection of all Exceptions raised by Doofinder Search API.
 """
-from pydoof.base import APIConnectionError, PyDoofError
+from pydoof.base import PyDoofError
 
 
 class SearchAPIError(PyDoofError):

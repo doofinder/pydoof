@@ -1,9 +1,7 @@
-from unittest import mock
 import unittest
+from unittest import mock
 
-from pydoof.search_api.search import query, suggest
-
-from pydoof.search_api.search import QueryNames, SearchFilterExecution
+from pydoof.search_api.search import QueryNames, SearchFilterExecution, query, suggest
 
 
 class TestSearch(unittest.TestCase):

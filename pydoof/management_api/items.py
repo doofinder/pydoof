@@ -1,16 +1,17 @@
+from time import sleep
+from urllib.parse import quote_plus
+
 from pydoof.management_api.api_client import ManagementAPIClient
 from pydoof.management_api.exceptions import TooManyRequestsError
-from urllib.parse import quote_plus
-from time import sleep
 
 
-class Scroll():
+class Scroll:
     @staticmethod
     def __get_url(hashid, name):
         return f'/api/v2/search_engines/{hashid}/indices/{name}/items/'
 
     def __init__(self, hashid, name, rpp=None, **opts):
-        super(Scroll, self).__init__()
+        super().__init__()
 
         self.scroll_id = None
         self.rpp = rpp
@@ -23,8 +24,7 @@ class Scroll():
     def __iter__(self):
         scroll_page = self.new()
         while scroll_page['items']:
-            for item in scroll_page['items']:
-                yield item
+            yield from scroll_page['items']
             scroll_page = self.__next_with_retry()
 
     def __next_with_retry(self):

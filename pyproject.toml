@@ -1,5 +1,5 @@
 [tool.ruff]
-line-length = 99
+line-length = 119
 indent-width = 4
 
 [tool.ruff.lint]

@@ -1,5 +1,5 @@
-from unittest import mock
 import unittest
+from unittest import mock
 
 from pydoof.search_api import stats
 
