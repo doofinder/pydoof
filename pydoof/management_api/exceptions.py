@@ -1,7 +1,7 @@
 """
 Collection of all Exceptions raised by Doofinder Management API.
 """
-from pydoof.base import APIConnectionError, PyDoofError
+from pydoof.base import PyDoofError
 
 
 class ManagementAPIError(PyDoofError):
@@ -32,7 +32,7 @@ class ManagementAPIError(PyDoofError):
 class BadGatewayError(ManagementAPIError):
     """Bad Gateway Error connecting to Doofinder."""
     def __init__(self, **kwargs):
-        super(BadGatewayError, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         if self.message is None:
             self.message = ("Unexpected error communicating with Doofinder. "
                             "If this problem persists, let us know at "

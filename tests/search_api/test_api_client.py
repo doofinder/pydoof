@@ -1,10 +1,11 @@
-from parameterized import parameterized
-from unittest import mock
 import unittest
+from unittest import mock
 
-from pydoof.search_api.api_client import SearchAPIClient
-from pydoof.search_api import exceptions
+from parameterized import parameterized
+
 import pydoof
+from pydoof.search_api import exceptions
+from pydoof.search_api.api_client import SearchAPIClient
 
 
 def _exceptions_test_cases():

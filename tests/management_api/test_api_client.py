@@ -1,10 +1,11 @@
-from parameterized import parameterized
-from unittest import mock
 import unittest
+from unittest import mock
 
-from pydoof.management_api.api_client import ManagementAPIClient
-from pydoof.management_api import exceptions
+from parameterized import parameterized
+
 import pydoof
+from pydoof.management_api import exceptions
+from pydoof.management_api.api_client import ManagementAPIClient
 
 
 def _exceptions_test_cases():

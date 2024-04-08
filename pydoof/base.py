@@ -2,6 +2,7 @@
 Common classes for Management and Search modules.
 """
 import requests
+
 try:
     from simplejson.errors import JSONDecodeError
 except ImportError:
@@ -55,7 +56,7 @@ class DoofinderAuth(requests.auth.AuthBase):
         return r
 
 
-class APIClient():
+class APIClient:
     """
     Base Doofinder API Client.
 

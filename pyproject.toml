@@ -1,0 +1,11 @@
+[tool.ruff]
+line-length = 119
+indent-width = 4
+
+[tool.ruff.lint]
+extend-select = [
+  "UP",  # pyupgrade
+  "I",  # isort rules
+  "E", # pyflakes
+  "TRY",
+]
