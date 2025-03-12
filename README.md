@@ -42,7 +42,7 @@ python setup.py test
 
 ## Usage
 
-To configure PyDoof, you need one of your user API keys, and your management and search URLs. You can find that information in the [API Keys section](https://app.doofinder.com/es/admin/api/) of your Doofinder admin page. Set `pydoof.token`, `pydoof.management_url`, and `pydoof.search_url` with those values:
+To configure PyDoof, you need one of your user API keys, and your management and search URLs. You can find that information in the [API Keys section](https://admin.doofinder.com/admin/account/api) of your Doofinder admin page. Set `pydoof.token`, `pydoof.management_url`, and `pydoof.search_url` with those values:
 
 ```python
 import pydoof
