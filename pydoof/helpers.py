@@ -1,9 +1,10 @@
 """
 Collection of functions to assist PyDoof modules.
 """
+from collections.abc import Iterable
 from datetime import date
 from enum import Enum
-from typing import Any, Iterable, List
+from typing import Any
 
 
 def parse_query_params(params):
@@ -28,7 +29,7 @@ def parse_query_params(params):
     return query_params
 
 
-def _has_dicts(values: List[Any]):
+def _has_dicts(values: list[Any]):
     # Could be possible to check only the first element.
     # Is used on facets and sort, for example.
     return any(isinstance(value, dict) for value in values)
