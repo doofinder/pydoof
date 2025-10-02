@@ -1,5 +1,5 @@
 from enum import Enum, unique
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional
 
 from pydoof.helpers import parse_query_params
 from pydoof.search_api.api_client import SearchAPIClient
@@ -24,19 +24,19 @@ def query(
     auto_filters: Optional[bool] = None,
     custom_results: Optional[bool] = None,
     excluded_results: Optional[bool] = None,
-    filter: dict[str, Any] = {},
-    exclude: dict[str, Any] = {},
-    indices: list[str] = [],
+    filter: Dict[str, Any] = {},
+    exclude: Dict[str, Any] = {},
+    indices: List[str] = [],
     query_name: Optional[QueryNames] = None,
-    sort: list[dict[str, str]] = [],
+    sort: List[Dict[str, str]] = [],
     page: Optional[int] = None,
     rpp: Optional[int] = None,
-    facets: list[dict[str, Any]] = [],
+    facets: List[Dict[str, Any]] = [],
     filter_execution: Optional[SearchFilterExecution] = None,
     session_id: Optional[str] = None,
     stats: Optional[bool] = None,
-    skip_auto_filters: list[str] = [],
-    skip_top_facet: list[str] = [],
+    skip_auto_filters: List[str] = [],
+    skip_top_facet: List[str] = [],
     title_facet: Optional[bool] = None,
     top_facet: Optional[bool] = None,
     client:Optional[SearchAPIClient]=None,
@@ -123,7 +123,7 @@ def query(
 def suggest(
     hashid: str,
     query: str = "",
-    indices: list[str] = [],
+    indices: List[str] = [],
     stats: Optional[bool] = None,
     session_id: Optional[str] = None,
     client: Optional[SearchAPIClient] = None,
