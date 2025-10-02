@@ -1,6 +1,7 @@
 [tool.ruff]
 line-length = 119
 indent-width = 4
+target-version = "py38"
 
 [tool.ruff.lint]
 extend-select = [
@@ -9,3 +10,7 @@ extend-select = [
   "E", # pyflakes
   "TRY",
 ]
+
+[tool.ruff.lint.pyupgrade]
+# Keep compatibility with Python 3.8
+keep-runtime-typing = true
