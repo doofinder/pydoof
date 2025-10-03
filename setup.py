@@ -4,7 +4,7 @@ with open('README.md', encoding='utf-8') as file:
     long_description = file.read()
 
 
-setup(name='PyDoof', version='4.2.0', author='Doofinder',
+setup(name='PyDoof', version='4.3.0', author='Doofinder',
       python_requires='>=3.6.7',
       author_email='support@doofinder.com',
       description="Doofinder's search & management API client",
